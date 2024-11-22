@@ -7,6 +7,8 @@ SRC=$1
 DEST=$2
 DPI=$3
 
+export DBUS_SESSION_BUS_ADDRESS=/dev/null
+
 mkdir -p "$DEST"
 
 function ink()
@@ -25,7 +27,7 @@ function ink()
             echo ".. svg->png $PNG" 1>&2
         fi
     }; done | \
-        inkscape --shell > /dev/null
+        inkscape --shell > /dev/null 2>/dev/null
 }
 
 ink 2>&1

@@ -95,6 +95,14 @@ expecttest:
 placeholder-all-levels:
 	build-scripts/placeholder-all-levels
 
+docker-swing-build:
+	docker build -t rabbit-escape-build .
+	docker run --rm \
+  --name rabbit-escape-build-container \
+  --volume $(shell pwd):/app/rabbit-escape \
+	--volume rabbit-escape-images:/app/rabbit-escape/bin \
+  rabbit-escape-build
+
 # Android
 # -------
 
