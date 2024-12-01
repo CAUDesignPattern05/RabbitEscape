@@ -10,14 +10,8 @@ import java.util.Map;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
 
-public class Rabbit extends Thing implements Comparable<Rabbit>
+public abstract class Rabbit extends Thing implements Comparable<Rabbit>
 {
-    public static enum Type
-    {
-        RABBIT,
-        RABBOT
-    }
-
     public final static int NOT_INDEXED = 0;
     private final List<Behaviour> behaviours;
     private final List<Behaviour> behavioursTriggerOrder;
@@ -31,14 +25,12 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
     /** Rabbits move up 1 cell to bash from a slope.
      *  Keep a note, so it can be undone.  */
     public boolean slopeBashHop = false;
-    public final Type type;
 
-    public Rabbit( int x, int y, Direction dir, Type type )
+    public Rabbit( int x, int y, Direction dir)
     {
         super( x, y, RABBIT_WALKING_LEFT );
         this.dir = dir;
         this.onSlope = false;
-        this.type = type;
         behaviours = new ArrayList<>();
         behavioursTriggerOrder = new ArrayList<>();
         createBehaviours();
@@ -52,50 +44,87 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
         Exploding exploding = new Exploding();
         Burning burning = new Burning();
         OutOfBounds outOfBounds = new OutOfBounds();
-        Drowning drowning = new Drowning();
-        Exiting exiting = new Exiting();
+//        Drowning drowning = new Drowning();
+//        Exiting exiting = new Exiting();
         Brollychuting brollychuting = new Brollychuting( climbing, digging );
         falling = new Falling( climbing, brollychuting, getFatalHeight() );
         Bashing bashing = new Bashing();
         Bridging bridging = new Bridging();
         Blocking blocking = new Blocking();
         Walking walking = new Walking();
-        RabbotCrash rabbotCrash = new RabbotCrash();
-        RabbotWait rabbotWait = new RabbotWait();
+//        RabbotCrash rabbotCrash = new RabbotCrash();
+//        RabbotWait rabbotWait = new RabbotWait();
 
         behavioursTriggerOrder.add( exploding );
         behavioursTriggerOrder.add( outOfBounds );
         behavioursTriggerOrder.add( burning );
-        behavioursTriggerOrder.add( drowning );
-        behavioursTriggerOrder.add( rabbotCrash );
+//        behavioursTriggerOrder.add( drowning );
+//        behavioursTriggerOrder.add( rabbotCrash );
         behavioursTriggerOrder.add( falling );
-        behavioursTriggerOrder.add( exiting );
+//        behavioursTriggerOrder.add( exiting );
         behavioursTriggerOrder.add( brollychuting );
         behavioursTriggerOrder.add( climbing );
         behavioursTriggerOrder.add( bashing );
         behavioursTriggerOrder.add( digging );
         behavioursTriggerOrder.add( bridging );
         behavioursTriggerOrder.add( blocking );
-        behavioursTriggerOrder.add( rabbotWait );
+//        behavioursTriggerOrder.add( rabbotWait );
         behavioursTriggerOrder.add( walking );
 
         behaviours.add( exploding );
         behaviours.add( outOfBounds );
         behaviours.add( burning );
-        behaviours.add( drowning );
-        behaviours.add( rabbotCrash );
+//        behaviours.add( drowning );
+//        behaviours.add( rabbotCrash );
         behaviours.add( falling );
-        behaviours.add( exiting );
+//        behaviours.add( exiting );
         behaviours.add( brollychuting );
         behaviours.add( bashing );
         behaviours.add( digging );
         behaviours.add( bridging );
         behaviours.add( blocking );
         behaviours.add( climbing );
-        behaviours.add( rabbotWait );
+//        behaviours.add( rabbotWait );
         behaviours.add( walking );
 
         assert behavioursTriggerOrder.size() == behaviours.size();
+    }
+
+    // register observer
+    public void addBehaviour(Behaviour behaviour)
+    {
+        addTobehavioursTriggerOrder(behaviour);
+        addToBehaviours(behaviour);
+    }
+
+    // 로직 변경 필요...
+    // 순서를 어떻게 정하는게 맞을까....
+    private void addTobehavioursTriggerOrder(Behaviour behaviour)
+    {
+        behavioursTriggerOrder.add(behaviour);
+    }
+
+    private void addToBehaviours(Behaviour behaviour)
+    {
+        behaviours.add(behaviour);
+    }
+
+    public void deleteBehaviour(Behaviour behaviour)
+    {
+        deleteFrombehavioursTriggerOrder(behaviour);
+        deleteFrombehaviours(behaviour);
+    }
+
+    private void deleteFrombehavioursTriggerOrder(Behaviour behaviour)
+    {
+        int idx = behavioursTriggerOrder.indexOf( behaviour );
+        if (idx >= 0)   behavioursTriggerOrder.remove(idx);
+    }
+
+    private void deleteFrombehaviours(Behaviour behaviour)
+    {
+        int idx = behaviours.indexOf( behaviour );
+        if (idx >= 0)   behaviours.remove(idx);
     }
 
     public boolean isFallingToDeath()
@@ -251,24 +280,9 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
         return index;
     }
 
-    @Override
-    public String stateName()
-    {
-        String normalName = super.stateName();
-        if ( type == Type.RABBIT )
-        {
-            return normalName;
-        }
-        else
-        {
-            return normalName.replaceFirst(
-                "^rabbit", type.name().toLowerCase() );
-        }
-    }
-
     /** Rabbots can fall further than rabbits. */
-    private int getFatalHeight()
-    {
-        return ( type == Type.RABBIT ? 4 : 5 );
-    }
+    protected abstract int getFatalHeight();
+
+    public abstract Rabbit cloneRabbit(); // 각 subclass에서 cloneRabbit 메서드를 오버라이드하도록 강제
+
 }

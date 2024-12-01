@@ -15,11 +15,6 @@ public class Exiting extends Behaviour
     @Override
     public boolean checkTriggered( Rabbit rabbit, World world )
     {
-        if ( rabbit.type == Rabbit.Type.RABBOT )
-        {
-            return false;  // Rabbots ignore exits
-        }
-
         for ( Thing thing : world.things )
         {
             if (

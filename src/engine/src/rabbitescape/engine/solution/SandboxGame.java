@@ -5,16 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import rabbitescape.engine.Entrance;
-import rabbitescape.engine.Exit;
-import rabbitescape.engine.Fire;
-import rabbitescape.engine.IgnoreWorldStatsListener;
-import rabbitescape.engine.Pipe;
-import rabbitescape.engine.Rabbit;
-import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.VoidMarkerStyle;
-import rabbitescape.engine.World;
+import rabbitescape.engine.*;
 import rabbitescape.engine.textworld.Comment;
 
 /**
@@ -146,7 +137,7 @@ public class SandboxGame
      */
     private Rabbit cloneRabbit( Rabbit rabbit )
     {
-        return new Rabbit( rabbit.x, rabbit.y, rabbit.dir, rabbit.type );
+        return rabbit.cloneRabbit();
     }
 
     /**

@@ -11,7 +11,7 @@ public class TestRabbit
     @Test
     public void Rabbit_reports_state_in_lowercase()
     {
-        Rabbit r = new Rabbit( 1, 1, Direction.LEFT, Rabbit.Type.RABBIT );
+        Rabbit r = new NormalRabbit( 1, 1, Direction.LEFT );
         r.state = RABBIT_WALKING_LEFT;
         assertThat(r.stateName(), equalTo("rabbit_walking_left"));
     }
@@ -19,7 +19,7 @@ public class TestRabbit
     @Test
     public void Rabbot_reports_state_except_it_says_rabbot()
     {
-        Rabbit r = new Rabbit( 1, 1, Direction.LEFT, Rabbit.Type.RABBOT );
+        Rabbit r = new Rabbot( 1, 1, Direction.LEFT);
         r.state = RABBIT_WALKING_LEFT;
         assertThat(r.stateName(), equalTo("rabbot_walking_left"));
     }

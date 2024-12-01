@@ -5,12 +5,8 @@ import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.*;
 
-import rabbitescape.engine.Block;
-import rabbitescape.engine.Direction;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.*;
 import rabbitescape.engine.Block.Shape;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.World;
 import rabbitescape.engine.textworld.TextWorldManip;
 
 public class TestWorldChanges
@@ -136,7 +132,7 @@ public class TestWorldChanges
 
         // One of every type of change
         world.changes.enterRabbit(
-            new Rabbit( 1, 2, Direction.RIGHT, Rabbit.Type.RABBIT ) );
+            new NormalRabbit( 1, 2, Direction.RIGHT) );
 
         world.changes.killRabbit( rabbit0 );
         world.changes.saveRabbit( rabbit1 );
