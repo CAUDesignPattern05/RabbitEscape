@@ -2,6 +2,8 @@ package rabbitescape.engine;
 
 import rabbitescape.engine.behaviours.Drowning;
 import rabbitescape.engine.behaviours.Exiting;
+import rabbitescape.engine.behaviours.RabbotCrash;
+import rabbitescape.engine.behaviours.RabbotWait;
 
 public class NormalRabbit extends Rabbit
 {
@@ -13,11 +15,11 @@ public class NormalRabbit extends Rabbit
 
     private void createBehaviours()
     {
-        Drowning drowning = new Drowning();
-        Exiting exiting = new Exiting();
+        RabbotCrash rabbotCrash = new RabbotCrash(this);
+        RabbotWait rabbotWait = new RabbotWait(this);
 
-        super.addBehaviour( drowning );
-        super.addBehaviour( exiting );
+        super.addBehaviour( rabbotCrash );
+        super.addBehaviour( rabbotWait );
     }
 
     @Override

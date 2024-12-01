@@ -11,6 +11,13 @@ import rabbitescape.engine.ChangeDescription.State;
 public class Blocking extends Behaviour
 {
     public boolean abilityActive = false;
+    private Rabbit rabbit;
+
+    public Blocking(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
 
     @Override
     public void cancel()

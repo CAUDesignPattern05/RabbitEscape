@@ -15,16 +15,21 @@ public class Falling extends Behaviour
     private final Climbing climbing;
     private final Brollychuting brollychuting;
     private final int fatalHeight;
+    private Rabbit rabbit;
 
-    public Falling( 
-        Climbing climbing, 
+    public Falling(
+        Climbing climbing,
         Brollychuting brollychuting,
-        int fatalHeight 
+        int fatalHeight,
+        Rabbit rabbit
     )
     {
         this.climbing = climbing;
         this.brollychuting = brollychuting;
         this.fatalHeight = fatalHeight;
+
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
     }
 
     public boolean isFallingToDeath()

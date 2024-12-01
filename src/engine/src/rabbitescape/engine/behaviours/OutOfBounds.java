@@ -11,6 +11,14 @@ import rabbitescape.engine.config.TapTimer;
 
 public class OutOfBounds extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public OutOfBounds(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

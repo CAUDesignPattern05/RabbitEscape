@@ -22,6 +22,13 @@ public class Bridging extends Behaviour
     private int smallSteps = 0;
     private int bigSteps = 0;
     private BridgeType bridgeType = BridgeType.ALONG;
+    private Rabbit rabbit;
+
+    public Bridging(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
 
     @Override
     public void cancel()

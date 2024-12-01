@@ -7,6 +7,14 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Exiting extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public Exiting(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

@@ -13,6 +13,14 @@ import rabbitescape.engine.World;
 
 public class Drowning extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public Drowning(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

@@ -9,6 +9,14 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Walking extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public Walking(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

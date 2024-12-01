@@ -10,7 +10,7 @@ import java.util.Map;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
 
-public abstract class Rabbit extends Thing implements Comparable<Rabbit>
+public abstract class Rabbit extends Thing implements Observable ,Comparable<Rabbit>
 {
     public final static int NOT_INDEXED = 0;
     private final List<Behaviour> behaviours;
@@ -39,22 +39,22 @@ public abstract class Rabbit extends Thing implements Comparable<Rabbit>
 
     private void createBehaviours()
     {
-        Climbing climbing = new Climbing();
-        Digging digging = new Digging();
-        Exploding exploding = new Exploding();
-        Burning burning = new Burning();
-        OutOfBounds outOfBounds = new OutOfBounds();
+        Climbing climbing = new Climbing(this);
+        Digging digging = new Digging(this);
+        Exploding exploding = new Exploding(this);
+        Burning burning = new Burning(this);
+        OutOfBounds outOfBounds = new OutOfBounds(this);
 //        Drowning drowning = new Drowning();
 //        Exiting exiting = new Exiting();
-        Brollychuting brollychuting = new Brollychuting( climbing, digging );
-        falling = new Falling( climbing, brollychuting, getFatalHeight() );
-        Bashing bashing = new Bashing();
-        Bridging bridging = new Bridging();
-        Blocking blocking = new Blocking();
-        Walking walking = new Walking();
+        Brollychuting brollychuting = new Brollychuting( climbing, digging, this );
+        falling = new Falling( climbing, brollychuting, getFatalHeight(), this);
+        Bashing bashing = new Bashing(this);
+        Bridging bridging = new Bridging(this);
+        Blocking blocking = new Blocking(this);
+        Walking walking = new Walking(this);
 //        RabbotCrash rabbotCrash = new RabbotCrash();
 //        RabbotWait rabbotWait = new RabbotWait();
-
+/*
         behavioursTriggerOrder.add( exploding );
         behavioursTriggerOrder.add( outOfBounds );
         behavioursTriggerOrder.add( burning );
@@ -88,9 +88,10 @@ public abstract class Rabbit extends Thing implements Comparable<Rabbit>
         behaviours.add( walking );
 
         assert behavioursTriggerOrder.size() == behaviours.size();
+        */
     }
 
-    // register observer
+    // addObserver()
     public void addBehaviour(Behaviour behaviour)
     {
         addTobehavioursTriggerOrder(behaviour);
@@ -109,6 +110,7 @@ public abstract class Rabbit extends Thing implements Comparable<Rabbit>
         behaviours.add(behaviour);
     }
 
+    // deleteObserver()
     public void deleteBehaviour(Behaviour behaviour)
     {
         deleteFrombehavioursTriggerOrder(behaviour);
@@ -192,6 +194,7 @@ public abstract class Rabbit extends Thing implements Comparable<Rabbit>
         slopeBashHop = false;
     }
 
+    // notifyObserver()
     @Override
     public void step( World world )
     {

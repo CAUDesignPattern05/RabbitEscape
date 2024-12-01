@@ -13,6 +13,13 @@ public class Climbing extends Behaviour
 {
     boolean hasAbility = false;
     public boolean abilityActive = false;
+    private Rabbit rabbit;
+
+    public Climbing(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
 
     @Override
     public void cancel()

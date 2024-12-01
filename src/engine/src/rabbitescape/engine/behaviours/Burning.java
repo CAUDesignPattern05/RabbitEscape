@@ -10,6 +10,14 @@ import rabbitescape.engine.World;
 
 public class Burning extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public Burning(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

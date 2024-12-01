@@ -8,6 +8,14 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Exploding extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public Exploding(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

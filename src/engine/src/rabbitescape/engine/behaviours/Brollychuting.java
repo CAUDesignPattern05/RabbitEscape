@@ -18,11 +18,15 @@ public class Brollychuting extends Behaviour
     boolean hasAbility = false;
     private final Climbing climbing;
     private final Digging digging;
+    private Rabbit rabbit;
 
-    public Brollychuting( Climbing climbing, Digging digging )
+    public Brollychuting( Climbing climbing, Digging digging, Rabbit rabbit)
     {
         this.climbing = climbing;
         this.digging = digging;
+
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
     }
 
     @Override

@@ -9,6 +9,14 @@ import rabbitescape.engine.World;
 
 public class RabbotWait extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public RabbotWait(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     private boolean within1Vertically( Rabbit otherRabbit, Rabbit rabbit )
     {
         return ( Math.abs( otherRabbit.y - rabbit.y ) < 2 );

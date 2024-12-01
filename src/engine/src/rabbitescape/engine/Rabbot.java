@@ -13,8 +13,8 @@ public class Rabbot extends Rabbit
 
     private void createBehaviours()
     {
-        RabbotCrash rabbotCrash = new RabbotCrash();
-        RabbotWait rabbotWait = new RabbotWait();
+        RabbotCrash rabbotCrash = new RabbotCrash(this);
+        RabbotWait rabbotWait = new RabbotWait(this);
 
         super.addBehaviour( rabbotCrash );
         super.addBehaviour( rabbotWait );

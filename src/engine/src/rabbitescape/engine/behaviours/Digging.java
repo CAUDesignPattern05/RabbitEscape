@@ -11,6 +11,13 @@ import rabbitescape.engine.ChangeDescription.State;
 public class Digging extends Behaviour
 {
     int stepsOfDigging;
+    private Rabbit rabbit;
+
+    public Digging(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
 
     @Override
     public void cancel()

@@ -8,6 +8,14 @@ import rabbitescape.engine.World;
 
 public class RabbotCrash extends Behaviour
 {
+    private Rabbit rabbit;
+
+    public RabbotCrash(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
+
     @Override
     public void cancel()
     {

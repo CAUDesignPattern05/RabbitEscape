@@ -12,6 +12,13 @@ import rabbitescape.engine.ChangeDescription.State;
 public class Bashing extends Behaviour
 {
     private int stepsOfBashing;
+    private Rabbit rabbit;
+
+    public Bashing(Rabbit rabbit)
+    {
+        this.rabbit = rabbit;
+        rabbit.addBehaviour( this );
+    }
 
     @Override
     public void cancel()
@@ -96,6 +103,7 @@ public class Bashing extends Behaviour
         return null;
     }
 
+    // 이게 update() 함수
     @Override
     public boolean behave( World world, Rabbit rabbit, State state )
     {
