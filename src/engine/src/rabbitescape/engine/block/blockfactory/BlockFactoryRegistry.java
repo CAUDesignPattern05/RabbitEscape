@@ -1,4 +1,6 @@
-package rabbitescape.engine.blockfactory;
+package rabbitescape.engine.block.blockfactory;
+
+import rabbitescape.engine.block.BlockFactory;
 
 import java.util.HashMap;
 import java.util.Map;

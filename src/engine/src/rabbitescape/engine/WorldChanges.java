@@ -3,6 +3,7 @@ package rabbitescape.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World.CantAddTokenOutsideWorld;
 import rabbitescape.engine.World.NoBlockFound;
@@ -183,7 +184,7 @@ public class WorldChanges
             throw new CantAddTokenOutsideWorld( type, x, y, world.size );
         }
 
-        Block block = world.getBlockAt( x, y );
+        block block = world.getBlockAt( x, y );
         if ( BehaviourTools.s_isFlat( block ) )
         {
             return;
@@ -203,7 +204,7 @@ public class WorldChanges
         fireToRemove.add( thing );
     }
 
-    public synchronized void addBlock( Block block )
+    public synchronized void addBlock( block block )
     {
         blocksToAdd.add( block );
         waterPointsToRecalculate.add( new Position( block.x, block.y ) );
@@ -211,7 +212,7 @@ public class WorldChanges
 
     public synchronized void removeBlockAt( int x, int y )
     {
-        Block block = world.getBlockAt( x, y );
+        block block = world.getBlockAt( x, y );
         if ( block == null )
         {
             throw new NoBlockFound( x, y );

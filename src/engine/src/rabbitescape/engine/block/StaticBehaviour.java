@@ -1,4 +1,4 @@
-package rabbitescape.engine.Block;
+package rabbitescape.engine.block;
 
 public class StaticBehaviour implements BlockBehaviour {
     @Override

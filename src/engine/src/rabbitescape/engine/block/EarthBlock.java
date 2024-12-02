@@ -1,4 +1,4 @@
-package rabbitescape.engine.Block;
+package rabbitescape.engine.block;
 
 public class EarthBlock extends Block {
     public EarthBlock(int x, int y, int variant) {

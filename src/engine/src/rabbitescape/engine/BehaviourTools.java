@@ -1,6 +1,6 @@
 package rabbitescape.engine;
 
-import static rabbitescape.engine.Block.Shape.*;
+import static rabbitescape.engine.block.Shape.*;
 import static rabbitescape.engine.Direction.RIGHT;
 import static rabbitescape.engine.Direction.opposite;
 import rabbitescape.engine.util.Position;
@@ -123,37 +123,37 @@ public class BehaviourTools
         return false;
     }
 
-    public Block blockHere()
+    public block blockHere()
     {
         return world.getBlockAt( rabbit.x, rabbit.y );
     }
 
-    public Block blockNext()
+    public block blockNext()
     {
         return world.getBlockAt( nextX(), rabbit.y );
     }
 
-    public Block blockBelow()
+    public block blockBelow()
     {
         return world.getBlockAt( rabbit.x, rabbit.y + 1 );
     }
 
-    public Block block2Below()
+    public block block2Below()
     {
         return world.getBlockAt( rabbit.x, rabbit.y + 2 );
     }
 
-    public Block blockBelowNext()
+    public block blockBelowNext()
     {
         return world.getBlockAt( nextX(), rabbit.y + 1 );
     }
 
-    public Block blockAbove()
+    public block blockAbove()
     {
         return world.getBlockAt( rabbit.x, rabbit.y - 1 );
     }
 
-    public Block blockAboveNext()
+    public block blockAboveNext()
     {
         return world.getBlockAt( nextX(), rabbit.y - 1 );
     }
@@ -163,7 +163,7 @@ public class BehaviourTools
         return ( rabbit.onSlope || blockBelow() != null );
     }
 
-    public boolean isWall( Block block )
+    public boolean isWall( block block )
     {
         return (
                block != null
@@ -178,7 +178,7 @@ public class BehaviourTools
     }
 
 
-    public static boolean shapeEquals( Block b, Block.Shape s )
+    public static boolean shapeEquals( block b, block.Shape s )
     {
         if ( null == b )
         {
@@ -187,7 +187,7 @@ public class BehaviourTools
         return s == b.shape;
     }
 
-    public static boolean isRightRiseSlope( Block b )
+    public static boolean isRightRiseSlope( block b )
     {
         if( b == null )
         {
@@ -197,7 +197,7 @@ public class BehaviourTools
             || b.shape == BRIDGE_UP_RIGHT;
     }
 
-    public static boolean isLeftRiseSlope( Block b )
+    public static boolean isLeftRiseSlope( block b )
     {
         if( b == null )
         {
@@ -207,12 +207,12 @@ public class BehaviourTools
             || b.shape == BRIDGE_UP_LEFT;
     }
 
-    public static boolean isSlope( Block b )
+    public static boolean isSlope( block b )
     {
         return isRightRiseSlope( b ) || isLeftRiseSlope( b );
     }
 
-    public static boolean isBridge( Block b )
+    public static boolean isBridge( block b )
     {
         if( b == null )
         {
@@ -228,7 +228,7 @@ public class BehaviourTools
         }
     }
 
-    public static boolean isSolid( Block block )
+    public static boolean isSolid( block block )
     {
         return (
                block.shape == FLAT
@@ -237,7 +237,7 @@ public class BehaviourTools
         );
     }
 
-    public boolean isRoof( Block block )
+    public boolean isRoof( block block )
     {
         return
             (
@@ -252,7 +252,7 @@ public class BehaviourTools
 
     public boolean isOnSlopeStateUnreliable()
     {
-        Block block = blockHere();
+        block block = blockHere();
         return
             null != block &&
             (
@@ -263,12 +263,12 @@ public class BehaviourTools
             );
     }
 
-    public boolean isFlat( Block block )
+    public boolean isFlat( block block )
     {
         return s_isFlat( block );
     }
 
-    public static boolean s_isFlat( Block block )
+    public static boolean s_isFlat( block block )
     {
         return ( block != null && block.shape == FLAT );
     }
@@ -296,8 +296,8 @@ public class BehaviourTools
     public boolean isCresting()
     {
         // block where slope would be if it continues
-        Block contBlock = world.getBlockAt( nextX(), nextY() );
-        Block belowContBlock = world.getBlockAt( nextX(), nextY() + 1 );
+        block contBlock = world.getBlockAt( nextX(), nextY() );
+        block belowContBlock = world.getBlockAt( nextX(), nextY() + 1 );
 
         return isOnUpSlope() &&
                null == contBlock &&
@@ -310,7 +310,7 @@ public class BehaviourTools
     public boolean isValleying()
     {
         // block where slope would be if it continues
-        Block alongBlock = world.getBlockAt( nextX(), rabbit.y );
+        block alongBlock = world.getBlockAt( nextX(), rabbit.y );
 
         return isOnDownSlope() &&
                isUpSlope( alongBlock );
@@ -321,7 +321,7 @@ public class BehaviourTools
         return isUpSlope( blockHere() );
     }
 
-    public boolean isUpSlope( Block block )
+    public boolean isUpSlope( block block )
     {
         return ( block != null && block.riseDir() == rabbit.dir );
     }
@@ -336,12 +336,12 @@ public class BehaviourTools
         return isDownSlope( blockHere() );
     }
 
-    public boolean isDownSlope( Block block )
+    public boolean isDownSlope( block block )
     {
         return ( block != null && block.riseDir() == opposite( rabbit.dir ) );
     }
 
-    public static boolean isSlopeNotBridge( Block b )
+    public static boolean isSlopeNotBridge( block b )
     {
         if ( null == b )
         {

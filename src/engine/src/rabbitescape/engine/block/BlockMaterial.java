@@ -1,4 +1,4 @@
-package rabbitescape.engine.Block;
+package rabbitescape.engine.block;
 
 public abstract class BlockMaterial {
     private final String name;
@@ -9,18 +9,6 @@ public abstract class BlockMaterial {
 
     public String getName() {
         return name;
-    }
-}
-
-class EarthMaterial extends BlockMaterial {
-    public EarthMaterial() {
-        super("Earth");
-    }
-}
-
-class MetalMaterial extends BlockMaterial {
-    public MetalMaterial() {
-        super("Metal");
     }
 }
 

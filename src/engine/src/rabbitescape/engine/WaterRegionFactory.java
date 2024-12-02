@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import rabbitescape.engine.Block.Shape;
 import rabbitescape.engine.util.LookupTable2D;
 import rabbitescape.engine.util.Position;
 import rabbitescape.engine.util.WaterUtil;
@@ -29,7 +28,7 @@ public class WaterRegionFactory
      *            Any water region contents that are currently known.
      */
     public static LookupTable2D<WaterRegion> generateWaterTable(
-        LookupTable2D<Block> blockTable, 
+        LookupTable2D<block> blockTable,
         Map<Position, 
         Integer> waterAmounts 
     )
@@ -59,13 +58,13 @@ public class WaterRegionFactory
 
     /** Create water regions at a given point based on a 2D table of blocks. */
     public static void createWaterRegionsAtPoint(
-        LookupTable2D<Block> blockTable,
+        LookupTable2D<block> blockTable,
         LookupTable2D<WaterRegion> waterTable,
         int x,
         int y,
         int contents )
     {
-        List<Block> blocks = blockTable.getItemsAt( x, y );
+        List<block> blocks = blockTable.getItemsAt( x, y );
         Shape[] shapes = new Shape[blocks.size()];
         for ( int i = 0; i < blocks.size(); i++ )
         {

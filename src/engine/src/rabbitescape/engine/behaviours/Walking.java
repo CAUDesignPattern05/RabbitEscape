@@ -2,7 +2,7 @@ package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Direction.*;
-import static rabbitescape.engine.Block.Shape.*;
+import static rabbitescape.engine.block.Shape.*;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
@@ -27,8 +27,8 @@ public class Walking extends Behaviour
         {
             if ( t.isOnUpSlope() )
             {
-                Block aboveNext = t.blockAboveNext();
-                Block above = t.blockAbove();
+                block aboveNext = t.blockAboveNext();
+                block above = t.blockAbove();
                 int nextX = t.nextX();
                 int nextY = t.rabbit.y - 1;
 
@@ -72,8 +72,8 @@ public class Walking extends Behaviour
             {
                 int nextX = t.nextX();
                 int nextY = t.rabbit.y + 1;
-                Block next = t.blockNext();
-                Block belowNext = t.blockBelowNext();
+                block next = t.blockNext();
+                block belowNext = t.blockBelowNext();
 
                 if (
                        t.isWall( next )
@@ -123,7 +123,7 @@ public class Walking extends Behaviour
             {
                 int nextX = t.nextX();
                 int nextY = t.rabbit.y;
-                Block next = t.blockNext();
+                block next = t.blockNext();
 
                 if
                     (
@@ -311,10 +311,10 @@ public class Walking extends Behaviour
      */
     private void checkJumpOntoSlope( World world, Rabbit rabbit )
     {
-        Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
         if ( isBridge( thisBlock ) )
         {
-            Block aboveBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
+            block aboveBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
             if ( rabbit.onSlope && isBridge( aboveBlock ) )
             {
                 rabbit.y--;
@@ -326,7 +326,7 @@ public class Walking extends Behaviour
         }
     }
 
-    private boolean isBridge( Block block )
+    private boolean isBridge( block block )
     {
         return (
                block != null

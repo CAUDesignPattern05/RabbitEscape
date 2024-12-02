@@ -32,7 +32,7 @@ public class Blocking extends Behaviour
         {
             t.rabbit.possiblyUndoSlopeBashHop( t.world );
             abilityActive = true;
-            Block here = t.blockHere();
+            rabbitescape.engine.block here = t.blockHere();
             if( BehaviourTools.isRightRiseSlope( here ) )
             {
                 return RABBIT_BLOCKING_RISE_RIGHT;

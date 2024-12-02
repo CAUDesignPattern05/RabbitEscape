@@ -30,7 +30,7 @@ public class Token extends Thing
         block,
         climb,
         explode,
-        brolly
+        Material, METAL, Shape, FLAT, brolly
     }
 
     public final Type type;
@@ -161,8 +161,8 @@ public class Token extends Thing
     @Override
     public void calcNewState( World world )
     {
-        Block onBlock = world.getBlockAt( x, y );
-        Block belowBlock = world.getBlockAt( x, y + 1 );
+        block onBlock = world.getBlockAt( x, y );
+        block belowBlock = world.getBlockAt( x, y + 1 );
         boolean still = (
                BehaviourTools.s_isFlat( belowBlock )
             || ( onBlock != null )

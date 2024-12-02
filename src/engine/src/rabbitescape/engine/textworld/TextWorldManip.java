@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rabbitescape.engine.Block;
 import rabbitescape.engine.ChangeDescription;
 import rabbitescape.engine.IgnoreWorldStatsListener;
 import rabbitescape.engine.Rabbit;
@@ -116,7 +115,7 @@ public class TextWorldManip
         String... lines
     )
     {
-        List<Block> blocks = new ArrayList<>();
+        List<block> blocks = new ArrayList<>();
         List<Rabbit> rabbits = new ArrayList<>();
         List<Thing> things = new ArrayList<>();
         Map<Position, Integer> waterAmounts = new HashMap<>();
@@ -156,7 +155,7 @@ public class TextWorldManip
     private static World createWorldFromLineProcessor(
         String nameIfNoneSupplied,
         WorldStatsListener statsListener,
-        List<Block> blocks,
+        List<block> blocks,
         List<Rabbit> rabbits,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
@@ -198,7 +197,7 @@ public class TextWorldManip
     {
         return new World(
             new Dimension( width, height ),
-            new ArrayList<Block>(),
+            new ArrayList<block>(),
             new ArrayList<Rabbit>(),
             new ArrayList<Thing>(),
             new HashMap<Position, Integer>(),

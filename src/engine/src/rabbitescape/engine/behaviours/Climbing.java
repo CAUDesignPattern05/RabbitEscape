@@ -59,7 +59,7 @@ public class Climbing extends Behaviour
 
     private State newStateStart( BehaviourTools t )
     {
-        Block endBlock = t.blockAboveNext();
+        rabbitescape.engine.block endBlock = t.blockAboveNext();
 
         if ( t.isWall( endBlock ) )
         {
@@ -87,7 +87,7 @@ public class Climbing extends Behaviour
 
     private State newStateCont2( BehaviourTools t )
     {
-        Block aboveBlock = t.blockAbove();
+        rabbitescape.engine.block aboveBlock = t.blockAbove();
 
         if ( t.isRoof( aboveBlock ) )
         {
@@ -98,7 +98,7 @@ public class Climbing extends Behaviour
             );
         }
 
-        Block endBlock = t.blockAboveNext();
+        rabbitescape.engine.block endBlock = t.blockAboveNext();
 
         if ( t.isWall( endBlock ) )
         {
@@ -120,8 +120,8 @@ public class Climbing extends Behaviour
     {
         int nextX = t.nextX();
         int nextY = t.nextY();
-        Block nextBlock = t.world.getBlockAt( nextX, nextY );
-        Block aboveBlock = t.world.getBlockAt( t.rabbit.x, t.rabbit.y - 1 );
+        rabbitescape.engine.block nextBlock = t.world.getBlockAt( nextX, nextY );
+        rabbitescape.engine.block aboveBlock = t.world.getBlockAt( t.rabbit.x, t.rabbit.y - 1 );
 
         if ( !t.isRoof( aboveBlock ) && t.isWall( nextBlock ) )
         {

@@ -50,7 +50,7 @@ public class Fire extends Thing
             }
         }
 
-        Block blockBelow = world.getBlockAt( x, y + 1 );
+        block blockBelow = world.getBlockAt( x, y + 1 );
         // Note: when flatBelow is true may be on a slope with a flat below,
         // or sitting on the flat
         boolean flatBelow = BehaviourTools.s_isFlat( blockBelow );
@@ -61,7 +61,7 @@ public class Fire extends Thing
             );
         if ( still )
         {
-            Block onBlock = world.getBlockAt( x, y );
+            block onBlock = world.getBlockAt( x, y );
             if ( BehaviourTools.isLeftRiseSlope( onBlock ) )
             {
                 state = baseVariantSwitch( 

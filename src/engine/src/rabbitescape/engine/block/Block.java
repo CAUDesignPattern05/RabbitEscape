@@ -1,6 +1,6 @@
-package rabbitescape.engine.Block;
+package rabbitescape.engine.block;
 
-public abstract class Block {
+public class Block {
     protected final int x;
     protected final int y;
     protected final BlockMaterial material; // Material 계층 구조
@@ -8,7 +8,14 @@ public abstract class Block {
     protected final int variant;            // 다양한 변형 가능
     protected final BlockBehaviour behaviour; // 행동 전략
 
-    protected Block(int x, int y, BlockMaterial material, BlockShape shape, int variant, BlockBehaviour behaviour) {
+    public Block(
+        int x,
+        int y,
+        BlockMaterial material,
+        BlockShape shape,
+        int variant,
+        BlockBehaviour behaviour
+    ) {
         this.x = x;
         this.y = y;
         this.material = material;

@@ -1,13 +1,12 @@
 package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Block.Shape.*;
 
 import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-
+import rabbitescape.engine.block.*;
 public class Falling extends Behaviour
 {
     private int heightFallen = 0;
@@ -46,7 +45,7 @@ public class Falling extends Behaviour
         {
             // Whenever we fall onto a slope, we are on top of it
             Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
-            if ( thisBlock != null && thisBlock.shape != FLAT )
+            if ( thisBlock != null && thisBlock.getShape() != FlatShape )
             {
                 rabbit.onSlope = true;
             }
@@ -197,7 +196,7 @@ public class Falling extends Behaviour
         }
         else
         {
-            Block below = t.blockBelow();
+            block below = t.blockBelow();
 
             if ( below != null )
             {
@@ -217,7 +216,7 @@ public class Falling extends Behaviour
                 }
             }
 
-            Block twoBelow = t.block2Below();
+            block twoBelow = t.block2Below();
             if ( twoBelow != null )
             {
                 if (   heightFallen + 1 > fatalHeight

@@ -53,7 +53,7 @@ public class Digging extends Behaviour
             }
             else if ( t.blockBelow() != null )
             {
-                if ( t.blockBelow().material == Block.Material.METAL )
+                if ( t.blockBelow().material == rabbitescape.engine.block.Material.METAL )//sehwanii
                 {
                     stepsOfDigging = 0;
                     return RABBIT_DIGGING_USELESSLY;

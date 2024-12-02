@@ -1,6 +1,6 @@
-package rabbitescape.engine.Block;
+package rabbitescape.engine.block;
 
-public class BlockFactory {
+public abstract class BlockFactory {
     public static Block createBlock(String type, int x, int y, int variant) {
         switch (type.toLowerCase()) {
             case "earth":
@@ -13,4 +13,6 @@ public class BlockFactory {
                 throw new IllegalArgumentException("Unknown block type: " + type);
         }
     }
+
+    public abstract Block createBlock( int x, int y, int variant );
 }

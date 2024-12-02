@@ -2,8 +2,8 @@ package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Token.Type.*;
-import static rabbitescape.engine.Block.Material.*;
-import static rabbitescape.engine.Block.Shape.*;
+import static rabbitescape.engine.block.Material.*;
+import static rabbitescape.engine.block.Shape.*;
 
 import java.util.Map;
 
@@ -82,7 +82,7 @@ public class Bridging extends Behaviour
         BridgeType bt
     )
     {
-        Block hereBlock = t.blockHere();
+        rabbitescape.engine.block hereBlock = t.blockHere();
 
         Rabbit rabbit = t.rabbit;
         World world = t.world;
@@ -96,11 +96,11 @@ public class Bridging extends Behaviour
         int nx = nextX( rabbit );
         int ny = nextY( rabbit, slopeUp );
 
-        Block nextBlock = world.getBlockAt( nx, ny );
+        rabbitescape.engine.block nextBlock = world.getBlockAt( nx, ny );
 
-        Block belowNextBlock = world.getBlockAt( nx, rabbit.y );
-        Block twoAboveHereBlock = world.getBlockAt( rabbit.x, rabbit.y - 2 );
-        Block aboveNextBlock = world.getBlockAt( nx, ny - 1 );
+        rabbitescape.engine.block belowNextBlock = world.getBlockAt( nx, rabbit.y );
+        rabbitescape.engine.block twoAboveHereBlock = world.getBlockAt( rabbit.x, rabbit.y - 2 );
+        rabbitescape.engine.block aboveNextBlock = world.getBlockAt( nx, ny - 1 );
 
         if (
             (
@@ -234,7 +234,7 @@ public class Bridging extends Behaviour
     {
         // We are facing a wall.  This makes us a bit keener to
         // bridge.
-        Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        rabbitescape.engine.block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
 
         boolean slopeUp = isSlopeUp( rabbit, thisBlock );
         int bx = behindX( rabbit );
@@ -255,7 +255,7 @@ public class Bridging extends Behaviour
                     // Special behaviour where we bridge higher up because we
                     // are already on top of a slope.
 
-                    Block twoAbove = world.getBlockAt( rabbit.x, rabbit.y - 2 );
+                    rabbitescape.engine.block twoAbove = world.getBlockAt( rabbit.x, rabbit.y - 2 );
 
                     if ( twoAbove == null || twoAbove.isBridge() ) {
                         return t.rl(
@@ -324,13 +324,13 @@ public class Bridging extends Behaviour
         int bs
     )
     {
-        Block hereBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        rabbitescape.engine.block hereBlock = world.getBlockAt( rabbit.x, rabbit.y );
 
         boolean slopeUp = isSlopeUp( rabbit, hereBlock );
         int nx = nextX( rabbit );
         int ny = nextY( rabbit, slopeUp );
 
-        Block nextBlock = world.getBlockAt( nx, ny );
+        rabbitescape.engine.block nextBlock = world.getBlockAt( nx, ny );
 
         return (
            bs == 3
@@ -346,7 +346,7 @@ public class Bridging extends Behaviour
          );
     }
 
-    private static boolean isSlopeUp( Rabbit rabbit, Block hereBlock )
+    private static boolean isSlopeUp( Rabbit rabbit, rabbitescape.engine.block hereBlock )
     {
         return ( hereBlock != null )
           && ( hereBlock.riseDir() == rabbit.dir );
@@ -383,7 +383,7 @@ public class Bridging extends Behaviour
         }
     }
 
-    private static boolean isSlope( Block thisBlock )
+    private static boolean isSlope( rabbitescape.engine.block thisBlock )
     {
         return ( thisBlock != null && thisBlock.shape != FLAT );
     }
@@ -447,7 +447,7 @@ public class Bridging extends Behaviour
             {
                 rabbit.x++;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -463,7 +463,7 @@ public class Bridging extends Behaviour
             {
                 rabbit.x--;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -479,7 +479,7 @@ public class Bridging extends Behaviour
                 rabbit.x++;
                 rabbit.y--;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -495,7 +495,7 @@ public class Bridging extends Behaviour
                 rabbit.x--;
                 rabbit.y--;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -510,7 +510,7 @@ public class Bridging extends Behaviour
             {
                 rabbit.onSlope = true;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -524,7 +524,7 @@ public class Bridging extends Behaviour
             {
                 rabbit.onSlope = true;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -539,7 +539,7 @@ public class Bridging extends Behaviour
                 rabbit.onSlope = true;
                 rabbit.y--;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,
@@ -554,7 +554,7 @@ public class Bridging extends Behaviour
                 rabbit.onSlope = true;
                 rabbit.y--;
                 world.changes.addBlock(
-                    new Block(
+                    new block(
                         rabbit.x,
                         rabbit.y,
                         EARTH,

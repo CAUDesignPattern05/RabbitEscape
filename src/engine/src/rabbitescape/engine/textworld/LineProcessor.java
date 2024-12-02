@@ -1,12 +1,12 @@
 package rabbitescape.engine.textworld;
 
-import static rabbitescape.engine.Block.Material.EARTH;
-import static rabbitescape.engine.Block.Material.METAL;
-import static rabbitescape.engine.Block.Shape.BRIDGE_UP_LEFT;
-import static rabbitescape.engine.Block.Shape.BRIDGE_UP_RIGHT;
-import static rabbitescape.engine.Block.Shape.FLAT;
-import static rabbitescape.engine.Block.Shape.UP_LEFT;
-import static rabbitescape.engine.Block.Shape.UP_RIGHT;
+import static rabbitescape.engine.block.Material.EARTH;
+import static rabbitescape.engine.block.Material.METAL;
+import static rabbitescape.engine.block.Shape.BRIDGE_UP_LEFT;
+import static rabbitescape.engine.block.Shape.BRIDGE_UP_RIGHT;
+import static rabbitescape.engine.block.Shape.FLAT;
+import static rabbitescape.engine.block.Shape.UP_LEFT;
+import static rabbitescape.engine.block.Shape.UP_RIGHT;
 import static rabbitescape.engine.Direction.LEFT;
 import static rabbitescape.engine.Direction.RIGHT;
 import static rabbitescape.engine.util.Util.asChars;
@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import rabbitescape.engine.Block;
 import rabbitescape.engine.Entrance;
 import rabbitescape.engine.Exit;
 import rabbitescape.engine.Fire;
@@ -81,7 +80,7 @@ public class LineProcessor
     static final Pattern keyListKeyRegex = Pattern.compile(
         "(.*)\\.(\\d{1,3})" );
 
-    private final List<Block> blocks;
+    private final List<block> blocks;
     private final List<Rabbit> rabbits;
     private final List<Thing> things;
     private final Map<Position, Integer> waterAmounts;
@@ -101,7 +100,7 @@ public class LineProcessor
     private int currentStarPoint;
 
     public LineProcessor(
-        List<Block> blocks,
+        List<block> blocks,
         List<Rabbit> rabbits,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
@@ -510,37 +509,37 @@ public class LineProcessor
             case '#':
             {
                 blocks.add(
-                    new Block( x, y, EARTH, FLAT, variantGen.next( 4 ) ) );
+                    new block( x, y, EARTH, FLAT, variantGen.next( 4 ) ) );
                 break;
             }
             case 'M':
             {
                 blocks.add(
-                    new Block( x, y, METAL, FLAT, variantGen.next( 4 ) ) );
+                    new block( x, y, METAL, FLAT, variantGen.next( 4 ) ) );
                 break;
             }
             case '/':
             {
                 blocks.add(
-                    new Block( x, y, EARTH, UP_RIGHT, variantGen.next( 4 ) ) );
+                    new block( x, y, EARTH, UP_RIGHT, variantGen.next( 4 ) ) );
                 break;
             }
             case '\\':
             {
                 blocks.add(
-                    new Block( x, y, EARTH, UP_LEFT, variantGen.next( 4 ) ) );
+                    new block( x, y, EARTH, UP_LEFT, variantGen.next( 4 ) ) );
                 break;
             }
             case '(':
             {
                 blocks.add(
-                    new Block( x, y, EARTH, BRIDGE_UP_RIGHT, 0 ) );
+                    new block( x, y, EARTH, BRIDGE_UP_RIGHT, 0 ) );
                 break;
             }
             case ')':
             {
                 blocks.add(
-                    new Block( x, y, EARTH, BRIDGE_UP_LEFT, 0 ) );
+                    new block( x, y, EARTH, BRIDGE_UP_LEFT, 0 ) );
                 break;
             }
             case 'r':

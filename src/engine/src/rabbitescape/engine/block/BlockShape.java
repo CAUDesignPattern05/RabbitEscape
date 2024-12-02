@@ -1,4 +1,4 @@
-package rabbitescape.engine.Block.blockfactory;
+package rabbitescape.engine.block;
 
 public abstract class BlockShape {
     private final String name;
@@ -10,12 +10,8 @@ public abstract class BlockShape {
     public String getName() {
         return name;
     }
-}
 
-class FlatShape extends BlockShape {
-    public FlatShape() {
-        super("Flat");
-    }
+    public abstract String getShape();
 }
 
 class UpRightShape extends BlockShape {

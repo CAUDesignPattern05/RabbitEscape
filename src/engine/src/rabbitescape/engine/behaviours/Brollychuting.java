@@ -8,7 +8,6 @@ import java.util.Map;
 import rabbitescape.engine.Behaviour;
 import rabbitescape.engine.BehaviourState;
 import rabbitescape.engine.BehaviourTools;
-import rabbitescape.engine.Block;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.World;
@@ -43,7 +42,7 @@ public class Brollychuting extends Behaviour
             return null;
         }
 
-        Block below = t.blockBelow();
+        block below = t.blockBelow();
 
         if ( t.isFlat( below ) )
         {

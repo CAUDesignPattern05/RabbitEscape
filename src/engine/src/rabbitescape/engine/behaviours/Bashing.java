@@ -37,7 +37,7 @@ public class Bashing extends Behaviour
                 && t.blockAboveNext() != null
             )
             {
-                if (t.blockAboveNext().material == Block.Material.METAL)
+                if (t.blockAboveNext().material == rabbitescape.engine.block.Material.METAL)
                 {
                     stepsOfBashing = 0;
                     return t.rl(
@@ -67,7 +67,7 @@ public class Bashing extends Behaviour
             }
             else if ( t.blockNext() != null )
             {
-                if ( t.blockNext().material == Block.Material.METAL )
+                if ( t.blockNext().material == rabbitescape.engine.block.Material.METAL )
                 {
                     stepsOfBashing = 0;
                     return t.rl(

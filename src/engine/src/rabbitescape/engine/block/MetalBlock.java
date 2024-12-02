@@ -1,4 +1,4 @@
-package rabbitescape.engine.Block;
+package rabbitescape.engine.block;
 
 public class MetalBlock extends Block {
     public MetalBlock(int x, int y, int variant) {

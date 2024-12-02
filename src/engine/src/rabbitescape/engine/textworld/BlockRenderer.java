@@ -1,18 +1,16 @@
 package rabbitescape.engine.textworld;
 
-import rabbitescape.engine.Block;
-
 public class BlockRenderer
 {
-    public static void render( Chars chars, Iterable<Block> blocks )
+    public static void render( Chars chars, Iterable<block> blocks )
     {
-        for ( Block block : blocks )
+        for ( rabbitescape.engine.block block : blocks )
         {
             chars.set( block.x, block.y, charForBlock( block ) );
         }
     }
 
-    public static char charForBlock( Block block )
+    public static char charForBlock( block block )
     {
         switch ( block.material )
         {

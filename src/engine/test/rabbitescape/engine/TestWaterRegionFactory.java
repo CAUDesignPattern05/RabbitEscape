@@ -19,8 +19,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import rabbitescape.engine.Block.Material;
-import rabbitescape.engine.Block.Shape;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.LookupTable2D;
 import rabbitescape.engine.util.Position;
@@ -35,11 +33,11 @@ public class TestWaterRegionFactory
     @Test
     public void Generate_water_table()
     {
-        Block block = new Block( 0, 0, Material.EARTH, Shape.FLAT, 0 );
-        Block leftRamp = new Block( 0, 1, Material.EARTH, Shape.UP_LEFT, 0 );
-        Block rightRamp = new Block( 1, 0, Material.EARTH, Shape.UP_RIGHT, 0 );
-        List<Block> blocks = Arrays.asList( block , leftRamp, rightRamp );
-        LookupTable2D<Block> blockTable = new LookupTable2D<>( blocks , new Dimension( 2, 2 ) );
+        block block = new block( 0, 0, Material.EARTH, Shape.FLAT, 0 );
+        rabbitescape.engine.block leftRamp = new block( 0, 1, Material.EARTH, Shape.UP_LEFT, 0 );
+        rabbitescape.engine.block rightRamp = new block( 1, 0, Material.EARTH, Shape.UP_RIGHT, 0 );
+        List<rabbitescape.engine.block> blocks = Arrays.asList( block , leftRamp, rightRamp );
+        LookupTable2D<rabbitescape.engine.block> blockTable = new LookupTable2D<>( blocks , new Dimension( 2, 2 ) );
 
         LookupTable2D<WaterRegion> waterTable = WaterRegionFactory
             .generateWaterTable( blockTable, new HashMap<Position, Integer>() );
@@ -112,8 +110,8 @@ public class TestWaterRegionFactory
     @Test
     public void Water_table_can_contain_standing_water()
     {
-        List<Block> blocks = Collections.emptyList();
-        LookupTable2D<Block> blockTable = new LookupTable2D<>( blocks , new Dimension( 2, 2 ) );
+        List<block> blocks = Collections.emptyList();
+        LookupTable2D<block> blockTable = new LookupTable2D<>( blocks , new Dimension( 2, 2 ) );
 
         HashMap<Position, Integer> waterAmounts = new HashMap<Position, Integer>();
         waterAmounts.put( new Position(0, 0), WaterUtil.HALF_CAPACITY );
