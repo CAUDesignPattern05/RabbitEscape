@@ -5,7 +5,7 @@ import static rabbitescape.engine.ChangeDescription.State.*;
 import rabbitescape.engine.Behaviour;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.World;
 import rabbitescape.engine.config.TapTimer;
 
@@ -17,13 +17,13 @@ public class OutOfBounds extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
         return (
-               rabbit.x < 0
-            || rabbit.x >= world.size.width
-            || rabbit.y < 0
-            || rabbit.y >= world.size.height
+            oldRabbit.x < 0
+            || oldRabbit.x >= world.size.width
+            || oldRabbit.y < 0
+            || oldRabbit.y >= world.size.height
         );
     }
 
@@ -41,14 +41,14 @@ public class OutOfBounds extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         switch( state )
         {
             case RABBIT_OUT_OF_BOUNDS:
             {
-                checkMars( world, rabbit );
-                world.changes.killRabbit( rabbit );
+                checkMars( world, oldRabbit );
+                world.changes.killRabbit( oldRabbit );
                 return true;
             }
             default:
@@ -61,14 +61,14 @@ public class OutOfBounds extends Behaviour
     /**
      * Test if mars mode has been triggered
      */
-    private void checkMars( World world, Rabbit rabbit)
+    private void checkMars( World world, OldRabbit oldRabbit )
     {
         /* The rabbit must leave the world at the correct coordinates,
          * the index count is likely to only be correct if this is the
          * first rabbit out of the entrance, and it must be the correct
          * level.
          */
-        if ( 12 == rabbit.x && -1 == rabbit.y &&
+        if ( 12 == oldRabbit.x && -1 == oldRabbit.y &&
              world.getRabbitIndexCount() == 2 &&
              world.name.equals( "Ghost versus pie" ) )
         {

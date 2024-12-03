@@ -230,4 +230,6 @@ public class Token extends Thing
     {
         return type.toString();
     }
+
+    public Type getType() { return type; }
 }

@@ -122,7 +122,7 @@ public class WorldAssertions
 
         if ( reverseOrder )
         {
-            Collections.reverse( world.rabbits );
+            Collections.reverse( world.oldRabbits );
         }
 
         for ( IdxObj<String> state : enumerate( laterStates ) )

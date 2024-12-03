@@ -19,9 +19,9 @@ public class Digging extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
-        BehaviourTools t = new BehaviourTools( rabbit, world );
+        BehaviourTools t = new BehaviourTools( oldRabbit, world );
         return t.pickUpToken( dig );
     }
 
@@ -33,9 +33,9 @@ public class Digging extends Behaviour
             return null;
         }
 
-        t.rabbit.possiblyUndoSlopeBashHop( t.world );
+        t.oldRabbit.possiblyUndoSlopeBashHop( t.world );
 
-        if ( t.rabbit.state == RABBIT_DIGGING )
+        if ( t.oldRabbit.state == RABBIT_DIGGING )
         {
             stepsOfDigging = 1;
             return RABBIT_DIGGING_2;
@@ -46,7 +46,7 @@ public class Digging extends Behaviour
             || stepsOfDigging > 0
         )
         {
-            if ( t.rabbit.onSlope && t.blockHere() != null )
+            if ( t.oldRabbit.onSlope && t.blockHere() != null )
             {
                 stepsOfDigging = 1;
                 return RABBIT_DIGGING_ON_SLOPE;
@@ -71,20 +71,20 @@ public class Digging extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         switch ( state )
         {
             case RABBIT_DIGGING:
             {
-                world.changes.removeBlockAt( rabbit.x, rabbit.y + 1 );
-                ++rabbit.y;
+                world.changes.removeBlockAt( oldRabbit.x, oldRabbit.y + 1 );
+                ++oldRabbit.y;
                 return true;
             }
             case RABBIT_DIGGING_ON_SLOPE:
             {
-                world.changes.removeBlockAt( rabbit.x, rabbit.y );
-                rabbit.onSlope = false;
+                world.changes.removeBlockAt( oldRabbit.x, oldRabbit.y );
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_DIGGING_2:

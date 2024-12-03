@@ -20,9 +20,9 @@ public class Bashing extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
-        BehaviourTools t = new BehaviourTools( rabbit, world );
+        BehaviourTools t = new BehaviourTools( oldRabbit, world );
 
         return t.pickUpToken( bash );
     }
@@ -97,7 +97,7 @@ public class Bashing extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
 
         switch ( state )
@@ -105,42 +105,42 @@ public class Bashing extends Behaviour
             case RABBIT_BASHING_RIGHT:
             case RABBIT_BASHING_LEFT:
             {
-                rabbit.slopeBashHop = false;
-                world.changes.removeBlockAt( destX( rabbit ), rabbit.y );
+                oldRabbit.slopeBashHop = false;
+                world.changes.removeBlockAt( destX( oldRabbit ), oldRabbit.y );
                 return true;
             }
             case RABBIT_BASHING_UP_RIGHT:
             case RABBIT_BASHING_UP_LEFT:
             {
-                world.changes.removeBlockAt( destX( rabbit ), rabbit.y - 1 );
-                rabbit.slopeBashHop = true;
-                rabbit.y -= 1;
+                world.changes.removeBlockAt( destX( oldRabbit ), oldRabbit.y - 1 );
+                oldRabbit.slopeBashHop = true;
+                oldRabbit.y -= 1;
                 return true;
             }
             case RABBIT_BASHING_USELESSLY_RIGHT:
             case RABBIT_BASHING_USELESSLY_LEFT:
             {
-                rabbit.slopeBashHop = false;
+                oldRabbit.slopeBashHop = false;
                 return true;
             }
             case RABBIT_BASHING_USELESSLY_RIGHT_UP:
             case RABBIT_BASHING_USELESSLY_LEFT_UP:
             {
-                rabbit.slopeBashHop = true;
-                rabbit.y -= 1;
+                oldRabbit.slopeBashHop = true;
+                oldRabbit.y -= 1;
                 return true;
             }
             default:
             {
-                rabbit.slopeBashHop = false;
+                oldRabbit.slopeBashHop = false;
                 return false;
             }
         }
     }
 
-    private int destX( Rabbit rabbit )
+    private int destX( OldRabbit oldRabbit )
     {
-        return ( rabbit.dir == RIGHT ) ? rabbit.x + 1 : rabbit.x - 1;
+        return ( oldRabbit.dir == RIGHT ) ? oldRabbit.x + 1 : oldRabbit.x - 1;
     }
 
     @Override

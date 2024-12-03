@@ -24,13 +24,13 @@ public abstract class Behaviour
      * @return true if this behaviour has done all the work needed for
      *         this time step
      */
-    public abstract boolean behave( World world, Rabbit rabbit, State state );
+    public abstract boolean behave( World world, OldRabbit oldRabbit, State state );
 
     /**
      * Examine the rabbit's situation and return true if this Behaviour must
      * take control.
      */
-    public abstract boolean checkTriggered( Rabbit rabbit, World world );
+    public abstract boolean checkTriggered( OldRabbit oldRabbit, World world );
 
     public abstract void cancel();
 

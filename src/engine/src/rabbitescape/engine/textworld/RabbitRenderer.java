@@ -5,36 +5,36 @@ import static rabbitescape.engine.Direction.*;
 import java.util.List;
 
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.OldRabbit;
 
 public class RabbitRenderer
 {
     public static void render( 
         Chars chars, 
-        List<Rabbit> rabbits,
+        List<OldRabbit> oldRabbits,
         boolean runtimeMeta 
     )
     {
-        for ( Rabbit rabbit : rabbits )
+        for ( OldRabbit oldRabbit : oldRabbits )
         {
-            if ( State.RABBIT_OUT_OF_BOUNDS == rabbit.state )
+            if ( State.RABBIT_OUT_OF_BOUNDS == oldRabbit.state )
             {
                 continue;
             }
             chars.set(
-                rabbit.x,
-                rabbit.y,
-                charForRabbit( rabbit ),
-                rabbit.saveState( runtimeMeta )
+                oldRabbit.x,
+                oldRabbit.y,
+                charForRabbit( oldRabbit ),
+                oldRabbit.saveState( runtimeMeta )
             );
         }
     }
 
-    private static char charForRabbit( Rabbit rabbit )
+    private static char charForRabbit( OldRabbit oldRabbit )
     {
-        if ( rabbit.dir == RIGHT )
+        if ( oldRabbit.dir == RIGHT )
         {
-            if ( rabbit.type == Rabbit.Type.RABBIT )
+            if ( oldRabbit.type == OldRabbit.Type.RABBIT )
             {
                 return 'r';
             }
@@ -45,7 +45,7 @@ public class RabbitRenderer
         }
         else
         {
-            if ( rabbit.type == Rabbit.Type.RABBIT )
+            if ( oldRabbit.type == OldRabbit.Type.RABBIT )
             {
                 return 'j';
             }

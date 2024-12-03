@@ -5,12 +5,9 @@ import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.*;
 
-import rabbitescape.engine.Block;
-import rabbitescape.engine.Direction;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.*;
+import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.Block.Shape;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.World;
 import rabbitescape.engine.textworld.TextWorldManip;
 
 public class TestWorldChanges
@@ -130,17 +127,17 @@ public class TestWorldChanges
 
         World world = TextWorldManip.createWorld( worldText );
         Token tok0 = world.getTokenAt( 1, 1 );
-        Rabbit rabbit0 = world.rabbits.get( 0 );
-        Rabbit rabbit1 = world.rabbits.get( 1 );
-        Rabbit rabbit2 = world.rabbits.get( 2 );
+        OldRabbit oldRabbit0 = world.oldRabbits.get( 0 );
+        OldRabbit oldRabbit1 = world.oldRabbits.get( 1 );
+        OldRabbit oldRabbit2 = world.oldRabbits.get( 2 );
 
         // One of every type of change
         world.changes.enterRabbit(
-            new Rabbit( 1, 2, Direction.RIGHT, Rabbit.Type.RABBIT ) );
+            new OldRabbit( 1, 2, Direction.RIGHT, OldRabbit.Type.RABBIT ) );
 
-        world.changes.killRabbit( rabbit0 );
-        world.changes.saveRabbit( rabbit1 );
-        world.changes.killRabbit( rabbit2 );
+        world.changes.killRabbit( oldRabbit0 );
+        world.changes.saveRabbit( oldRabbit1 );
+        world.changes.killRabbit( oldRabbit2 );
         world.changes.addToken( 2, 1, Token.Type.bash );
         world.changes.removeToken( tok0 );
         world.changes.addBlock( new Block( 1, 1, Block.Material.EARTH, Shape.FLAT, 0 ) );

@@ -3,7 +3,7 @@ package rabbitescape.engine.behaviours;
 import rabbitescape.engine.Behaviour;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.World;
 
 public class RabbotCrash extends Behaviour
@@ -14,18 +14,18 @@ public class RabbotCrash extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
-        if ( rabbit.type == Rabbit.Type.RABBOT )
+        if ( oldRabbit.type == OldRabbit.Type.RABBOT )
         {
-            for ( Rabbit otherRabbit : world.rabbits )
+            for ( OldRabbit otherOldRabbit : world.oldRabbits )
             {
-                if ( otherRabbit.type == Rabbit.Type.RABBIT &&
-                    otherRabbit.x == rabbit.x &&
-                    otherRabbit.y == rabbit.y
+                if ( otherOldRabbit.type == OldRabbit.Type.RABBIT &&
+                    otherOldRabbit.x == oldRabbit.x &&
+                    otherOldRabbit.y == oldRabbit.y
                 )
                 {
-                    world.changes.killRabbit( otherRabbit );
+                    world.changes.killRabbit( otherOldRabbit );
                     return true;
                 }
             }
@@ -47,11 +47,11 @@ public class RabbotCrash extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         if ( state == State.RABBIT_CRASHING )
         {
-            world.changes.killRabbit( rabbit );
+            world.changes.killRabbit( oldRabbit );
             return true;
         }
 

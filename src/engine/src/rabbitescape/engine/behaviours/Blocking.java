@@ -19,9 +19,9 @@ public class Blocking extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
-        BehaviourTools t = new BehaviourTools( rabbit, world );
+        BehaviourTools t = new BehaviourTools( oldRabbit, world );
         return t.pickUpToken( block );
     }
 
@@ -30,7 +30,7 @@ public class Blocking extends Behaviour
     {
         if ( abilityActive || triggered )
         {
-            t.rabbit.possiblyUndoSlopeBashHop( t.world );
+            t.oldRabbit.possiblyUndoSlopeBashHop( t.world );
             abilityActive = true;
             Block here = t.blockHere();
             if( BehaviourTools.isRightRiseSlope( here ) )
@@ -51,7 +51,7 @@ public class Blocking extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         return isBlocking( state );
     }
@@ -74,8 +74,8 @@ public class Blocking extends Behaviour
 
     public static boolean blockerAt( World world, int nextX, int nextY )
     {
-        Rabbit[] rabbits = world.getRabbitsAt( nextX, nextY );
-        for ( Rabbit r : rabbits )
+        OldRabbit[] oldRabbits = world.getRabbitsAt( nextX, nextY );
+        for ( OldRabbit r : oldRabbits )
         {
             if ( isBlocking( r.state ) )
             {

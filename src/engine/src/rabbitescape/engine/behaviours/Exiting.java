@@ -13,9 +13,9 @@ public class Exiting extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
-        if ( rabbit.type == Rabbit.Type.RABBOT )
+        if ( oldRabbit.type == OldRabbit.Type.RABBOT )
         {
             return false;  // Rabbots ignore exits
         }
@@ -24,7 +24,7 @@ public class Exiting extends Behaviour
         {
             if (
                    ( thing instanceof Exit )
-                && ( thing.x == rabbit.x && thing.y == rabbit.y )
+                && ( thing.x == oldRabbit.x && thing.y == oldRabbit.y )
             )
             {
                 return true;
@@ -38,11 +38,11 @@ public class Exiting extends Behaviour
     {
         if ( triggered )
         {
-            if ( t.rabbit.state == RABBIT_CLIMBING_LEFT_CONTINUE_2 )
+            if ( t.oldRabbit.state == RABBIT_CLIMBING_LEFT_CONTINUE_2 )
             {
                 return RABBIT_ENTERING_EXIT_CLIMBING_LEFT;
             }
-            if ( t.rabbit.state == RABBIT_CLIMBING_RIGHT_CONTINUE_2 )
+            if ( t.oldRabbit.state == RABBIT_CLIMBING_RIGHT_CONTINUE_2 )
             {
                 return RABBIT_ENTERING_EXIT_CLIMBING_RIGHT;
             }
@@ -52,7 +52,7 @@ public class Exiting extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         if (
                state == RABBIT_ENTERING_EXIT
@@ -60,7 +60,7 @@ public class Exiting extends Behaviour
             || state == RABBIT_ENTERING_EXIT_CLIMBING_LEFT
            )
         {
-            world.changes.saveRabbit( rabbit );
+            world.changes.saveRabbit( oldRabbit );
             return true;
         }
         else

@@ -1,33 +1,30 @@
 package rabbitescape.engine.behaviours;
 
-import rabbitescape.engine.Behaviour;
-import rabbitescape.engine.BehaviourTools;
+import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.Direction;
-import rabbitescape.engine.Rabbit;
-import rabbitescape.engine.World;
+import rabbitescape.engine.OldRabbit;
 
 public class RabbotWait extends Behaviour
 {
-    private boolean within1Vertically( Rabbit otherRabbit, Rabbit rabbit )
+    private boolean within1Vertically( OldRabbit otherOldRabbit, OldRabbit oldRabbit )
     {
-        return ( Math.abs( otherRabbit.y - rabbit.y ) < 2 );
+        return ( Math.abs( otherOldRabbit.y - oldRabbit.y ) < 2 );
     }
 
-    private boolean noseToNose( Rabbit otherRabbit, Rabbit rabbit )
+    private boolean noseToNose( OldRabbit otherOldRabbit, OldRabbit oldRabbit )
     {
         if ( 
-            otherRabbit.x == rabbit.x - 1 &&
-            otherRabbit.dir == Direction.RIGHT &&
-            rabbit.dir == Direction.LEFT 
+            otherOldRabbit.x == oldRabbit.x - 1 &&
+            otherOldRabbit.dir == Direction.RIGHT &&
+            oldRabbit.dir == Direction.LEFT
         )
         {
             return true;
         }
         else if ( 
-            otherRabbit.x == rabbit.x + 1 &&
-            otherRabbit.dir == Direction.LEFT &&
-            rabbit.dir == Direction.RIGHT 
+            otherOldRabbit.x == oldRabbit.x + 1 &&
+            otherOldRabbit.dir == Direction.LEFT &&
+            oldRabbit.dir == Direction.RIGHT
         )
         {
             return true;
@@ -44,21 +41,21 @@ public class RabbotWait extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
         if (
-            rabbit.type == Rabbit.Type.RABBOT &&
-            !Blocking.isBlocking(rabbit.state) &&
-            !Digging.isDigging(rabbit.state)
+            oldRabbit.type == OldRabbit.Type.RABBOT &&
+            !Blocking.isBlocking( oldRabbit.state) &&
+            !Digging.isDigging( oldRabbit.state)
         )
         {
-            for ( Rabbit otherRabbit : world.rabbits )
+            for ( OldRabbit otherOldRabbit : world.oldRabbits )
             {
                 if (
-                    otherRabbit.type == Rabbit.Type.RABBIT &&
-                    within1Vertically( otherRabbit, rabbit ) &&
-                    noseToNose( otherRabbit, rabbit ) &&
-                    !Blocking.isBlocking(otherRabbit.state)
+                    otherOldRabbit.type == OldRabbit.Type.RABBIT &&
+                    within1Vertically( otherOldRabbit, oldRabbit ) &&
+                    noseToNose( otherOldRabbit, oldRabbit ) &&
+                    !Blocking.isBlocking( otherOldRabbit.state)
                 )
                 {
                     return true;
@@ -85,7 +82,7 @@ public class RabbotWait extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         if ( 
             state == State.RABBIT_WAITING_LEFT ||

@@ -14,9 +14,9 @@ public class Exploding extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
-        BehaviourTools t = new BehaviourTools( rabbit, world );
+        BehaviourTools t = new BehaviourTools( oldRabbit, world );
         return t.pickUpToken( explode, true );
     }
 
@@ -31,11 +31,11 @@ public class Exploding extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         if ( state == RABBIT_EXPLODING )
         {
-            world.changes.killRabbit( rabbit );
+            world.changes.killRabbit( oldRabbit );
             return true;
         }
 

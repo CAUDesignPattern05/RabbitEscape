@@ -24,10 +24,9 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 import rabbitescape.engine.Direction;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.Thing;
 import rabbitescape.engine.Token;
-import rabbitescape.engine.util.Util;
 
 public class TestUtil
 {
@@ -1085,10 +1084,11 @@ public class TestUtil
             new Token( 1, 1, Token.Type.bridge )
         };
 
-        Rabbit[] rabbits = new Rabbit[]
-            { new Rabbit( 3, 3, Direction.LEFT, Rabbit.Type.RABBIT ) };
+        OldRabbit[] oldRabbits = new OldRabbit[]
+            { new OldRabbit( 3, 3, Direction.LEFT, OldRabbit.Type.RABBIT ) };
 
-        Iterable<Thing> chained = Util.chain( Arrays.asList( tokens ), Arrays.asList( rabbits ) );
+        Iterable<Thing> chained = Util.chain( Arrays.asList( tokens ), Arrays.asList(
+            oldRabbits ) );
 
         String s = "";
 

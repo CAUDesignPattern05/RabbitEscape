@@ -10,7 +10,7 @@ import java.util.Map;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
 
-public class Rabbit extends Thing implements Comparable<Rabbit>
+public class OldRabbit extends Thing implements Comparable<OldRabbit>
 {
     public static enum Type
     {
@@ -33,7 +33,7 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
     public boolean slopeBashHop = false;
     public final Type type;
 
-    public Rabbit( int x, int y, Direction dir, Type type )
+    public OldRabbit( int x, int y, Direction dir, Type type )
     {
         super( x, y, RABBIT_WALKING_LEFT );
         this.dir = dir;
@@ -230,7 +230,7 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
     }
 
     @Override
-    public int compareTo( Rabbit r )
+    public int compareTo( OldRabbit r )
     {
         return this.index - r.index;
     }
@@ -238,11 +238,11 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
     @Override
     public boolean equals( Object o )
     {
-        if ( null == o || !( o instanceof Rabbit ) )
+        if ( null == o || !( o instanceof OldRabbit ) )
         {
             return false;
         }
-        return ( (Rabbit)o ).index == this.index;
+        return ( ( OldRabbit )o ).index == this.index;
     }
 
     @Override

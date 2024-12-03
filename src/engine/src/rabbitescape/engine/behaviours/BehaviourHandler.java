@@ -32,7 +32,8 @@ public class BehaviourHandler {
 
     public State newState(BehaviourTools tool) { behaviour.newState(tool); }
 
-    public void behave(World world, Rabbit rabbit, State state) { behaviour.behave(world, rabbit, state); }
+    public void behave(World world, OldRabbit oldRabbit, State state) { behaviour.behave(world,
+        oldRabbit, state); }
 
     public void saveState(Map<String, String> saveState) { behaviour.saveState(saveState); }
 

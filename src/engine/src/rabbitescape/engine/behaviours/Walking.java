@@ -30,7 +30,7 @@ public class Walking extends Behaviour
                 Block aboveNext = t.blockAboveNext();
                 Block above = t.blockAbove();
                 int nextX = t.nextX();
-                int nextY = t.rabbit.y - 1;
+                int nextY = t.oldRabbit.y - 1;
 
                 if
                     (
@@ -38,7 +38,7 @@ public class Walking extends Behaviour
                     || Blocking.blockerAt( t.world, nextX, nextY )
                     || t.isRoof( above )
                     || ( t.isCresting() &&
-                         Blocking.blockerAt( t.world, nextX, t.rabbit.y ) )
+                         Blocking.blockerAt( t.world, nextX, t.oldRabbit.y ) )
                     )
                 {
                     return rl(
@@ -71,7 +71,7 @@ public class Walking extends Behaviour
             else if ( t.isOnDownSlope() )
             {
                 int nextX = t.nextX();
-                int nextY = t.rabbit.y + 1;
+                int nextY = t.oldRabbit.y + 1;
                 Block next = t.blockNext();
                 Block belowNext = t.blockBelowNext();
 
@@ -79,7 +79,7 @@ public class Walking extends Behaviour
                        t.isWall( next )
                     || Blocking.blockerAt( t.world, nextX, nextY )
                     || ( t.isValleying() &&
-                         Blocking.blockerAt( t.world, nextX, t.rabbit.y ) )
+                         Blocking.blockerAt( t.world, nextX, t.oldRabbit.y ) )
                     )
                 {
                     return rl(
@@ -103,7 +103,7 @@ public class Walking extends Behaviour
                 }
                 else
                 {
-                    if ( Blocking.blockerAt( t.world, nextX, t.rabbit.y ) )
+                    if ( Blocking.blockerAt( t.world, nextX, t.oldRabbit.y ) )
                     {
                         return rl(
                             RABBIT_TURNING_RIGHT_TO_LEFT_LOWERING,
@@ -122,7 +122,7 @@ public class Walking extends Behaviour
             else  // On flat ground now
             {
                 int nextX = t.nextX();
-                int nextY = t.rabbit.y;
+                int nextY = t.oldRabbit.y;
                 Block next = t.blockNext();
 
                 if
@@ -145,7 +145,7 @@ public class Walking extends Behaviour
                 }
                 else if ( t.isDownSlope( t.blockBelowNext() ) )
                 {
-                    if ( Blocking.blockerAt( t.world, nextX, t.rabbit.y + 1 ) )
+                    if ( Blocking.blockerAt( t.world, nextX, t.oldRabbit.y + 1 ) )
                     {
                         return rl(
                             RABBIT_TURNING_RIGHT_TO_LEFT,
@@ -177,7 +177,7 @@ public class Walking extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
         return false; // To avoid cancelling other behaviours, return false
     }
@@ -190,110 +190,110 @@ public class Walking extends Behaviour
 
     @Override
     @SuppressWarnings("fallthrough")
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
         switch ( state )
         {
             case RABBIT_WALKING_LEFT:
             {
-                --rabbit.x;
-                rabbit.onSlope = false;
+                --oldRabbit.x;
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_WALKING_RIGHT:
             {
-                ++rabbit.x;
-                rabbit.onSlope = false;
+                ++oldRabbit.x;
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_LOWERING_LEFT_END:
             {
-                --rabbit.x;
-                rabbit.onSlope = false;
+                --oldRabbit.x;
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_RISING_LEFT_START:
             case RABBIT_LOWERING_AND_RISING_LEFT:
             case RABBIT_RISING_AND_LOWERING_LEFT:
             {
-                --rabbit.x;
-                rabbit.onSlope = true;
+                --oldRabbit.x;
+                oldRabbit.onSlope = true;
                 return true;
             }
             case RABBIT_LOWERING_RIGHT_END:
             {
-                ++rabbit.x;
-                rabbit.onSlope = false;
+                ++oldRabbit.x;
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_RISING_RIGHT_START:
             case RABBIT_LOWERING_AND_RISING_RIGHT:
             case RABBIT_RISING_AND_LOWERING_RIGHT:
             {
-                ++rabbit.x;
-                rabbit.onSlope = true;
+                ++oldRabbit.x;
+                oldRabbit.onSlope = true;
                 return true;
             }
             case RABBIT_RISING_LEFT_END:
             {
-                --rabbit.y;
-                --rabbit.x;
-                rabbit.onSlope = false;
+                --oldRabbit.y;
+                --oldRabbit.x;
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_RISING_LEFT_CONTINUE:
             {
-                --rabbit.y;
-                --rabbit.x;
-                rabbit.onSlope = true;
+                --oldRabbit.y;
+                --oldRabbit.x;
+                oldRabbit.onSlope = true;
                 return true;
             }
             case RABBIT_RISING_RIGHT_END:
             {
-                --rabbit.y;
-                ++rabbit.x;
-                rabbit.onSlope = false;
+                --oldRabbit.y;
+                ++oldRabbit.x;
+                oldRabbit.onSlope = false;
                 return true;
             }
             case RABBIT_RISING_RIGHT_CONTINUE:
             {
-                --rabbit.y;
-                ++rabbit.x;
-                rabbit.onSlope = true;
+                --oldRabbit.y;
+                ++oldRabbit.x;
+                oldRabbit.onSlope = true;
                 return true;
             }
             case RABBIT_LOWERING_LEFT_CONTINUE:
             case RABBIT_LOWERING_LEFT_START:
             {
-                ++rabbit.y;
-                --rabbit.x;
-                rabbit.onSlope = true;
+                ++oldRabbit.y;
+                --oldRabbit.x;
+                oldRabbit.onSlope = true;
                 return true;
             }
             case RABBIT_LOWERING_RIGHT_CONTINUE:
             case RABBIT_LOWERING_RIGHT_START:
             {
-                ++rabbit.y;
-                ++rabbit.x;
-                rabbit.onSlope = true;
+                ++oldRabbit.y;
+                ++oldRabbit.x;
+                oldRabbit.onSlope = true;
                 return true;
             }
             case RABBIT_TURNING_LEFT_TO_RIGHT:
-                rabbit.onSlope = false; // Intentional fall-through
+                oldRabbit.onSlope = false; // Intentional fall-through
             case RABBIT_TURNING_LEFT_TO_RIGHT_RISING:
             case RABBIT_TURNING_LEFT_TO_RIGHT_LOWERING:
             {
-                rabbit.dir = RIGHT;
-                checkJumpOntoSlope( world, rabbit );
+                oldRabbit.dir = RIGHT;
+                checkJumpOntoSlope( world, oldRabbit );
                 return true;
             }
             case RABBIT_TURNING_RIGHT_TO_LEFT:
-                rabbit.onSlope = false; // Intentional fall-through
+                oldRabbit.onSlope = false; // Intentional fall-through
             case RABBIT_TURNING_RIGHT_TO_LEFT_RISING:
             case RABBIT_TURNING_RIGHT_TO_LEFT_LOWERING:
             {
-                rabbit.dir = LEFT;
-                checkJumpOntoSlope( world, rabbit );
+                oldRabbit.dir = LEFT;
+                checkJumpOntoSlope( world, oldRabbit );
                 return true;
             }
             default:
@@ -309,19 +309,19 @@ public class Walking extends Behaviour
     /**
      * If we turn around near a slope, we jump onto it
      */
-    private void checkJumpOntoSlope( World world, Rabbit rabbit )
+    private void checkJumpOntoSlope( World world, OldRabbit oldRabbit )
     {
-        Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        Block thisBlock = world.getBlockAt( oldRabbit.x, oldRabbit.y );
         if ( isBridge( thisBlock ) )
         {
-            Block aboveBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
-            if ( rabbit.onSlope && isBridge( aboveBlock ) )
+            Block aboveBlock = world.getBlockAt( oldRabbit.x, oldRabbit.y - 1 );
+            if ( oldRabbit.onSlope && isBridge( aboveBlock ) )
             {
-                rabbit.y--;
+                oldRabbit.y--;
             }
             else
             {
-                rabbit.onSlope = true;
+                oldRabbit.onSlope = true;
             }
         }
     }

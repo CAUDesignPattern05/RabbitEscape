@@ -31,14 +31,14 @@ public class Bridging extends Behaviour
     }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( OldRabbit oldRabbit, World world )
     {
         nextStep();
 
         if ( bigSteps <= 0 )
             // Only pick up a token if we've finished, and we can bridge
         {
-            BehaviourTools t = new BehaviourTools( rabbit, world );
+            BehaviourTools t = new BehaviourTools( oldRabbit, world );
 
             State possibleState = bridgingState( t, 3, 3, bridgeType );
 
@@ -84,35 +84,35 @@ public class Bridging extends Behaviour
     {
         Block hereBlock = t.blockHere();
 
-        Rabbit rabbit = t.rabbit;
+        OldRabbit oldRabbit = t.oldRabbit;
         World world = t.world;
 
-        if ( startingIntoToWall( world, rabbit, bs ) )
+        if ( startingIntoToWall( world, oldRabbit, bs ) )
         {
-            return stateIntoWall( t, rabbit, world, ss );
+            return stateIntoWall( t, oldRabbit, world, ss );
         }
 
-        boolean slopeUp = isSlopeUp( rabbit, hereBlock );
-        int nx = nextX( rabbit );
-        int ny = nextY( rabbit, slopeUp );
+        boolean slopeUp = isSlopeUp( oldRabbit, hereBlock );
+        int nx = nextX( oldRabbit );
+        int ny = nextY( oldRabbit, slopeUp );
 
         Block nextBlock = world.getBlockAt( nx, ny );
 
-        Block belowNextBlock = world.getBlockAt( nx, rabbit.y );
-        Block twoAboveHereBlock = world.getBlockAt( rabbit.x, rabbit.y - 2 );
+        Block belowNextBlock = world.getBlockAt( nx, oldRabbit.y );
+        Block twoAboveHereBlock = world.getBlockAt( oldRabbit.x, oldRabbit.y - 2 );
         Block aboveNextBlock = world.getBlockAt( nx, ny - 1 );
 
         if (
             (
                    // Something in the way
                    nextBlock != null
-                && nextBlock.riseDir() != rabbit.dir
+                && nextBlock.riseDir() != oldRabbit.dir
             ) || (
                    Blocking.blockerAt( t.world, nx, ny )
             ) || (
                    // Clip land
                    belowNextBlock != null
-                && belowNextBlock.riseDir() != rabbit.dir
+                && belowNextBlock.riseDir() != oldRabbit.dir
             ) || (
                     // Bang head next
                     aboveNextBlock != null
@@ -129,7 +129,7 @@ public class Bridging extends Behaviour
 
         boolean slopeDown = (
                ( hereBlock != null )
-            && ( hereBlock.riseDir() == Direction.opposite( rabbit.dir ) )
+            && ( hereBlock.riseDir() == Direction.opposite( oldRabbit.dir ) )
         );
 
         switch( ss )
@@ -230,15 +230,15 @@ public class Bridging extends Behaviour
     }
 
     private static State stateIntoWall(
-        BehaviourTools t, Rabbit rabbit, World world, int ss )
+        BehaviourTools t, OldRabbit oldRabbit, World world, int ss )
     {
         // We are facing a wall.  This makes us a bit keener to
         // bridge.
-        Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        Block thisBlock = world.getBlockAt( oldRabbit.x, oldRabbit.y );
 
-        boolean slopeUp = isSlopeUp( rabbit, thisBlock );
-        int bx = behindX( rabbit );
-        int ny = nextY( rabbit, slopeUp );
+        boolean slopeUp = isSlopeUp( oldRabbit, thisBlock );
+        int bx = behindX( oldRabbit );
+        int ny = nextY( oldRabbit, slopeUp );
 
         // Don't bridge if there is no block behind us (we're not in a hole)
         if ( isSlope( thisBlock ) && world.getBlockAt( bx, ny ) == null )
@@ -255,7 +255,7 @@ public class Bridging extends Behaviour
                     // Special behaviour where we bridge higher up because we
                     // are already on top of a slope.
 
-                    Block twoAbove = world.getBlockAt( rabbit.x, rabbit.y - 2 );
+                    Block twoAbove = world.getBlockAt( oldRabbit.x, oldRabbit.y - 2 );
 
                     if ( twoAbove == null || twoAbove.isBridge() ) {
                         return t.rl(
@@ -320,15 +320,15 @@ public class Bridging extends Behaviour
 
     private static boolean startingIntoToWall(
         World world,
-        Rabbit rabbit,
+        OldRabbit oldRabbit,
         int bs
     )
     {
-        Block hereBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        Block hereBlock = world.getBlockAt( oldRabbit.x, oldRabbit.y );
 
-        boolean slopeUp = isSlopeUp( rabbit, hereBlock );
-        int nx = nextX( rabbit );
-        int ny = nextY( rabbit, slopeUp );
+        boolean slopeUp = isSlopeUp( oldRabbit, hereBlock );
+        int nx = nextX( oldRabbit );
+        int ny = nextY( oldRabbit, slopeUp );
 
         Block nextBlock = world.getBlockAt( nx, ny );
 
@@ -340,36 +340,36 @@ public class Bridging extends Behaviour
                nextBlock != null
             &&
             (
-                   nextBlock.riseDir() != rabbit.dir
+                   nextBlock.riseDir() != oldRabbit.dir
                 || nextBlock.shape == FLAT
             )
          );
     }
 
-    private static boolean isSlopeUp( Rabbit rabbit, Block hereBlock )
+    private static boolean isSlopeUp( OldRabbit oldRabbit, Block hereBlock )
     {
         return ( hereBlock != null )
-          && ( hereBlock.riseDir() == rabbit.dir );
+          && ( hereBlock.riseDir() == oldRabbit.dir );
     }
 
-    private static int nextY( Rabbit rabbit, boolean slopeUp )
+    private static int nextY( OldRabbit oldRabbit, boolean slopeUp )
     {
-        int ret = rabbit.y;
+        int ret = oldRabbit.y;
         ret += slopeUp ? -1 : 0;
         return ret;
     }
 
-    private static int nextX( Rabbit rabbit )
+    private static int nextX( OldRabbit oldRabbit )
     {
-        int ret = rabbit.x;
-        ret += rabbit.dir == Direction.RIGHT ? 1 : -1;
+        int ret = oldRabbit.x;
+        ret += oldRabbit.dir == Direction.RIGHT ? 1 : -1;
         return ret;
     }
 
-    private static int behindX( Rabbit rabbit )
+    private static int behindX( OldRabbit oldRabbit )
     {
-        int ret = rabbit.x;
-        ret += rabbit.dir == Direction.RIGHT ? -1 : 1;
+        int ret = oldRabbit.x;
+        ret += oldRabbit.dir == Direction.RIGHT ? -1 : 1;
         return ret;
     }
 
@@ -389,20 +389,20 @@ public class Bridging extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, OldRabbit oldRabbit, State state )
     {
-        boolean handled = moveRabbit( world, rabbit, state );
+        boolean handled = moveRabbit( world, oldRabbit, state );
 
         if ( handled )
         {
             // If we're bridging, we're on a slope
-            rabbit.onSlope = true;
+            oldRabbit.onSlope = true;
         }
 
         return handled;
     }
 
-    private boolean moveRabbit( World world, Rabbit rabbit, State state )
+    private boolean moveRabbit( World world, OldRabbit oldRabbit, State state )
     {
         switch ( state )
         {
@@ -445,11 +445,11 @@ public class Bridging extends Behaviour
             case RABBIT_BRIDGING_RIGHT_3:
             case RABBIT_BRIDGING_DOWN_UP_RIGHT_3:
             {
-                rabbit.x++;
+                oldRabbit.x++;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_RIGHT,
                         0
@@ -461,11 +461,11 @@ public class Bridging extends Behaviour
             case RABBIT_BRIDGING_LEFT_3:
             case RABBIT_BRIDGING_DOWN_UP_LEFT_3:
             {
-                rabbit.x--;
+                oldRabbit.x--;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_LEFT,
                         0
@@ -476,12 +476,12 @@ public class Bridging extends Behaviour
             }
             case RABBIT_BRIDGING_UP_RIGHT_3:
             {
-                rabbit.x++;
-                rabbit.y--;
+                oldRabbit.x++;
+                oldRabbit.y--;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_RIGHT,
                         0
@@ -492,12 +492,12 @@ public class Bridging extends Behaviour
             }
             case RABBIT_BRIDGING_UP_LEFT_3:
             {
-                rabbit.x--;
-                rabbit.y--;
+                oldRabbit.x--;
+                oldRabbit.y--;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_LEFT,
                         0
@@ -508,11 +508,11 @@ public class Bridging extends Behaviour
             }
             case RABBIT_BRIDGING_IN_CORNER_RIGHT_3:
             {
-                rabbit.onSlope = true;
+                oldRabbit.onSlope = true;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_RIGHT,
                         0
@@ -522,11 +522,11 @@ public class Bridging extends Behaviour
             }
             case RABBIT_BRIDGING_IN_CORNER_LEFT_3:
             {
-                rabbit.onSlope = true;
+                oldRabbit.onSlope = true;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_LEFT,
                         0
@@ -536,12 +536,12 @@ public class Bridging extends Behaviour
             }
             case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_3:
             {
-                rabbit.onSlope = true;
-                rabbit.y--;
+                oldRabbit.onSlope = true;
+                oldRabbit.y--;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_RIGHT,
                         0
@@ -551,12 +551,12 @@ public class Bridging extends Behaviour
             }
             case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_3:
             {
-                rabbit.onSlope = true;
-                rabbit.y--;
+                oldRabbit.onSlope = true;
+                oldRabbit.y--;
                 world.changes.addBlock(
                     new Block(
-                        rabbit.x,
-                        rabbit.y,
+                        oldRabbit.x,
+                        oldRabbit.y,
                         EARTH,
                         BRIDGE_UP_LEFT,
                         0

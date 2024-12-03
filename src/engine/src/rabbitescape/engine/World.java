@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rabbitescape.engine.Rabbit.Type;
-import rabbitescape.engine.WaterRegion;
+import rabbitescape.engine.OldRabbit.Type;
 import rabbitescape.engine.err.RabbitEscapeException;
 import rabbitescape.engine.textworld.Comment;
 import rabbitescape.engine.util.Dimension;
@@ -107,7 +106,7 @@ public class World
     /** A grid of water. Only one water object
      * should be stored in each location. */
     public final LookupTable2D<WaterRegion> waterTable;
-    public final List<Rabbit> rabbits;
+    public final List<OldRabbit> oldRabbits;
     public final List<Thing> things;
     public final Map<Token.Type, Integer> abilities;
     public final String name;
@@ -135,7 +134,7 @@ public class World
     public World(
         Dimension size,
         List<Block> blocks,
-        List<Rabbit> rabbits,
+        List<OldRabbit> oldRabbits,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
@@ -160,7 +159,7 @@ public class World
     )
     {
         this.size = size;
-        this.rabbits = rabbits;
+        this.oldRabbits = oldRabbits;
         this.things = things;
         this.abilities = abilities;
         this.name = name;
@@ -202,7 +201,7 @@ public class World
     public World(
         Dimension size,
         LookupTable2D<Block> blockTable,
-        List<Rabbit> rabbits,
+        List<OldRabbit> oldRabbits,
         List<Thing> things,
         LookupTable2D<WaterRegion> waterTable,
         Map<rabbitescape.engine.Token.Type, Integer> abilities,
@@ -227,7 +226,7 @@ public class World
     {
         this.size = size;
         this.blockTable = blockTable;
-        this.rabbits = rabbits;
+        this.oldRabbits = oldRabbits;
         this.things = things;
         this.waterTable = waterTable;
         this.abilities = abilities;
@@ -257,14 +256,14 @@ public class World
     private void init()
     {
         // Number the rabbits if necessary
-        for ( Rabbit r: rabbits )
+        for ( OldRabbit r: oldRabbits )
         {
             rabbitIndex( r );
         }
 
         // Rearrange them, this may be necessary if they have been
         // restored from state.
-        Collections.sort( rabbits );
+        Collections.sort( oldRabbits );
 
         for ( Thing thing : allThings() )
         {
@@ -272,9 +271,9 @@ public class World
         }
     }
 
-    public void rabbitIndex( Rabbit r )
+    public void rabbitIndex( OldRabbit r )
     {
-        r.index = ( r.index == Rabbit.NOT_INDEXED )
+        r.index = ( r.index == OldRabbit.NOT_INDEXED )
                 ? ++rabbit_index_count
                 : r.index;
     }
@@ -291,8 +290,8 @@ public class World
     public void countRabbitsForIndex()
     {
         rabbit_index_count = rabbit_index_count == 0 ?
-            rabbits.size() : rabbit_index_count;
-        for ( Rabbit r:rabbits )
+            oldRabbits.size() : rabbit_index_count;
+        for ( OldRabbit r: oldRabbits )
         {
             rabbit_index_count = rabbit_index_count > r.index ?
                 rabbit_index_count : r.index;
@@ -340,7 +339,7 @@ public class World
 
     private Iterable<Thing> allThings()
     {
-        return chain( waterTable.getItems(), rabbits, things );
+        return chain( waterTable.getItems(), oldRabbits, things );
     }
 
     public Block getBlockAt( int x, int y)
@@ -429,25 +428,25 @@ public class World
         return false;
     }
 
-    public Rabbit[] getRabbitsAt( int x, int y )
+    public OldRabbit[] getRabbitsAt( int x, int y )
     {
-        List<Rabbit> ret = new ArrayList<Rabbit>();
+        List<OldRabbit> ret = new ArrayList<OldRabbit>();
 
-        for ( Rabbit rabbit : rabbits )
+        for ( OldRabbit oldRabbit : oldRabbits )
         {
-            if ( rabbit.x == x && rabbit.y == y )
+            if ( oldRabbit.x == x && oldRabbit.y == y )
             {
-                ret.add( rabbit );
+                ret.add( oldRabbit );
             }
         }
 
-        return ret.toArray( new Rabbit[ret.size()] );
+        return ret.toArray( new OldRabbit[ret.size()] );
     }
 
     public int numRabbitsOut()
     {
         int count = 0;
-        for ( Rabbit r : rabbits ) {
+        for ( OldRabbit r : oldRabbits ) {
             if ( r.type == Type.RABBIT ) {
                 ++count;
             }
