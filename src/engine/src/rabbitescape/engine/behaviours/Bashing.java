@@ -13,22 +13,10 @@ public class Bashing extends Behaviour
 {
     private int stepsOfBashing;
 
-    @Override
-    public void cancel()
-    {
-        stepsOfBashing = 0;
-    }
+    public Bashing(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
-
-        return t.pickUpToken( bash );
-    }
-
-    @Override
-    public State newState( BehaviourTools t, boolean triggered )
+    public State newState( BehaviourTools t)
     {
         if ( triggered || stepsOfBashing > 0 )
         {

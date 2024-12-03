@@ -8,20 +8,12 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Exploding extends Behaviour
 {
-    @Override
-    public void cancel()
-    {
-    }
+
+    public Exploding(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
-        return t.pickUpToken( explode, true );
-    }
-
-    @Override
-    public State newState( BehaviourTools t, boolean triggered )
+    public State newState( BehaviourTools t)
     {
         if ( triggered )
         {

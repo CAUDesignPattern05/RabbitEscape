@@ -14,22 +14,10 @@ public class Climbing extends Behaviour
     boolean hasAbility = false;
     public boolean abilityActive = false;
 
-    @Override
-    public void cancel()
-    {
-        abilityActive = false;
-    }
+    public Climbing(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
-
-        return !hasAbility && t.pickUpToken( climb, true );
-    }
-
-    @Override
-    public State newState( BehaviourTools t, boolean triggered )
+    public State newState( BehaviourTools t)
     {
         if ( triggered )
         {

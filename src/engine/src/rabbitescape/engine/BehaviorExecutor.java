@@ -2,32 +2,61 @@ package rabbitescape.engine;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.Walking;
+import rabbitescape.engine.behaviours.BehaviourHandler;
 import sun.awt.geom.Crossings;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class BehaviorExecutor extends Thing implements Comparable<BehaviorExecutor>
 {
     private Direction direction;
-    private Token item;
-    private Behaviour behaviour;
+    private BehaviourHandler behaviourHandler;
     private int index;
+    private boolean onSlope;
 
     public BehaviorExecutor(int x, int y, Direction dir) {
         super( x, y, RABBIT_WALKING_LEFT );
-        direction = dir;
-        item = null;
-        behaviour = new Walking();
-        index = -1;
+        this.direction = dir;
+        this.behaviourHandler = new BehaviourHandler();
+        this.onSlope = false;
     }
 
     @Override
     public void calcNewState(World world) {
+        BehaviourTools tool = new BehaviourTools(this, world);
 
+        Token item = tool.pickUpToken();
+        if (item != null) behaviourHandler.setBehaviour(item);
+
+        State newState = behaviourHandler.newState(tool);
+        if (newState != null) state = newState;
     }
 
     @Override
-    public void step( World world ) {
+    public abstract void step( World world );
 
+    @Override
+    public Map<String, String> saveState(boolean runtimeMeta) {
+        Map<String, String> ret = new HashMap<String, String>();
+        if (!runtimeMeta) return ret;
+
+        BehaviourState.addToStateIfGtZero( ret, "index", index );
+        BehaviourState.addToStateIfTrue( ret, "onSlope", onSlope );
+
+        behaviourHandler.saveState(ret);
+        return ret;
+    }
+
+    @Override
+    public void restoreFromState( Map<String, String> state ) {
+        index = BehaviourState.restoreFromState( state, "index", -1 );
+
+        onSlope = BehaviourState.restoreFromState(
+            state, "onSlope", false
+        );
+
+        behaviourHandler.restoreFromState(state);
     }
 
     @Override
@@ -57,6 +86,11 @@ public abstract class BehaviorExecutor extends Thing implements Comparable<Behav
     @Override
     public int hashCode() { return index; }
 
-    @Override
-    public abstract String stateName();
+    public void setIndex( int index ) {
+        this.index = index;
+    }
+
+    public Direction getDirection() { return direction; }
+
+    public boolean isOnSlope() { return onSlope; }
 }

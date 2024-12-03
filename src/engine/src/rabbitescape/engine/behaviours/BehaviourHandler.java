@@ -6,16 +6,18 @@ import rabbitescape.engine.ChangeDescription.State;
 import java.util.Map;
 
 public class BehaviourHandler {
-    Behaviour bashing;
-    Behaviour blocking;
-    Behaviour bridging;
-    Behaviour brollychuting;
-    Behaviour climbing;
-    Behaviour digging;
-    Behaviour exploding;
-    Behaviour walking;
+    private final Behaviour bashing;
+    private final Behaviour blocking;
+    private final Behaviour bridging;
+    private final Behaviour brollychuting;
+    private final Behaviour climbing;
+    private final Behaviour digging;
+    private final Behaviour exploding;
+    private final Behaviour walking;
 
-    Behaviour behaviour;
+    private Behaviour behaviour;
+    private boolean climbingAbility;
+    private boolean brollychutingAbility;
 
     public BehaviourHandler() {
         bashing = new Bashing(this);
@@ -28,12 +30,15 @@ public class BehaviourHandler {
         walking = new Walking(this);
 
         behaviour = walking;
+        climbingAbility = false;
+        brollychutingAbility = false;
     }
 
     public State newState(BehaviourTools tool) { behaviour.newState(tool); }
 
-    public void behave(World world, OldRabbit oldRabbit, State state) { behaviour.behave(world,
-        oldRabbit, state); }
+    public void behave(World world, OldRabbit oldRabbit, State state) {
+        behaviour.behave(world, oldRabbit, state);
+    }
 
     public void saveState(Map<String, String> saveState) { behaviour.saveState(saveState); }
 
@@ -53,10 +58,10 @@ public class BehaviourHandler {
                 behaviour = bridging;
                 break;
             case brolly:
-                behaviour = brollychuting;
+                brollychutingAbility = true;
                 break;
             case climb:
-                behaviour = climbing;
+                climbingAbility = true;
                 break;
             case dig:
                 behaviour = digging;

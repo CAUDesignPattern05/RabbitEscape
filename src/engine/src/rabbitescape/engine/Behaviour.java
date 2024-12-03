@@ -3,10 +3,16 @@ package rabbitescape.engine;
 import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.BehaviourHandler;
 
 public abstract class Behaviour
 {
-    public boolean triggered;
+
+    BehaviourHandler behaviourHandler;
+
+    public Behaviour(BehaviourHandler behaviourHandler) {
+        this.behaviourHandler = behaviourHandler;
+    }
 
     /**
      * Subclasses examine the rabbit's situation using BehaviourTools and
@@ -16,7 +22,7 @@ public abstract class Behaviour
      *
      * Note that the state determines the animation used.
      */
-    public abstract State newState( BehaviourTools t, boolean triggered );
+    public abstract State newState( BehaviourTools t);
 
     /**
      * Move the rabbit in the world. Kill it, or record its safe exit.
@@ -30,15 +36,10 @@ public abstract class Behaviour
      * Examine the rabbit's situation and return true if this Behaviour must
      * take control.
      */
-    public abstract boolean checkTriggered( OldRabbit oldRabbit, World world );
 
-    public abstract void cancel();
+    public void saveState( Map<String, String> saveState ) {}
 
-    public void saveState( Map<String, String> saveState )
-    {
-    }
+    public void restoreFromState( Map<String, String> saveState ) {}
 
-    public void restoreFromState( Map<String, String> saveState )
-    {
-    }
+    public void clearMemberVariables() {}
 }

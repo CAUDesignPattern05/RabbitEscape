@@ -10,21 +10,11 @@ import rabbitescape.engine.World;
 
 public class Burning extends Behaviour
 {
-    @Override
-    public void cancel()
-    {
-    }
+
+    public Burning(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        return world.fireAt( oldRabbit.x, oldRabbit.y );
-    }
-
-    @Override
-    public State newState(
-        BehaviourTools t, boolean triggered
-        )
+    public State newState(BehaviourTools t)
     {
         if ( triggered )
         {

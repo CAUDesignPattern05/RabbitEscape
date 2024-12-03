@@ -12,21 +12,10 @@ public class Digging extends Behaviour
 {
     int stepsOfDigging;
 
-    @Override
-    public void cancel()
-    {
-        stepsOfDigging = 0;
-    }
+    public Digging(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
-        return t.pickUpToken( dig );
-    }
-
-    @Override
-    public State newState( BehaviourTools t, boolean triggered )
+    public State newState( BehaviourTools t)
     {
         if ( !triggered && stepsOfDigging == 0 )
         {

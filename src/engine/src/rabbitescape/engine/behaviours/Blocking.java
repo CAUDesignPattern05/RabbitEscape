@@ -12,21 +12,10 @@ public class Blocking extends Behaviour
 {
     public boolean abilityActive = false;
 
-    @Override
-    public void cancel()
-    {
-        abilityActive = false;
-    }
+    public Blocking(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
-        return t.pickUpToken( block );
-    }
-
-    @Override
-    public State newState( BehaviourTools t, boolean triggered )
+    public State newState( BehaviourTools t)
     {
         if ( abilityActive || triggered )
         {

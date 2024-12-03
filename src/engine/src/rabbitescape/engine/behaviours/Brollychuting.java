@@ -12,17 +12,11 @@ import rabbitescape.engine.OldRabbit;
 public class Brollychuting extends Behaviour
 {
     boolean hasAbility = false;
-    private final Climbing climbing;
-    private final Digging digging;
 
-    public Brollychuting( Climbing climbing, Digging digging )
-    {
-        this.climbing = climbing;
-        this.digging = digging;
-    }
+    public Brollychuting(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public State newState( BehaviourTools t, boolean triggered )
+    public State newState( BehaviourTools t)
     {
         if ( triggered )
         {
@@ -125,11 +119,6 @@ public class Brollychuting extends Behaviour
         }
 
         return true;
-    }
-
-    @Override
-    public void cancel()
-    {
     }
 
     @Override

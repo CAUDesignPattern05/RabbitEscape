@@ -23,12 +23,7 @@ public class Bridging extends Behaviour
     private int bigSteps = 0;
     private BridgeType bridgeType = BridgeType.ALONG;
 
-    @Override
-    public void cancel()
-    {
-        bigSteps = 0;
-        smallSteps = 0;
-    }
+    public Bridging(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
     public boolean checkTriggered( OldRabbit oldRabbit, World world )

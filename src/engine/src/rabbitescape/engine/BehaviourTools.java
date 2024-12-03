@@ -7,12 +7,12 @@ import rabbitescape.engine.util.Position;
 
 public class BehaviourTools
 {
-    public final OldRabbit oldRabbit;
+    public final BehaviorExecutor behaviorExecutor;
     public final World world;
 
-    public BehaviourTools( OldRabbit oldRabbit, World world )
+    public BehaviourTools(BehaviorExecutor behaviorExecutor, World world )
     {
-        this.oldRabbit = oldRabbit;
+        this.behaviorExecutor = behaviorExecutor;
         this.world = world;
     }
 
@@ -21,17 +21,16 @@ public class BehaviourTools
         ChangeDescription.State leftState
     )
     {
-        return oldRabbit.dir == RIGHT ? rightState : leftState;
+        return behaviorExecutor.getDirection() == RIGHT ? rightState : leftState;
     }
 
-    public boolean pickUpToken( Token.Type type )
-    {
+    public boolean pickUpToken( Token.Type type ) {
         return pickUpToken( type, false );
     }
 
     public boolean rabbitIsFalling()
     {
-        switch ( oldRabbit.state)
+        switch (behaviorExecutor.state)
         {
         case RABBIT_FALLING:
         case RABBIT_FALLING_1:
@@ -62,7 +61,7 @@ public class BehaviourTools
 
     public boolean rabbitIsClimbing()
     {
-        switch( oldRabbit.state)
+        switch( behaviorExecutor.state)
         {
         case RABBIT_ENTERING_EXIT_CLIMBING_RIGHT:
         case RABBIT_ENTERING_EXIT_CLIMBING_LEFT:
@@ -84,7 +83,7 @@ public class BehaviourTools
 
     public boolean rabbitIsBashing()
     {
-        switch( oldRabbit.state)
+        switch( behaviorExecutor.state)
         {
         case RABBIT_BASHING_RIGHT:
         case RABBIT_BASHING_LEFT:
@@ -106,14 +105,14 @@ public class BehaviourTools
      */
     public boolean pickUpToken( Token.Type type, boolean evenIfNotOnGround )
     {
-        if ( rabbitIsFalling() && oldRabbit.isFallingToDeath() )
+        if ( rabbitIsFalling())
         {
             return false; // Dying rabbits not allowed to consume tokens
         }
 
         if ( evenIfNotOnGround || onGround() )
         {
-            Token token = world.getTokenAt( oldRabbit.x, oldRabbit.y );
+            Token token = world.getTokenAt( behaviorExecutor.x, behaviorExecutor.y );
             if ( token != null && token.type == type )
             {
                 world.changes.removeToken( token );
@@ -123,44 +122,60 @@ public class BehaviourTools
         return false;
     }
 
+    public Token pickUpToken() {
+        if (rabbitIsFalling()) {
+            return null; // Dying rabbits not allowed to consume tokens
+        }
+
+        if (onGround()) {
+            Token token = world.getTokenAt( behaviorExecutor.x, behaviorExecutor.y );
+            if ( token != null)
+            {
+                world.changes.removeToken( token );
+                return token;
+            }
+        }
+        return null;
+    }
+
     public Block blockHere()
     {
-        return world.getBlockAt( oldRabbit.x, oldRabbit.y );
+        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y );
     }
 
     public Block blockNext()
     {
-        return world.getBlockAt( nextX(), oldRabbit.y );
+        return world.getBlockAt( nextX(), behaviorExecutor.y );
     }
 
     public Block blockBelow()
     {
-        return world.getBlockAt( oldRabbit.x, oldRabbit.y + 1 );
+        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y + 1 );
     }
 
     public Block block2Below()
     {
-        return world.getBlockAt( oldRabbit.x, oldRabbit.y + 2 );
+        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y + 2 );
     }
 
     public Block blockBelowNext()
     {
-        return world.getBlockAt( nextX(), oldRabbit.y + 1 );
+        return world.getBlockAt( nextX(), behaviorExecutor.y + 1 );
     }
 
     public Block blockAbove()
     {
-        return world.getBlockAt( oldRabbit.x, oldRabbit.y - 1 );
+        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y - 1 );
     }
 
     public Block blockAboveNext()
     {
-        return world.getBlockAt( nextX(), oldRabbit.y - 1 );
+        return world.getBlockAt( nextX(), behaviorExecutor.y - 1 );
     }
 
     private boolean onGround()
     {
-        return ( oldRabbit.onSlope || blockBelow() != null );
+        return ( behaviorExecutor.isOnSlope() || blockBelow() != null );
     }
 
     public boolean isWall( Block block )
@@ -170,7 +185,7 @@ public class BehaviourTools
             && (
                    block.shape == FLAT
                 || (
-                    block.riseDir() == opposite( oldRabbit.dir )
+                    block.riseDir() == opposite( behaviorExecutor.getDirection() )
                     && isSolid( block )
                 )
             )
@@ -275,7 +290,7 @@ public class BehaviourTools
 
     private boolean goingUpSlope()
     {
-        if ( oldRabbit.onSlope )
+        if ( behaviorExecutor.isOnSlope() )
         {
             if( isOnUpSlope() )
             {
@@ -287,7 +302,7 @@ public class BehaviourTools
 
     public boolean isOnUpSlope()
     {
-        return oldRabbit.onSlope && hereIsUpSlope();
+        return behaviorExecutor.isOnSlope() && hereIsUpSlope();
     }
 
     /**
@@ -310,7 +325,7 @@ public class BehaviourTools
     public boolean isValleying()
     {
         // block where slope would be if it continues
-        Block alongBlock = world.getBlockAt( nextX(), oldRabbit.y );
+        Block alongBlock = world.getBlockAt( nextX(), behaviorExecutor.y );
 
         return isOnDownSlope() &&
                isUpSlope( alongBlock );
@@ -323,12 +338,12 @@ public class BehaviourTools
 
     public boolean isUpSlope( Block block )
     {
-        return ( block != null && block.riseDir() == oldRabbit.dir );
+        return ( block != null && block.riseDir() == behaviorExecutor.getDirection() );
     }
 
     public boolean isOnDownSlope()
     {
-        return oldRabbit.onSlope && hereIsDownSlope();
+        return behaviorExecutor.isOnSlope() && hereIsDownSlope();
     }
 
     private boolean hereIsDownSlope()
@@ -338,7 +353,7 @@ public class BehaviourTools
 
     public boolean isDownSlope( Block block )
     {
-        return ( block != null && block.riseDir() == opposite( oldRabbit.dir ) );
+        return ( block != null && block.riseDir() == opposite( behaviorExecutor.getDirection() ) );
     }
 
     public static boolean isSlopeNotBridge( Block b )
@@ -360,8 +375,8 @@ public class BehaviourTools
     public int nextX()
     {
         return
-            oldRabbit.x + (
-                oldRabbit.dir == RIGHT ? 1 : -1
+            behaviorExecutor.x + (
+                behaviorExecutor.getDirection() == RIGHT ? 1 : -1
             );
     }
 
@@ -369,11 +384,11 @@ public class BehaviourTools
     {
         if ( goingUpSlope() )
         {
-            return oldRabbit.y - 1;
+            return behaviorExecutor.y - 1;
         }
         else
         {
-            return oldRabbit.y;
+            return behaviorExecutor.y;
         }
     }
 
@@ -386,7 +401,7 @@ public class BehaviourTools
     {
         for ( Position p : world.changes.blocksJustRemoved )
         {
-            if ( oldRabbit.x == p.x && oldRabbit.y == p.y )
+            if ( behaviorExecutor.x == p.x && behaviorExecutor.y == p.y )
             {
                 return true;
             }

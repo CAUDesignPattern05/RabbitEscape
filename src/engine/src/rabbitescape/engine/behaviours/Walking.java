@@ -9,10 +9,8 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Walking extends Behaviour
 {
-    @Override
-    public void cancel()
-    {
-    }
+
+    public Walking(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     private static class StateCalc
     {
