@@ -50,6 +50,8 @@ public class BehaviourHandler {
 
     public void setItem( Token item ) { this.item = item; }
 
+    public void restoreItem() { this.item = oldItem; }
+
     public void setBehaviour() {
         if (item == null) return;
 
