@@ -183,8 +183,8 @@ public class WorldChanges
             throw new CantAddTokenOutsideWorld( type, x, y, world.size );
         }
 
-        Block block = world.getBlockAt( x, y );
-        if ( BehaviourTools.s_isFlat( block ) )
+        Block oldBlock = world.getBlockAt( x, y );
+        if ( BehaviourTools.s_isFlat( oldBlock ) )
         {
             return;
         }
@@ -203,21 +203,21 @@ public class WorldChanges
         fireToRemove.add( thing );
     }
 
-    public synchronized void addBlock( Block block )
+    public synchronized void addBlock( Block oldBlock )
     {
-        blocksToAdd.add( block );
-        waterPointsToRecalculate.add( new Position( block.x, block.y ) );
+        blocksToAdd.add( oldBlock );
+        waterPointsToRecalculate.add( new Position( oldBlock.x, oldBlock.y ) );
     }
 
     public synchronized void removeBlockAt( int x, int y )
     {
-        Block block = world.getBlockAt( x, y );
-        if ( block == null )
+        Block oldBlock = world.getBlockAt( x, y );
+        if ( oldBlock == null )
         {
             throw new NoBlockFound( x, y );
         }
         blocksJustRemoved.add( new Position( x, y ) );
-        blocksToRemove.add( block );
+        blocksToRemove.add( oldBlock );
         waterPointsToRecalculate.add( new Position( x, y ) );
     }
 

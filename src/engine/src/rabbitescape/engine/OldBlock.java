@@ -4,7 +4,7 @@ import static rabbitescape.engine.Direction.*;
 import rabbitescape.engine.util.LookupItem2D;
 import rabbitescape.engine.util.Position;
 
-public class Block implements LookupItem2D
+public class OldBlock implements LookupItem2D
 {
     public enum Material
     {
@@ -27,7 +27,7 @@ public class Block implements LookupItem2D
     public final Shape shape;
     public final int variant;
 
-    public Block( int x, int y, Material material, Shape shape, int variant )
+    public OldBlock( int x, int y, Material material, Shape shape, int variant )
     {
         this.x = x;
         this.y = y;

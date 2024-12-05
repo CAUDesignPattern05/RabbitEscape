@@ -59,9 +59,9 @@ public class Climbing extends Behaviour
 
     private State newStateStart( BehaviourTools t )
     {
-        Block endBlock = t.blockAboveNext();
+        Block endOldBlock = t.blockAboveNext();
 
-        if ( t.isWall( endBlock ) )
+        if ( t.isWall( endOldBlock ) )
         {
             return t.rl(
                 RABBIT_CLIMBING_RIGHT_CONTINUE_2,
@@ -87,9 +87,9 @@ public class Climbing extends Behaviour
 
     private State newStateCont2( BehaviourTools t )
     {
-        Block aboveBlock = t.blockAbove();
+        Block aboveOldBlock = t.blockAbove();
 
-        if ( t.isRoof( aboveBlock ) )
+        if ( t.isRoof( aboveOldBlock ) )
         {
             abilityActive = false;
             return t.rl(
@@ -98,9 +98,9 @@ public class Climbing extends Behaviour
             );
         }
 
-        Block endBlock = t.blockAboveNext();
+        Block endOldBlock = t.blockAboveNext();
 
-        if ( t.isWall( endBlock ) )
+        if ( t.isWall( endOldBlock ) )
         {
             return t.rl(
                 RABBIT_CLIMBING_RIGHT_CONTINUE_1,
@@ -120,10 +120,10 @@ public class Climbing extends Behaviour
     {
         int nextX = t.nextX();
         int nextY = t.nextY();
-        Block nextBlock = t.world.getBlockAt( nextX, nextY );
-        Block aboveBlock = t.world.getBlockAt( t.rabbit.x, t.rabbit.y - 1 );
+        Block nextOldBlock = t.world.getBlockAt( nextX, nextY );
+        Block aboveOldBlock = t.world.getBlockAt( t.rabbit.x, t.rabbit.y - 1 );
 
-        if ( !t.isRoof( aboveBlock ) && t.isWall( nextBlock ) )
+        if ( !t.isRoof( aboveOldBlock ) && t.isWall( nextOldBlock ) )
         {
             return t.rl(
                 RABBIT_CLIMBING_RIGHT_START,

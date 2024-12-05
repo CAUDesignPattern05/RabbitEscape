@@ -134,7 +134,7 @@ public class World
 
     public World(
         Dimension size,
-        List<Block> blocks,
+        List<Block> oldBlocks,
         List<Rabbit> rabbits,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
@@ -189,7 +189,7 @@ public class World
         }
         else
         {
-            this.blockTable = new LookupTable2D<Block>( blocks, size );
+            this.blockTable = new LookupTable2D<Block>( oldBlocks, size );
             this.waterTable = WaterRegionFactory.generateWaterTable( blockTable,
                 waterAmounts );
         }
@@ -380,7 +380,7 @@ public class World
     {
         // Note it is not worth using LookupTable2D for things.
         // Handling their movement would complicate the code.
-        // There are not as many instances of Thing as Block.
+        // There are not as many instances of Thing as OldBlock.
         // Iterating to check through is not too time
         // consuming.
         for ( Thing thing : things )

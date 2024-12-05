@@ -311,11 +311,11 @@ public class Walking extends Behaviour
      */
     private void checkJumpOntoSlope( World world, Rabbit rabbit )
     {
-        Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
-        if ( isBridge( thisBlock ) )
+        Block thisOldBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        if ( isBridge( thisOldBlock ) )
         {
-            Block aboveBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
-            if ( rabbit.onSlope && isBridge( aboveBlock ) )
+            Block aboveOldBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
+            if ( rabbit.onSlope && isBridge( aboveOldBlock ) )
             {
                 rabbit.y--;
             }
@@ -326,13 +326,13 @@ public class Walking extends Behaviour
         }
     }
 
-    private boolean isBridge( Block block )
+    private boolean isBridge( Block oldBlock )
     {
         return (
-               block != null
+            oldBlock != null
             && (
-                   block.shape == BRIDGE_UP_LEFT
-                || block.shape == BRIDGE_UP_RIGHT
+                oldBlock.shape == BRIDGE_UP_LEFT
+                || oldBlock.shape == BRIDGE_UP_RIGHT
             )
         );
     }

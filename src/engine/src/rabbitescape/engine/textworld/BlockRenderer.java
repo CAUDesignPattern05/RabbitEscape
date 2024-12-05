@@ -36,6 +36,6 @@ public class BlockRenderer
                 break;
         }
         throw new AssertionError(
-            "Unknown Block type: " + block.material + " " + block.shape );
+            "Unknown OldBlock type: " + block.material + " " + block.shape );
     }
 }
