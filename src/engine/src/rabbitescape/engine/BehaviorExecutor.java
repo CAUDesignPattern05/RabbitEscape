@@ -27,7 +27,8 @@ public abstract class BehaviorExecutor extends Thing implements Comparable<Behav
         BehaviourTools tool = new BehaviourTools(this, world);
 
         Token item = tool.pickUpToken();
-        if (item != null) behaviourHandler.setBehaviour(item);
+        if (item != null) behaviourHandler.setItem(item);
+        behaviourHandler.setBehaviour();
 
         State newState = behaviourHandler.newState(tool);
         if (newState != null) state = newState;

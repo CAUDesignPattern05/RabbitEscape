@@ -1,9 +1,12 @@
-package rabbitescape.engine;
+package rabbitescape.engine.behaviours;
 
 import java.util.Map;
 
+import rabbitescape.engine.BehaviorExecutor;
+import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.BehaviourHandler;
+import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.World;
 
 public abstract class Behaviour
 {
@@ -19,18 +22,14 @@ public abstract class Behaviour
      * return the state (see ChangeDescription) for the next time step.
      * This method may return null indicating that a different Behaviour
      * must take over.
-     *
      * Note that the state determines the animation used.
      */
     public abstract State newState( BehaviourTools t);
 
     /**
      * Move the rabbit in the world. Kill it, or record its safe exit.
-     *
-     * @return true if this behaviour has done all the work needed for
-     *         this time step
      */
-    public abstract boolean behave( World world, OldRabbit oldRabbit, State state );
+    public abstract void behave( World world, BehaviorExecutor behaviorExecutor, State state );
 
     /**
      * Examine the rabbit's situation and return true if this Behaviour must

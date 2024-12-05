@@ -18,6 +18,8 @@ public class BehaviourHandler {
     private Behaviour behaviour;
     private boolean climbingAbility;
     private boolean brollychutingAbility;
+    private Token item;
+    private Token oldItem;
 
     public BehaviourHandler() {
         bashing = new Bashing(this);
@@ -32,19 +34,23 @@ public class BehaviourHandler {
         behaviour = walking;
         climbingAbility = false;
         brollychutingAbility = false;
+        item = null;
+        oldItem = null;
     }
 
-    public State newState(BehaviourTools tool) { behaviour.newState(tool); }
+    public State newState(BehaviourTools tool) { return behaviour.newState(tool); }
 
-    public void behave(World world, OldRabbit oldRabbit, State state) {
-        behaviour.behave(world, oldRabbit, state);
+    public void behave(World world, BehaviorExecutor behaviorExecutor, State state) {
+        behaviour.behave(world, behaviorExecutor, state);
     }
 
     public void saveState(Map<String, String> saveState) { behaviour.saveState(saveState); }
 
     public void restoreFromState(Map<String, String> saveState) { behaviour.restoreFromState(saveState); }
 
-    public void setBehaviour(Token item) {
+    public void setItem( Token item ) { this.item = item; }
+
+    public void setBehaviour() {
         if (item == null) return;
 
         switch (item.getType()) {
@@ -72,6 +78,8 @@ public class BehaviourHandler {
             default:
                 break;
         }
+        oldItem = item;
+        item = null;
         behaviour.clearMemberVariables();
     }
 }
