@@ -9,7 +9,7 @@ import static rabbitescape.engine.util.WorldAssertions.*;
 
 import org.junit.Test;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 
 public class TestTokens

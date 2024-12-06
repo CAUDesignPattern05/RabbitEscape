@@ -1,7 +1,7 @@
 package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Token.Type.*;
+import static rabbitescape.engine.token.Token.Type.*;
 import static rabbitescape.engine.Block.Material.*;
 import static rabbitescape.engine.Block.Shape.*;
 

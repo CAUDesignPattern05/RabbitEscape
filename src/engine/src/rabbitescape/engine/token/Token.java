@@ -1,10 +1,11 @@
-package rabbitescape.engine;
+package rabbitescape.engine.token;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.err.RabbitEscapeException;
 

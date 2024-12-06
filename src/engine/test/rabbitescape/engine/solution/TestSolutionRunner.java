@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.CompletionState;
 import rabbitescape.engine.textworld.TextWorldManip;

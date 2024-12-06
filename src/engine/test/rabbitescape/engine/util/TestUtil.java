@@ -26,8 +26,7 @@ import org.junit.Test;
 import rabbitescape.engine.Direction;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.util.Util;
+import rabbitescape.engine.token.Token;
 
 public class TestUtil
 {

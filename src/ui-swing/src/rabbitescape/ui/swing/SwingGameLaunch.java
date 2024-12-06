@@ -11,7 +11,7 @@ import static rabbitescape.engine.i18n.Translation.t;
 import static rabbitescape.engine.util.Util.map;
 
 import rabbitescape.engine.LevelWinListener;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.config.Config;
 import rabbitescape.engine.menu.LevelMenuItem;

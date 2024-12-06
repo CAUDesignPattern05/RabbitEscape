@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import rabbitescape.engine.ChangeDescription;
 import rabbitescape.engine.LevelWinListener;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.solution.SolutionIgnorer;
 import rabbitescape.engine.textworld.TextWorldManip;

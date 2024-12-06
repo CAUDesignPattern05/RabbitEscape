@@ -12,8 +12,7 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.Direction;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.render.AnimationLoader;
+import rabbitescape.engine.token.Token;
 
 public class TestAnimations
 {

@@ -25,6 +25,7 @@ import rabbitescape.engine.textworld.ArrayByKeyElementMissing;
 import rabbitescape.engine.textworld.DuplicateMetaKey;
 import rabbitescape.engine.textworld.ItemsLineProcessor;
 import rabbitescape.engine.textworld.LineProcessor;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.util.Util.IdxObj;
 
 public class TestTextWorldManip

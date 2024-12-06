@@ -13,7 +13,7 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.config.Config;
 import rabbitescape.engine.config.ConfigTools;
 import rabbitescape.render.BitmapCache;

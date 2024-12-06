@@ -1,6 +1,6 @@
 package rabbitescape.engine.behaviours;
 
-import static rabbitescape.engine.Token.Type.*;
+import static rabbitescape.engine.token.Token.Type.*;
 import static rabbitescape.engine.ChangeDescription.State.*;
 
 import rabbitescape.engine.*;

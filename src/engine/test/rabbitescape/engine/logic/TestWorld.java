@@ -21,7 +21,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import rabbitescape.engine.Rabbit;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.DontStepAfterFinish;
 import rabbitescape.engine.WorldStatsListener;

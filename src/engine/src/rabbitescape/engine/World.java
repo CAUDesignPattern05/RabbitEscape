@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import rabbitescape.engine.Rabbit.Type;
-import rabbitescape.engine.WaterRegion;
 import rabbitescape.engine.err.RabbitEscapeException;
 import rabbitescape.engine.textworld.Comment;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.LookupTable2D;
 import rabbitescape.engine.util.Position;
@@ -205,7 +205,7 @@ public class World
         List<Rabbit> rabbits,
         List<Thing> things,
         LookupTable2D<WaterRegion> waterTable,
-        Map<rabbitescape.engine.Token.Type, Integer> abilities,
+        Map<Token.Type, Integer> abilities,
         String name,
         String description,
         String author_name,

@@ -9,7 +9,7 @@ import rabbitescape.engine.Block;
 import rabbitescape.engine.Direction;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Block.Shape;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.textworld.TextWorldManip;
 

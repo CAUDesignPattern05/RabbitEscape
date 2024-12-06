@@ -7,8 +7,8 @@ import rabbitescape.engine.Exit;
 import rabbitescape.engine.Fire;
 import rabbitescape.engine.Pipe;
 import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.Token.Type;
+import rabbitescape.engine.token.Token;
+import rabbitescape.engine.token.Token.Type;
 import rabbitescape.engine.err.RabbitEscapeException;
 
 public class ThingRenderer
