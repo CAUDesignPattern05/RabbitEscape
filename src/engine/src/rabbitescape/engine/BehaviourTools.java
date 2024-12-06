@@ -7,12 +7,12 @@ import rabbitescape.engine.util.Position;
 
 public class BehaviourTools
 {
-    public final BehaviorExecutor behaviorExecutor;
+    public final BehaviourExecutor behaviourExecutor;
     public final World world;
 
-    public BehaviourTools(BehaviorExecutor behaviorExecutor, World world )
+    public BehaviourTools( BehaviourExecutor behaviourExecutor, World world )
     {
-        this.behaviorExecutor = behaviorExecutor;
+        this.behaviourExecutor = behaviourExecutor;
         this.world = world;
     }
 
@@ -21,7 +21,7 @@ public class BehaviourTools
         ChangeDescription.State leftState
     )
     {
-        return behaviorExecutor.getDirection() == RIGHT ? rightState : leftState;
+        return behaviourExecutor.getDirection() == RIGHT ? rightState : leftState;
     }
 
     public boolean pickUpToken( Token.Type type ) {
@@ -30,7 +30,7 @@ public class BehaviourTools
 
     public boolean rabbitIsFalling()
     {
-        switch (behaviorExecutor.state)
+        switch ( behaviourExecutor.state)
         {
         case RABBIT_FALLING:
         case RABBIT_FALLING_1:
@@ -61,7 +61,7 @@ public class BehaviourTools
 
     public boolean rabbitIsClimbing()
     {
-        switch( behaviorExecutor.state)
+        switch( behaviourExecutor.state)
         {
         case RABBIT_ENTERING_EXIT_CLIMBING_RIGHT:
         case RABBIT_ENTERING_EXIT_CLIMBING_LEFT:
@@ -83,7 +83,7 @@ public class BehaviourTools
 
     public boolean rabbitIsBashing()
     {
-        switch( behaviorExecutor.state)
+        switch( behaviourExecutor.state)
         {
         case RABBIT_BASHING_RIGHT:
         case RABBIT_BASHING_LEFT:
@@ -112,7 +112,7 @@ public class BehaviourTools
 
         if ( evenIfNotOnGround || onGround() )
         {
-            Token token = world.getTokenAt( behaviorExecutor.x, behaviorExecutor.y );
+            Token token = world.getTokenAt( behaviourExecutor.x, behaviourExecutor.y );
             if ( token != null && token.type == type )
             {
                 world.changes.removeToken( token );
@@ -128,7 +128,7 @@ public class BehaviourTools
         }
 
         if (onGround()) {
-            Token token = world.getTokenAt( behaviorExecutor.x, behaviorExecutor.y );
+            Token token = world.getTokenAt( behaviourExecutor.x, behaviourExecutor.y );
             if ( token != null)
             {
                 world.changes.removeToken( token );
@@ -140,42 +140,42 @@ public class BehaviourTools
 
     public Block blockHere()
     {
-        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y );
     }
 
     public Block blockNext()
     {
-        return world.getBlockAt( nextX(), behaviorExecutor.y );
+        return world.getBlockAt( nextX(), behaviourExecutor.y );
     }
 
     public Block blockBelow()
     {
-        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y + 1 );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
     }
 
     public Block block2Below()
     {
-        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y + 2 );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 2 );
     }
 
     public Block blockBelowNext()
     {
-        return world.getBlockAt( nextX(), behaviorExecutor.y + 1 );
+        return world.getBlockAt( nextX(), behaviourExecutor.y + 1 );
     }
 
     public Block blockAbove()
     {
-        return world.getBlockAt( behaviorExecutor.x, behaviorExecutor.y - 1 );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y - 1 );
     }
 
     public Block blockAboveNext()
     {
-        return world.getBlockAt( nextX(), behaviorExecutor.y - 1 );
+        return world.getBlockAt( nextX(), behaviourExecutor.y - 1 );
     }
 
     private boolean onGround()
     {
-        return ( behaviorExecutor.isOnSlope() || blockBelow() != null );
+        return ( behaviourExecutor.isOnSlope() || blockBelow() != null );
     }
 
     public boolean isWall( Block block )
@@ -185,7 +185,7 @@ public class BehaviourTools
             && (
                    block.shape == FLAT
                 || (
-                    block.riseDir() == opposite( behaviorExecutor.getDirection() )
+                    block.riseDir() == opposite( behaviourExecutor.getDirection() )
                     && isSolid( block )
                 )
             )
@@ -290,7 +290,7 @@ public class BehaviourTools
 
     private boolean goingUpSlope()
     {
-        if ( behaviorExecutor.isOnSlope() )
+        if ( behaviourExecutor.isOnSlope() )
         {
             if( isOnUpSlope() )
             {
@@ -302,7 +302,7 @@ public class BehaviourTools
 
     public boolean isOnUpSlope()
     {
-        return behaviorExecutor.isOnSlope() && hereIsUpSlope();
+        return behaviourExecutor.isOnSlope() && hereIsUpSlope();
     }
 
     /**
@@ -325,7 +325,7 @@ public class BehaviourTools
     public boolean isValleying()
     {
         // block where slope would be if it continues
-        Block alongBlock = world.getBlockAt( nextX(), behaviorExecutor.y );
+        Block alongBlock = world.getBlockAt( nextX(), behaviourExecutor.y );
 
         return isOnDownSlope() &&
                isUpSlope( alongBlock );
@@ -338,12 +338,12 @@ public class BehaviourTools
 
     public boolean isUpSlope( Block block )
     {
-        return ( block != null && block.riseDir() == behaviorExecutor.getDirection() );
+        return ( block != null && block.riseDir() == behaviourExecutor.getDirection() );
     }
 
     public boolean isOnDownSlope()
     {
-        return behaviorExecutor.isOnSlope() && hereIsDownSlope();
+        return behaviourExecutor.isOnSlope() && hereIsDownSlope();
     }
 
     private boolean hereIsDownSlope()
@@ -353,7 +353,7 @@ public class BehaviourTools
 
     public boolean isDownSlope( Block block )
     {
-        return ( block != null && block.riseDir() == opposite( behaviorExecutor.getDirection() ) );
+        return ( block != null && block.riseDir() == opposite( behaviourExecutor.getDirection() ) );
     }
 
     public static boolean isSlopeNotBridge( Block b )
@@ -375,8 +375,8 @@ public class BehaviourTools
     public int nextX()
     {
         return
-            behaviorExecutor.x + (
-                behaviorExecutor.getDirection() == RIGHT ? 1 : -1
+            behaviourExecutor.x + (
+                behaviourExecutor.getDirection() == RIGHT ? 1 : -1
             );
     }
 
@@ -384,11 +384,11 @@ public class BehaviourTools
     {
         if ( goingUpSlope() )
         {
-            return behaviorExecutor.y - 1;
+            return behaviourExecutor.y - 1;
         }
         else
         {
-            return behaviorExecutor.y;
+            return behaviourExecutor.y;
         }
     }
 
@@ -401,7 +401,7 @@ public class BehaviourTools
     {
         for ( Position p : world.changes.blocksJustRemoved )
         {
-            if ( behaviorExecutor.x == p.x && behaviorExecutor.y == p.y )
+            if ( behaviourExecutor.x == p.x && behaviourExecutor.y == p.y )
             {
                 return true;
             }

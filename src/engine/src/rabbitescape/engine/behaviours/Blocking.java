@@ -1,7 +1,6 @@
 package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Token.Type.*;
 
 import java.util.Map;
 
@@ -10,40 +9,25 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Blocking extends Behaviour
 {
-    public boolean abilityActive = false;
+    private boolean abilityActive;
 
     public Blocking(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public State newState( BehaviourTools t)
-    {
-        if ( abilityActive || triggered )
-        {
-            t.oldRabbit.possiblyUndoSlopeBashHop( t.world );
-            abilityActive = true;
-            Block here = t.blockHere();
-            if( BehaviourTools.isRightRiseSlope( here ) )
-            {
-                return RABBIT_BLOCKING_RISE_RIGHT;
-            }
-            else if ( BehaviourTools.isLeftRiseSlope( here ) )
-            {
-                return RABBIT_BLOCKING_RISE_LEFT;
-            }
-            else
-            {
-                return RABBIT_BLOCKING;
-            }
+    public State newState(BehaviourTools t) {
+        Block here = t.blockHere();
+        if( BehaviourTools.isRightRiseSlope( here ) ) {
+            return RABBIT_BLOCKING_RISE_RIGHT;
+        } else if ( BehaviourTools.isLeftRiseSlope( here ) ) {
+            return RABBIT_BLOCKING_RISE_LEFT;
+        } else {
+            return RABBIT_BLOCKING;
         }
-
-        return null;
     }
+
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
-    {
-        return isBlocking( state );
-    }
+    public void behave( World world, BehaviourExecutor behaviorexecutor, State state ) {}
 
     @Override
     public void saveState( Map<String, String> saveState )
@@ -63,13 +47,12 @@ public class Blocking extends Behaviour
 
     public static boolean blockerAt( World world, int nextX, int nextY )
     {
-        OldRabbit[] oldRabbits = world.getRabbitsAt( nextX, nextY );
-        for ( OldRabbit r : oldRabbits )
+        BehaviourExecutor[] behaviorexecutors = world.getRabbitsAt( nextX, nextY );
+        for ( BehaviourExecutor r : behaviorexecutors )
         {
-            if ( isBlocking( r.state ) )
-            {
+            State state = r.state;
+            if (state == RABBIT_BLOCKING || state == RABBIT_BLOCKING_RISE_RIGHT || state == RABBIT_BLOCKING_RISE_LEFT)
                 return true;
-            }
         }
         return false;
     }

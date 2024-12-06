@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rabbitescape.engine.OldRabbit.Type;
 import rabbitescape.engine.err.RabbitEscapeException;
 import rabbitescape.engine.textworld.Comment;
 import rabbitescape.engine.util.Dimension;
@@ -106,7 +105,7 @@ public class World
     /** A grid of water. Only one water object
      * should be stored in each location. */
     public final LookupTable2D<WaterRegion> waterTable;
-    public final List<OldRabbit> oldRabbits;
+    public final List<BehaviourExecutor> behaviourexecutors;
     public final List<Thing> things;
     public final Map<Token.Type, Integer> abilities;
     public final String name;
@@ -134,7 +133,7 @@ public class World
     public World(
         Dimension size,
         List<Block> blocks,
-        List<OldRabbit> oldRabbits,
+        List<BehaviourExecutor> behaviourexecutors,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
@@ -159,7 +158,7 @@ public class World
     )
     {
         this.size = size;
-        this.oldRabbits = oldRabbits;
+        this.behaviourexecutors = behaviourexecutors;
         this.things = things;
         this.abilities = abilities;
         this.name = name;
@@ -201,7 +200,7 @@ public class World
     public World(
         Dimension size,
         LookupTable2D<Block> blockTable,
-        List<OldRabbit> oldRabbits,
+        List<BehaviourExecutor> behaviourexecutors,
         List<Thing> things,
         LookupTable2D<WaterRegion> waterTable,
         Map<rabbitescape.engine.Token.Type, Integer> abilities,
@@ -226,7 +225,7 @@ public class World
     {
         this.size = size;
         this.blockTable = blockTable;
-        this.oldRabbits = oldRabbits;
+        this.behaviourexecutors = behaviourexecutors;
         this.things = things;
         this.waterTable = waterTable;
         this.abilities = abilities;
@@ -256,14 +255,14 @@ public class World
     private void init()
     {
         // Number the rabbits if necessary
-        for ( OldRabbit r: oldRabbits )
+        for ( BehaviourExecutor r: behaviourexecutors )
         {
             rabbitIndex( r );
         }
 
         // Rearrange them, this may be necessary if they have been
         // restored from state.
-        Collections.sort( oldRabbits );
+        Collections.sort( behaviourexecutors );
 
         for ( Thing thing : allThings() )
         {
@@ -271,11 +270,10 @@ public class World
         }
     }
 
-    public void rabbitIndex( OldRabbit r )
+    public void rabbitIndex( BehaviourExecutor r )
     {
-        r.index = ( r.index == OldRabbit.NOT_INDEXED )
-                ? ++rabbit_index_count
-                : r.index;
+        int newIndex = (r.getIndex() == 0) ? ++rabbit_index_count : r.getIndex();
+        r.setIndex( newIndex );
     }
 
     public int getRabbitIndexCount()
@@ -290,11 +288,11 @@ public class World
     public void countRabbitsForIndex()
     {
         rabbit_index_count = rabbit_index_count == 0 ?
-            oldRabbits.size() : rabbit_index_count;
-        for ( OldRabbit r: oldRabbits )
+            behaviourexecutors.size() : rabbit_index_count;
+        for ( BehaviourExecutor r: behaviourexecutors )
         {
-            rabbit_index_count = rabbit_index_count > r.index ?
-                rabbit_index_count : r.index;
+            rabbit_index_count = rabbit_index_count > r.getIndex() ?
+                rabbit_index_count : r.getIndex();
         }
     }
 
@@ -339,7 +337,7 @@ public class World
 
     private Iterable<Thing> allThings()
     {
-        return chain( waterTable.getItems(), oldRabbits, things );
+        return chain( waterTable.getItems(), behaviourexecutors, things );
     }
 
     public Block getBlockAt( int x, int y)
@@ -428,26 +426,26 @@ public class World
         return false;
     }
 
-    public OldRabbit[] getRabbitsAt( int x, int y )
+    public BehaviourExecutor[] getRabbitsAt( int x, int y )
     {
-        List<OldRabbit> ret = new ArrayList<OldRabbit>();
+        List<BehaviourExecutor> ret = new ArrayList<BehaviourExecutor>();
 
-        for ( OldRabbit oldRabbit : oldRabbits )
+        for ( BehaviourExecutor behaviourexecutor : behaviourexecutors )
         {
-            if ( oldRabbit.x == x && oldRabbit.y == y )
+            if ( behaviourexecutor.x == x && behaviourexecutor.y == y )
             {
-                ret.add( oldRabbit );
+                ret.add( behaviourexecutor );
             }
         }
 
-        return ret.toArray( new OldRabbit[ret.size()] );
+        return ret.toArray( new BehaviourExecutor[ret.size()] );
     }
 
     public int numRabbitsOut()
     {
         int count = 0;
-        for ( OldRabbit r : oldRabbits ) {
-            if ( r.type == Type.RABBIT ) {
+        for ( BehaviourExecutor r : behaviourexecutors ) {
+            if (r instanceof Rabbit) {
                 ++count;
             }
         }
