@@ -15,7 +15,7 @@ public class RabbotCrashing extends RabbotBehaviour
     {
             for ( BehaviourExecutor otherBehaviourExecutor : world.behaviourExecutors )
             {
-                if ( otherBehaviourExecutor.type == OldRabbit.Type.RABBIT &&
+                if ( otherBehaviourExecutor.getAffectedByRabbot() &&
                     otherBehaviourExecutor.x == behaviourExecutor.x &&
                     otherBehaviourExecutor.y == behaviourExecutor.y
                 )

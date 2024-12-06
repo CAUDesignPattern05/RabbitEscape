@@ -14,12 +14,14 @@ public abstract class BehaviourExecutor
     protected ActionHandler actionHandler;
     private int index;
     private boolean onSlope;
+    private boolean isAffectedByRabbot;
 
     public BehaviourExecutor(int x, int y, Direction dir) {
         super( x, y, RABBIT_WALKING_LEFT );
         this.direction = dir;
         this.actionHandler = new ActionHandler();
         this.onSlope = false;
+        this.isAffectedByRabbot = false;
     }
 
     @Override
@@ -102,4 +104,8 @@ public abstract class BehaviourExecutor
     public void setState(State state) { this.state = state; }
 
     public State getState() { return state; }
+
+    public void setAffectedByRabbot( boolean isAffectedByRabbot) { this.isAffectedByRabbot = isAffectedByRabbot; }
+
+    public boolean getAffectedByRabbot() { return isAffectedByRabbot; }
 }

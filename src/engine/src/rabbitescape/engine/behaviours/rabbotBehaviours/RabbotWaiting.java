@@ -50,7 +50,7 @@ public class RabbotWaiting extends RabbotBehaviour
             for ( BehaviourExecutor otherBehaviourExecutor : world.behaviourExecutors )
             {
                 if (
-                    otherBehaviourExecutor.type == OldRabbit.Type.RABBIT &&
+                    otherBehaviourExecutor.getAffectedByRabbot() &&
                     within1Vertically( otherBehaviourExecutor, behaviourExecutor ) &&
                     noseToNose( otherBehaviourExecutor, behaviourExecutor ) &&
                     !Blocking.isBlocking( otherBehaviourExecutor.state)
