@@ -9,6 +9,7 @@ import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
+import rabbitescape.engine.factory.blockfactory.BridgeFactory;
 
 public class Rabbit extends Thing implements Comparable<Rabbit>
 {
@@ -57,7 +58,7 @@ public class Rabbit extends Thing implements Comparable<Rabbit>
         Brollychuting brollychuting = new Brollychuting( climbing, digging );
         falling = new Falling( climbing, brollychuting, getFatalHeight() );
         Bashing bashing = new Bashing();
-        Bridging bridging = new Bridging();
+        Bridging bridging = new Bridging(new BridgeFactory());
         Blocking blocking = new Blocking();
         Walking walking = new Walking();
         RabbotCrash rabbotCrash = new RabbotCrash();

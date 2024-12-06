@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.err.RabbitEscapeException;
 
 public class Token extends Thing

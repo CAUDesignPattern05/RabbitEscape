@@ -2,10 +2,10 @@ package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Direction.*;
-import static rabbitescape.engine.Block.Shape.*;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
 
 public class Walking extends Behaviour
 {
@@ -311,11 +311,11 @@ public class Walking extends Behaviour
      */
     private void checkJumpOntoSlope( World world, Rabbit rabbit )
     {
-        Block thisOldBlock = world.getBlockAt( rabbit.x, rabbit.y );
-        if ( isBridge( thisOldBlock ) )
+        Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
+        if ( isBridge( thisBlock ) )
         {
-            Block aboveOldBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
-            if ( rabbit.onSlope && isBridge( aboveOldBlock ) )
+            Block aboveBlock = world.getBlockAt( rabbit.x, rabbit.y - 1 );
+            if ( rabbit.onSlope && isBridge( aboveBlock ) )
             {
                 rabbit.y--;
             }
@@ -326,14 +326,11 @@ public class Walking extends Behaviour
         }
     }
 
-    private boolean isBridge( Block oldBlock )
+    private boolean isBridge( Block block )
     {
         return (
-            oldBlock != null
-            && (
-                oldBlock.shape == BRIDGE_UP_LEFT
-                || oldBlock.shape == BRIDGE_UP_RIGHT
-            )
+            block != null
+            && block.isBridge()
         );
     }
 }

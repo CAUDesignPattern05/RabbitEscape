@@ -1,16 +1,18 @@
 package rabbitescape.render;
 
 import rabbitescape.engine.*;
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.textworld.BlockRenderer;
 import rabbitescape.engine.util.*;
 import rabbitescape.render.gameloop.WaterAnimation;
-
+import static rabbitescape.engine.Direction.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import static rabbitescape.engine.BehaviourTools.*;
 import static rabbitescape.engine.CellularDirection.*;
+import static rabbitescape.engine.Direction.LEFT;
 
 public class WaterRegionRenderer implements LookupItem2D
 {
@@ -276,7 +278,8 @@ public class WaterRegionRenderer implements LookupItem2D
         {
             case TOP_LEFT:
                 xOffset = 0;
-                if ( shapeEquals( block, Block.Shape.UP_LEFT ) )
+                //if ( shapeEquals( block, Block.Shape.UP_LEFT ) )
+                if ((block.riseDir() == LEFT) && !block.isBridge())
                 {
                     yOffset = 0;
                 }
@@ -287,9 +290,10 @@ public class WaterRegionRenderer implements LookupItem2D
                 break;
             case TOP_MIDDLE:
                 xOffset = 16;
-                if ( shapeEquals( block, Block.Shape.UP_LEFT ) ||
-                    shapeEquals( block, Block.Shape.UP_RIGHT ) )
-                {
+//                if ( shapeEquals( block, Block.Shape.UP_LEFT ) ||
+//                    shapeEquals( block, Block.Shape.UP_RIGHT ) )
+//                {
+                if(!block.isFlat() && !block.isBridge()){
                     yOffset = ( 32 - height ) / 2;
                 }
                 else
@@ -299,7 +303,7 @@ public class WaterRegionRenderer implements LookupItem2D
                 break;
             case TOP_RIGHT:
                 xOffset = 32;
-                if ( shapeEquals( block, Block.Shape.UP_RIGHT ) )
+                if ( (block.riseDir() == Direction.RIGHT) && !block.isBridge())
                 {
                     yOffset = 0;
                 }
@@ -383,7 +387,7 @@ public class WaterRegionRenderer implements LookupItem2D
         switch ( d )
         {
             case BOTTOM_LEFT:
-                if ( shapeEquals( block, Block.Shape.UP_LEFT ) )
+                if ( (block.riseDir() == Direction.RIGHT) && !block.isBridge() )
                 {
                     xOffset = 32;
                 }
@@ -393,7 +397,7 @@ public class WaterRegionRenderer implements LookupItem2D
                 }
                 break;
             case BOTTOM_RIGHT:
-                if ( shapeEquals( block, Block.Shape.UP_RIGHT ) )
+                if ( (block.riseDir() == LEFT) && !block.isBridge() )
                 {
                     xOffset = 0;
                 }
@@ -512,10 +516,10 @@ public class WaterRegionRenderer implements LookupItem2D
         Block b = world.getBlockAt( x, y );
         String s = null == b ? " " : "" + BlockRenderer.charForBlock( b );
 
-        String connStr = "U" + bool01( getRegion().isConnected( UP ) ) + " " +
-            "D" + bool01( getRegion().isConnected( DOWN ) ) + " " +
-            "L" + bool01( getRegion().isConnected( LEFT ) ) + " " +
-            "R" + bool01( getRegion().isConnected( RIGHT ) );
+        String connStr = "U" + bool01( getRegion().isConnected( CellularDirection.UP ) ) + " " +
+            "D" + bool01( getRegion().isConnected( CellularDirection.DOWN ) ) + " " +
+            "L" + bool01( getRegion().isConnected( CellularDirection.LEFT ) ) + " " +
+            "R" + bool01( getRegion().isConnected( CellularDirection.RIGHT ) );
 
         p.addString( x, y, 0, s );
 

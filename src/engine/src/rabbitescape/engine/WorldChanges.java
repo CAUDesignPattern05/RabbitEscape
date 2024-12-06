@@ -9,6 +9,7 @@ import rabbitescape.engine.World.NoBlockFound;
 import rabbitescape.engine.World.NoSuchAbilityInThisWorld;
 import rabbitescape.engine.World.NoneOfThisAbilityLeft;
 import rabbitescape.engine.World.UnableToAddToken;
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.util.Position;
 
 public class WorldChanges
@@ -183,8 +184,8 @@ public class WorldChanges
             throw new CantAddTokenOutsideWorld( type, x, y, world.size );
         }
 
-        Block oldBlock = world.getBlockAt( x, y );
-        if ( BehaviourTools.s_isFlat( oldBlock ) )
+        Block Block = world.getBlockAt( x, y );
+        if ( BehaviourTools.s_isFlat( Block ) )
         {
             return;
         }
@@ -203,21 +204,21 @@ public class WorldChanges
         fireToRemove.add( thing );
     }
 
-    public synchronized void addBlock( Block oldBlock )
+    public synchronized void addBlock( Block block )
     {
-        blocksToAdd.add( oldBlock );
-        waterPointsToRecalculate.add( new Position( oldBlock.x, oldBlock.y ) );
+        blocksToAdd.add( block );
+        waterPointsToRecalculate.add( new Position( block.getX(), block.getY() ) );
     }
 
     public synchronized void removeBlockAt( int x, int y )
     {
-        Block oldBlock = world.getBlockAt( x, y );
-        if ( oldBlock == null )
+        Block block = world.getBlockAt( x, y );
+        if ( block == null )
         {
             throw new NoBlockFound( x, y );
         }
         blocksJustRemoved.add( new Position( x, y ) );
-        blocksToRemove.add( oldBlock );
+        blocksToRemove.add( block );
         waterPointsToRecalculate.add( new Position( x, y ) );
     }
 

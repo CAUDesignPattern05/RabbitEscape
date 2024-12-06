@@ -1,9 +1,9 @@
 package rabbitescape.engine;
 
-import static rabbitescape.engine.Block.Shape.*;
-import static rabbitescape.engine.Direction.RIGHT;
-import static rabbitescape.engine.Direction.opposite;
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.util.Position;
+
+import static rabbitescape.engine.Direction.*;
 
 public class BehaviourTools
 {
@@ -168,7 +168,7 @@ public class BehaviourTools
         return (
                block != null
             && (
-                   block.shape == FLAT
+                   block.isFlat()
                 || (
                     block.riseDir() == opposite( rabbit.dir )
                     && isSolid( block )
@@ -178,14 +178,14 @@ public class BehaviourTools
     }
 
 
-    public static boolean shapeEquals( Block b, Block.Shape s )
-    {
-        if ( null == b )
-        {
-            return false;
-        }
-        return s == b.shape;
-    }
+//    public static boolean shapeEquals( Block b, Block.Shape s )
+//    {
+//        if ( null == b )
+//        {
+//            return false;
+//        }
+//        return s == b.shape;
+//    }
 
     public static boolean isRightRiseSlope( Block b )
     {
@@ -193,8 +193,7 @@ public class BehaviourTools
         {
             return false;
         }
-        return b.shape == UP_RIGHT
-            || b.shape == BRIDGE_UP_RIGHT;
+        return b.riseDir() == RIGHT;
     }
 
     public static boolean isLeftRiseSlope( Block b )
@@ -203,8 +202,7 @@ public class BehaviourTools
         {
             return false;
         }
-        return b.shape == UP_LEFT
-            || b.shape == BRIDGE_UP_LEFT;
+        return b.riseDir() == LEFT;
     }
 
     public static boolean isSlope( Block b )
@@ -214,27 +212,11 @@ public class BehaviourTools
 
     public static boolean isBridge( Block b )
     {
-        if( b == null )
-        {
-            return false;
-        }
-        switch ( b.shape )
-        {
-        case BRIDGE_UP_LEFT:
-        case BRIDGE_UP_RIGHT:
-            return true;
-        default:
-            return false;
-        }
+        return b.isBridge();
     }
-
     public static boolean isSolid( Block block )
     {
-        return (
-               block.shape == FLAT
-            || block.shape == UP_LEFT
-            || block.shape == UP_RIGHT
-        );
+        return !block.isBridge();
     }
 
     public boolean isRoof( Block block )
@@ -243,25 +225,23 @@ public class BehaviourTools
             (
                 block != null
                 && (
-                       block.shape == FLAT
-                    || block.shape == UP_LEFT
-                    || block.shape == UP_RIGHT
+                       !block.isBridge()
                 )
             );
     }
 
-    public boolean isOnSlopeStateUnreliable()
-    {
-        Block block = blockHere();
-        return
-            null != block &&
-            (
-                   block.shape == UP_LEFT
-                || block.shape == UP_RIGHT
-                || block.shape == BRIDGE_UP_LEFT
-                || block.shape == BRIDGE_UP_RIGHT
-            );
-    }
+//    public boolean isOnSlopeStateUnreliable()
+//    {
+//        Block block = blockHere();
+//        return
+//            null != block &&
+//            (
+//                   block.shape == UP_LEFT
+//                || block.shape == UP_RIGHT
+//                || block.shape == BRIDGE_UP_LEFT
+//                || block.shape == BRIDGE_UP_RIGHT
+//            );
+//    }
 
     public boolean isFlat( Block block )
     {
@@ -270,7 +250,7 @@ public class BehaviourTools
 
     public static boolean s_isFlat( Block block )
     {
-        return ( block != null && block.shape == FLAT );
+        return ( block != null && block.isFlat() );
     }
 
     private boolean goingUpSlope()
@@ -347,14 +327,15 @@ public class BehaviourTools
         {
             return false;
         }
-        switch( b.shape )
-        {
-        case UP_LEFT:
-        case UP_RIGHT:
-            return true;
-        default:
-            return false;
-        }
+//        switch( b.shape )
+//        {
+//        case UP_LEFT:
+//        case UP_RIGHT:
+//            return true;
+//        default:
+//            return false;
+//        }
+        return !b.isBridge() && !b.isFlat();
     }
 
     public int nextX()

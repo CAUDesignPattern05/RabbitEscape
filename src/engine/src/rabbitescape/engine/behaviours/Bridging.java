@@ -2,16 +2,19 @@ package rabbitescape.engine.behaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Token.Type.*;
-import static rabbitescape.engine.Block.Material.*;
-import static rabbitescape.engine.Block.Shape.*;
-
 import java.util.Map;
-
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
+import rabbitescape.engine.factory.blockfactory.BridgeFactory;
 
 public class Bridging extends Behaviour
 {
+    public Bridging( BridgeFactory bridgeFactory )
+    {
+        this.bridgeFactory = bridgeFactory;
+    }
+
     enum BridgeType
     {
         ALONG,
@@ -22,6 +25,7 @@ public class Bridging extends Behaviour
     private int smallSteps = 0;
     private int bigSteps = 0;
     private BridgeType bridgeType = BridgeType.ALONG;
+    private final BridgeFactory bridgeFactory;
 
     @Override
     public void cancel()
@@ -341,7 +345,7 @@ public class Bridging extends Behaviour
             &&
             (
                    nextBlock.riseDir() != rabbit.dir
-                || nextBlock.shape == FLAT
+                || nextBlock.isFlat()
             )
          );
     }
@@ -385,7 +389,7 @@ public class Bridging extends Behaviour
 
     private static boolean isSlope( Block thisBlock )
     {
-        return ( thisBlock != null && thisBlock.shape != FLAT );
+        return ( thisBlock != null && thisBlock.isFlat() );
     }
 
     @Override
@@ -402,170 +406,41 @@ public class Bridging extends Behaviour
         return handled;
     }
 
-    private boolean moveRabbit( World world, Rabbit rabbit, State state )
-    {
-        switch ( state )
-        {
-            case RABBIT_BRIDGING_RIGHT_1:
-            case RABBIT_BRIDGING_RIGHT_2:
-            case RABBIT_BRIDGING_LEFT_1:
-            case RABBIT_BRIDGING_LEFT_2:
-            {
-                bridgeType = BridgeType.ALONG;
-                return true;
-            }
-            case RABBIT_BRIDGING_UP_RIGHT_1:
-            case RABBIT_BRIDGING_UP_RIGHT_2:
-            case RABBIT_BRIDGING_UP_LEFT_1:
-            case RABBIT_BRIDGING_UP_LEFT_2:
-            {
-                bridgeType = BridgeType.UP;
-                return true;
-            }
-            case RABBIT_BRIDGING_DOWN_UP_RIGHT_1:
-            case RABBIT_BRIDGING_DOWN_UP_RIGHT_2:
-            case RABBIT_BRIDGING_DOWN_UP_LEFT_1:
-            case RABBIT_BRIDGING_DOWN_UP_LEFT_2:
-            {
-                bridgeType = BridgeType.DOWN_UP;
-                return true;
-            }
-            case RABBIT_BRIDGING_IN_CORNER_RIGHT_1:
-            case RABBIT_BRIDGING_IN_CORNER_LEFT_1:
-            case RABBIT_BRIDGING_IN_CORNER_RIGHT_2:
-            case RABBIT_BRIDGING_IN_CORNER_LEFT_2:
-            case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_1:
-            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_1:
-            case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_2:
-            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_2:
-            {
-                bridgeType = BridgeType.ALONG;
-                return true;
-            }
+    private boolean moveRabbit(World world, Rabbit rabbit, State state) {
+        switch (state) {
             case RABBIT_BRIDGING_RIGHT_3:
-            case RABBIT_BRIDGING_DOWN_UP_RIGHT_3:
-            {
+            case RABBIT_BRIDGING_DOWN_UP_RIGHT_3: {
                 rabbit.x++;
                 world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
+                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.RIGHT, 0)
                 );
-
                 return true;
             }
             case RABBIT_BRIDGING_LEFT_3:
-            case RABBIT_BRIDGING_DOWN_UP_LEFT_3:
-            {
+            case RABBIT_BRIDGING_DOWN_UP_LEFT_3: {
                 rabbit.x--;
                 world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
+                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.LEFT, 0)
                 );
-
                 return true;
             }
-            case RABBIT_BRIDGING_UP_RIGHT_3:
-            {
+            case RABBIT_BRIDGING_UP_RIGHT_3: {
                 rabbit.x++;
                 rabbit.y--;
                 world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
+                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.RIGHT, 0)
                 );
-
                 return true;
             }
-            case RABBIT_BRIDGING_UP_LEFT_3:
-            {
+            case RABBIT_BRIDGING_UP_LEFT_3: {
                 rabbit.x--;
                 rabbit.y--;
                 world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
-
-                return true;
-            }
-            case RABBIT_BRIDGING_IN_CORNER_RIGHT_3:
-            {
-                rabbit.onSlope = true;
-                world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
+                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.LEFT, 0)
                 );
                 return true;
             }
-            case RABBIT_BRIDGING_IN_CORNER_LEFT_3:
-            {
-                rabbit.onSlope = true;
-                world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
-                return true;
-            }
-            case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_3:
-            {
-                rabbit.onSlope = true;
-                rabbit.y--;
-                world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
-                );
-                return true;
-            }
-            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_3:
-            {
-                rabbit.onSlope = true;
-                rabbit.y--;
-                world.changes.addBlock(
-                    new Block(
-                        rabbit.x,
-                        rabbit.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
-                return true;
-            }
-            default:
-            {
+            default: {
                 return false;
             }
         }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
 
 public class Climbing extends Behaviour
 {
@@ -59,9 +60,9 @@ public class Climbing extends Behaviour
 
     private State newStateStart( BehaviourTools t )
     {
-        Block endOldBlock = t.blockAboveNext();
+        Block endBlock = t.blockAboveNext();
 
-        if ( t.isWall( endOldBlock ) )
+        if ( t.isWall( endBlock ) )
         {
             return t.rl(
                 RABBIT_CLIMBING_RIGHT_CONTINUE_2,
@@ -87,9 +88,9 @@ public class Climbing extends Behaviour
 
     private State newStateCont2( BehaviourTools t )
     {
-        Block aboveOldBlock = t.blockAbove();
+        Block aboveBlock = t.blockAbove();
 
-        if ( t.isRoof( aboveOldBlock ) )
+        if ( t.isRoof( aboveBlock ) )
         {
             abilityActive = false;
             return t.rl(
@@ -98,9 +99,9 @@ public class Climbing extends Behaviour
             );
         }
 
-        Block endOldBlock = t.blockAboveNext();
+        Block endBlock = t.blockAboveNext();
 
-        if ( t.isWall( endOldBlock ) )
+        if ( t.isWall( endBlock ) )
         {
             return t.rl(
                 RABBIT_CLIMBING_RIGHT_CONTINUE_1,
@@ -120,10 +121,10 @@ public class Climbing extends Behaviour
     {
         int nextX = t.nextX();
         int nextY = t.nextY();
-        Block nextOldBlock = t.world.getBlockAt( nextX, nextY );
-        Block aboveOldBlock = t.world.getBlockAt( t.rabbit.x, t.rabbit.y - 1 );
+        Block nextBlock = t.world.getBlockAt( nextX, nextY );
+        Block aboveBlock = t.world.getBlockAt( t.rabbit.x, t.rabbit.y - 1 );
 
-        if ( !t.isRoof( aboveOldBlock ) && t.isWall( nextOldBlock ) )
+        if ( !t.isRoof( aboveBlock ) && t.isWall( nextBlock ) )
         {
             return t.rl(
                 RABBIT_CLIMBING_RIGHT_START,

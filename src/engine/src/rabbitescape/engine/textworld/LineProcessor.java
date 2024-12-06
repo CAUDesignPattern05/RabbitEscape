@@ -1,12 +1,5 @@
 package rabbitescape.engine.textworld;
 
-import static rabbitescape.engine.Block.Material.EARTH;
-import static rabbitescape.engine.Block.Material.METAL;
-import static rabbitescape.engine.Block.Shape.BRIDGE_UP_LEFT;
-import static rabbitescape.engine.Block.Shape.BRIDGE_UP_RIGHT;
-import static rabbitescape.engine.Block.Shape.FLAT;
-import static rabbitescape.engine.Block.Shape.UP_LEFT;
-import static rabbitescape.engine.Block.Shape.UP_RIGHT;
 import static rabbitescape.engine.Direction.LEFT;
 import static rabbitescape.engine.Direction.RIGHT;
 import static rabbitescape.engine.util.Util.asChars;
@@ -20,7 +13,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import rabbitescape.engine.Block;
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.Entrance;
 import rabbitescape.engine.Exit;
 import rabbitescape.engine.Fire;
@@ -29,6 +22,7 @@ import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
 import rabbitescape.engine.Token;
 import rabbitescape.engine.VoidMarkerStyle;
+import rabbitescape.engine.factory.FactoryManager;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.MegaCoder;
 import rabbitescape.engine.util.Position;
@@ -38,7 +32,7 @@ import rabbitescape.engine.util.WaterUtil;
 public class LineProcessor
 {
     public static final String CODE_SUFFIX = ".code";
-
+    private final FactoryManager factoryManager = FactoryManager.getInstance();
     public static class KeyListKey
     {
         public final String prefix;
@@ -496,175 +490,31 @@ public class LineProcessor
         ++height;
     }
 
-    public Thing processChar(
-        char c, int x, int y, VariantGenerator variantGen )
-    {
-        Thing ret = null;
+    public Thing processChar(char c, int x, int y, VariantGenerator variantGen) {
+        FactoryManager factoryManager = FactoryManager.getInstance();
+        if (c == ' ')
+            return null;
+        try {
+            // Attempt to create a block
+            Block block = ( Block )factoryManager.getFactory("Block").create(c, x, y, variantGen);
+            if (block != null) {
+                blocks.add(block);
+                return null;
+            }
+        } catch (IllegalArgumentException ignored) {}
 
-        switch( c )
-        {
-            case ' ':
-            {
-                break;
+        try {
+            // Attempt to create a thing
+            Thing thing = ( Thing )factoryManager.getFactory("Thing").create(c, x, y, variantGen);
+            if (thing != null) {
+                things.add(thing);
+                return thing;
             }
-            case '#':
-            {
-                blocks.add(
-                    new Block( x, y, EARTH, FLAT, variantGen.next( 4 ) ) );
-                break;
-            }
-            case 'M':
-            {
-                blocks.add(
-                    new Block( x, y, METAL, FLAT, variantGen.next( 4 ) ) );
-                break;
-            }
-            case '/':
-            {
-                blocks.add(
-                    new Block( x, y, EARTH, UP_RIGHT, variantGen.next( 4 ) ) );
-                break;
-            }
-            case '\\':
-            {
-                blocks.add(
-                    new Block( x, y, EARTH, UP_LEFT, variantGen.next( 4 ) ) );
-                break;
-            }
-            case '(':
-            {
-                blocks.add(
-                    new Block( x, y, EARTH, BRIDGE_UP_RIGHT, 0 ) );
-                break;
-            }
-            case ')':
-            {
-                blocks.add(
-                    new Block( x, y, EARTH, BRIDGE_UP_LEFT, 0 ) );
-                break;
-            }
-            case 'r':
-            {
-                Rabbit r = new Rabbit( x, y, RIGHT, Rabbit.Type.RABBIT );
-                ret = r;
-                rabbits.add( r );
-                break;
-            }
-            case 'j':
-            {
-                Rabbit r = new Rabbit( x, y, LEFT, Rabbit.Type.RABBIT );
-                ret = r;
-                rabbits.add( r );
-                break;
-            }
-            case 't':
-            {
-                Rabbit r = new Rabbit( x, y, RIGHT, Rabbit.Type.RABBOT );
-                ret = r;
-                rabbits.add( r );
-                break;
-            }
-            case 'y':
-            {
-                Rabbit r = new Rabbit( x, y, LEFT, Rabbit.Type.RABBOT );
-                ret = r;
-                rabbits.add( r );
-                break;
-            }
-            case 'Q':
-            {
-                ret = new Entrance( x, y );
-                things.add( ret );
-                break;
-            }
-            case 'O':
-            {
-                ret = new Exit( x, y );
-                things.add( ret );
-                break;
-            }
-            case 'A':
-            {
-                ret = new Fire( x, y, variantGen.next( 4 ) );
-                things.add( ret );
-                break;
-            }
-            case 'P':
-            {
-                ret = new Pipe( x, y );
-                things.add( ret );
-                break;
-            }
-            case 'b':
-            {
-                ret = new Token( x, y, Token.Type.bash );
-                things.add( ret );
-                break;
-            }
-            case 'd':
-            {
-                ret = new Token( x, y, Token.Type.dig );
-                things.add( ret );
-                break;
-            }
-            case 'i':
-            {
-                ret = new Token( x, y, Token.Type.bridge );
-                things.add( ret );
-                break;
-            }
-            case 'k':
-            {
-                ret = new Token( x, y, Token.Type.block );
-                things.add( ret );
-                break;
-            }
-            case 'c':
-            {
-                ret = new Token( x, y, Token.Type.climb );
-                things.add( ret );
-                break;
-            }
-            case 'p':
-            {
-                ret = new Token( x, y, Token.Type.explode );
-                things.add( ret );
-                break;
-            }
-            case 'l':
-            {
-                ret = new Token( x, y, Token.Type.brolly );
-                things.add( ret );
-                break;
-            }
-            case 'N':
-            {
-                // Default amount for a full water region, but may be
-                // overwritten by an explicit water definition line.
-                waterAmounts.put( new Position( x, y ),
-                                  WaterUtil.MAX_CAPACITY );
-                break;
-            }
-            case 'n':
-            {
-                // Default amount for a half water region, but may be
-                // overwritten by an explicit water definition line.
-                waterAmounts.put( new Position( x, y ),
-                                  WaterUtil.HALF_CAPACITY );
-                break;
-            }
-            case '*':
-            {
-                starPoints.add( new Position( x, y ) );
-                break;
-            }
-            default:
-            {
-                throw new UnknownCharacter( lines, lineNum, x );
-            }
-        }
-        return ret;
+        } catch (IllegalArgumentException ignored) {}
+
+        throw new IllegalArgumentException("Unknown character: " + c);
     }
+
 
     public VoidMarkerStyle.Style generateVoidMarkerStyle()
     {

@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rabbitescape.engine.*;
+import rabbitescape.engine.block.Block;
+import rabbitescape.engine.block.blockmaterial.BlockMaterial;
+import rabbitescape.engine.block.blockmaterial.EarthMaterial;
+import rabbitescape.engine.block.blockmaterial.MetalMaterial;
 import rabbitescape.engine.util.Util;
+
+import static rabbitescape.engine.OldBlock.Material.EARTH;
 
 public class SpriteAnimator
 {
@@ -104,8 +110,8 @@ public class SpriteAnimator
             new Sprite(
                 bitmapNameForBlock( block ),
                 null,
-                block.x,
-                block.y,
+                block.getX(),
+                block.getY(),
                 0,
                 0
             )
@@ -180,33 +186,27 @@ public class SpriteAnimator
 
     private String bitmapNameForBlock( Block block )
     {
-        switch ( block.material )
-        {
-            case EARTH:
-                switch ( block.shape )
-                {
-                    case FLAT:
-                        return land_block[block.variant];
-                    case UP_RIGHT:
-                        return land_rising_right[block.variant];
-                    case UP_LEFT:
-                        return land_rising_left[block.variant];
-                    case BRIDGE_UP_RIGHT:
-                        return bridge_rising_right;
-                    case BRIDGE_UP_LEFT:
-                        return bridge_rising_left;
-                }
-                break;
-            case METAL:
-                switch ( block.shape )
-                {
-                    case FLAT:            return metal_block[block.variant];
-                    default:
-                        break;
-                }
-                break;
+        BlockMaterial material = block.getMaterial();
+        if (material instanceof EarthMaterial){
+            switch ( block.getShape() )
+            {
+                case FLAT:
+                    return land_block[block.getVariant()];
+                case UP_RIGHT:
+                    return land_rising_right[block.getVariant()];
+                case UP_LEFT:
+                    return land_rising_left[block.getVariant()];
+                case BRIDGE_UP_RIGHT:
+                    return bridge_rising_right;
+                case BRIDGE_UP_LEFT:
+                    return bridge_rising_left;
+            }
         }
+        if (material instanceof MetalMaterial && block.isFlat()){
+            return metal_block[block.getVariant()];
+        }
+
         throw new RuntimeException(
-            "Unknown Block type: " + block.material + " " + block.shape);
+            "Unknown Block type: " + block.material + " " + block.getShape());
     }
 }
