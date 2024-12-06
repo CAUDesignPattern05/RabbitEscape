@@ -300,6 +300,11 @@ public class BehaviourTools
         return false;
     }
 
+    public boolean isOnSlope()
+    {
+        return behaviourExecutor.isOnSlope();
+    }
+
     public boolean isOnUpSlope()
     {
         return behaviourExecutor.isOnSlope() && hereIsUpSlope();

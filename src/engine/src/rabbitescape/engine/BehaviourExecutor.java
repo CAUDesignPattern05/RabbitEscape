@@ -32,14 +32,11 @@ public abstract class BehaviourExecutor
         Token item = tool.pickUpToken();
         if (item != null) actionHandler.setBehaviour(item);
 
-        State newState = actionHandler.newState(tool);
-        if (newState != null) state = newState;
+        actionHandler.handleRequest( world, this, state );
     }
 
     @Override
-    public void step( World world ) {
-        actionHandler.behave( world, this, state );
-    }
+    public void step( World world ) {}
 
     @Override
     public Map<String, String> saveState(boolean runtimeMeta) {
@@ -104,4 +101,8 @@ public abstract class BehaviourExecutor
     public boolean isOnSlope() { return onSlope; }
 
     public void setOnSlope( boolean onSlope ) { this.onSlope = onSlope; }
+
+    public void setState(State state) { this.state = state; }
+
+    public State getState() { return state; }
 }

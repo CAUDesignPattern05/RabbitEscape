@@ -4,7 +4,7 @@ import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 
 public abstract class BehaviourHandler {
-    private BehaviourHandler nextHandler;
+    protected BehaviourHandler nextHandler;
 
     public abstract State newState(BehaviourTools tool);
     public abstract void behave(
@@ -13,8 +13,12 @@ public abstract class BehaviourHandler {
         State state
     );
 
-    public BehaviourHandler setNextHandler( BehaviourHandler nextHandler )
+    public void setNextHandler( BehaviourHandler nextHandler )
     {
         this.nextHandler = nextHandler;
     }
+
+    public abstract void handleRequest(World world,
+        BehaviourExecutor behaviourExecutor,
+        State state);
 }

@@ -8,14 +8,13 @@ import rabbitescape.engine.behaviours.Behaviour;
 
 import java.util.Map;
 
-public abstract class DeathBehaviour implements Behaviour
+public abstract class DeathBehaviour extends Behaviour
 {
     DeathHandler deathHandler;
 
     public DeathBehaviour(DeathHandler deathHandler) {
         this.deathHandler = deathHandler;
     }
-
 
     public abstract State newState( BehaviourTools t );
 

@@ -6,7 +6,7 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 
-public abstract class RabbotBehaviour implements Behaviour
+public abstract class RabbotBehaviour extends Behaviour
 {
     RabbotHandler rabbotHandler;
 

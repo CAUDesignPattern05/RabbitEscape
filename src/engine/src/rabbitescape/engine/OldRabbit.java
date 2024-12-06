@@ -101,7 +101,7 @@ public class OldRabbit extends Thing implements Comparable<OldRabbit>
 
     public boolean isFallingToDeath()
     {
-        return falling.isFallingToDeath();
+//        return falling.isFallingToDeath();
     }
 
     @Override

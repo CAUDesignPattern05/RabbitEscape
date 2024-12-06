@@ -58,6 +58,21 @@ public class ActionHandler extends BehaviourHandler {
         action.behave( world, behaviourExecutor, state );
     }
 
+    @Override
+    public void handleRequest(World world,
+        BehaviourExecutor behaviourExecutor,
+        State state) {
+
+        BehaviourTools tool = new BehaviourTools(behaviourExecutor, world);
+        State newState = this.newState(tool);
+        if (newState != null) behaviourExecutor.setState(newState);
+
+        this.behave(world, behaviourExecutor, state);
+        if (nextHandler != null) {
+            nextHandler.handleRequest(world, behaviourExecutor, behaviourExecutor.getState());
+        }
+    }
+
     public void moveBehave(
         World world,
         BehaviourExecutor behaviourExecutor,
@@ -119,13 +134,21 @@ public class ActionHandler extends BehaviourHandler {
         this.action.clearMemberVariables();
     }
 
-    protected Behaviour getWalkingBehaviour()
-    {
-        return walking;
-    }
+    protected Behaviour getWalkingBehaviour() { return walking; }
 
     protected Behaviour getFallingBehaviour()
     {
         return falling;
+    }
+
+    protected Behaviour getBrollychutingBehaviour() { return brollychuting; }
+
+    protected Behaviour getClimbingBehaviour() { return climbing; }
+
+    public boolean isClimbingAbility() { return climbingAbility; }
+
+    public boolean isBrollychutingAbility()
+    {
+        return brollychutingAbility;
     }
 }

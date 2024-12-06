@@ -8,7 +8,7 @@ import rabbitescape.engine.behaviours.Behaviour;
 
 import java.util.Map;
 
-public abstract class Action implements Behaviour
+public abstract class Action extends Behaviour
 {
 
     ActionHandler actionHandler;

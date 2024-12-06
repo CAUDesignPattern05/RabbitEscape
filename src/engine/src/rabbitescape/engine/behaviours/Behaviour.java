@@ -7,7 +7,7 @@ import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 
-public interface Behaviour
+public abstract class Behaviour
 {
     /**
      * Subclasses examine the rabbit's situation using BehaviourTools and
