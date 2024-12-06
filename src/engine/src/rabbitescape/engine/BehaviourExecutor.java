@@ -3,19 +3,19 @@ package rabbitescape.engine;
 import static rabbitescape.engine.ChangeDescription.State.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.BehaviourHandler;
-import sun.awt.geom.Crossings;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BehaviorExecutor extends Thing implements Comparable<BehaviorExecutor>
+public abstract class BehaviourExecutor
+    extends Thing implements Comparable<BehaviourExecutor>
 {
     private Direction direction;
     private BehaviourHandler behaviourHandler;
     private int index;
     private boolean onSlope;
 
-    public BehaviorExecutor(int x, int y, Direction dir) {
+    public BehaviourExecutor(int x, int y, Direction dir) {
         super( x, y, RABBIT_WALKING_LEFT );
         this.direction = dir;
         this.behaviourHandler = new BehaviourHandler();
@@ -27,8 +27,7 @@ public abstract class BehaviorExecutor extends Thing implements Comparable<Behav
         BehaviourTools tool = new BehaviourTools(this, world);
 
         Token item = tool.pickUpToken();
-        if (item != null) behaviourHandler.setItem(item);
-        behaviourHandler.setBehaviour();
+        if (item != null) behaviourHandler.setBehaviour(item);
 
         State newState = behaviourHandler.newState(tool);
         if (newState != null) state = newState;
@@ -72,20 +71,22 @@ public abstract class BehaviorExecutor extends Thing implements Comparable<Behav
     }
 
     @Override
-    public int compareTo(BehaviorExecutor r) {
+    public int compareTo( BehaviourExecutor r) {
         return this.index - r.index;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof BehaviorExecutor)) {
+        if (!(o instanceof BehaviourExecutor )) {
             return false;
         }
-        return ((BehaviorExecutor) o).index == index;
+        return (( BehaviourExecutor ) o).index == index;
     }
 
     @Override
     public int hashCode() { return index; }
+
+    public int getIndex() { return index; }
 
     public void setIndex( int index ) {
         this.index = index;
@@ -94,4 +95,6 @@ public abstract class BehaviorExecutor extends Thing implements Comparable<Behav
     public Direction getDirection() { return direction; }
 
     public boolean isOnSlope() { return onSlope; }
+
+    public void setOnSlope( boolean onSlope ) { this.onSlope = onSlope; }
 }
