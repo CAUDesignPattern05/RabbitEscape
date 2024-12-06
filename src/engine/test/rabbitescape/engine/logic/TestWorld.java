@@ -21,6 +21,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.token.BridgeToken;
 import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.DontStepAfterFinish;
@@ -342,7 +343,7 @@ public class TestWorld
             "###"
         );
 
-        world.things.add( new Token( 1, 0, Token.Type.bridge ) );
+        world.things.add( new BridgeToken( 1, 0 ) );
 
         Token token = world.getTokenAt( 1, 0 );
 

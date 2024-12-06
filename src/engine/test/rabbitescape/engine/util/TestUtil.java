@@ -26,6 +26,8 @@ import org.junit.Test;
 import rabbitescape.engine.Direction;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
+import rabbitescape.engine.token.BashToken;
+import rabbitescape.engine.token.BridgeToken;
 import rabbitescape.engine.token.Token;
 
 public class TestUtil
@@ -1080,8 +1082,8 @@ public class TestUtil
     {
         Token[] tokens = new Token[]
         {
-            new Token( 0, 0, Token.Type.bash ),
-            new Token( 1, 1, Token.Type.bridge )
+            new BashToken( 0, 0 ),
+            new BridgeToken( 1, 1 )
         };
 
         Rabbit[] rabbits = new Rabbit[]

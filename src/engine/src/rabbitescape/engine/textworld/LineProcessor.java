@@ -27,7 +27,7 @@ import rabbitescape.engine.Fire;
 import rabbitescape.engine.Pipe;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
-import rabbitescape.engine.token.Token;
+import rabbitescape.engine.token.*;
 import rabbitescape.engine.VoidMarkerStyle;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.MegaCoder;
@@ -597,43 +597,43 @@ public class LineProcessor
             }
             case 'b':
             {
-                ret = new Token( x, y, Token.Type.bash );
+                ret = new BashToken( x, y );
                 things.add( ret );
                 break;
             }
             case 'd':
             {
-                ret = new Token( x, y, Token.Type.dig );
+                ret = new DigToken( x, y );
                 things.add( ret );
                 break;
             }
             case 'i':
             {
-                ret = new Token( x, y, Token.Type.bridge );
+                ret = new BridgeToken( x, y );
                 things.add( ret );
                 break;
             }
             case 'k':
             {
-                ret = new Token( x, y, Token.Type.block );
+                ret = new BlockToken( x, y );
                 things.add( ret );
                 break;
             }
             case 'c':
             {
-                ret = new Token( x, y, Token.Type.climb );
+                ret = new ClimbToken( x, y );
                 things.add( ret );
                 break;
             }
             case 'p':
             {
-                ret = new Token( x, y, Token.Type.explode );
+                ret = new ExplodeToken( x, y );
                 things.add( ret );
                 break;
             }
             case 'l':
             {
-                ret = new Token( x, y, Token.Type.brolly );
+                ret = new BrollyToken( x, y );
                 things.add( ret );
                 break;
             }

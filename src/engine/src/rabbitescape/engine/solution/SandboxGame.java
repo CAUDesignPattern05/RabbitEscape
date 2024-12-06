@@ -16,6 +16,7 @@ import rabbitescape.engine.token.Token;
 import rabbitescape.engine.VoidMarkerStyle;
 import rabbitescape.engine.World;
 import rabbitescape.engine.textworld.Comment;
+import rabbitescape.engine.token.TokenFactory;
 
 /**
  * A completely sandboxed game that can be edited and have solutions run against
@@ -97,7 +98,7 @@ public class SandboxGame
             else if ( thing instanceof Token )
             {
                 Token token = (Token)thing;
-                clonedThings.add( new Token( token.x, token.y, token.type ) );
+                clonedThings.add( TokenFactory.createToken( token.x, token.y, token.type ) );
             }
             else if ( thing instanceof Fire )
             {

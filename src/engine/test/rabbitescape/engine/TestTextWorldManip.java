@@ -25,6 +25,9 @@ import rabbitescape.engine.textworld.ArrayByKeyElementMissing;
 import rabbitescape.engine.textworld.DuplicateMetaKey;
 import rabbitescape.engine.textworld.ItemsLineProcessor;
 import rabbitescape.engine.textworld.LineProcessor;
+import rabbitescape.engine.token.BashToken;
+import rabbitescape.engine.token.BridgeToken;
+import rabbitescape.engine.token.DigToken;
 import rabbitescape.engine.token.Token;
 import rabbitescape.engine.util.Util.IdxObj;
 
@@ -536,8 +539,8 @@ public class TestTextWorldManip
         // put 2 rabbits and 2 items all in the same place, on top of a block
         world.rabbits.add( new Rabbit( 2, 2, Direction.RIGHT, RABBIT ) );
         world.rabbits.add( new Rabbit( 2, 2, Direction.LEFT, RABBIT ) );
-        world.things.add( new Token( 2, 2, Token.Type.bash ) );
-        world.things.add( new Token( 2, 2, Token.Type.bridge ) );
+        world.things.add( new BashToken( 2, 2 ));
+        world.things.add( new BridgeToken( 2, 2 ));
 
         assertThat(
             renderCompleteWorld( world, false ),
@@ -567,12 +570,12 @@ public class TestTextWorldManip
         world.rabbits.add( new Rabbit( 1, 1, Direction.LEFT, RABBIT ) );
 
         // bash and bridge in top right
-        world.things.add( new Token( 2, 1, Token.Type.bash ) );
-        world.things.add( new Token( 2, 1, Token.Type.bridge ) );
+        world.things.add( new BashToken( 2, 1 ) );
+        world.things.add( new BridgeToken( 2, 1 ) );
 
         // dig in bottom left and bottom right
-        world.things.add( new Token( 1, 2, Token.Type.dig ) );
-        world.things.add( new Token( 2, 2, Token.Type.dig ) );
+        world.things.add( new DigToken( 1, 2 ) );
+        world.things.add( new DigToken( 2, 2 ) );
 
         assertThat(
             renderCompleteWorld( world, false ),
