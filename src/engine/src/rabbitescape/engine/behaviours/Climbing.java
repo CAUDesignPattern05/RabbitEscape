@@ -11,25 +11,15 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Climbing extends Behaviour
 {
-    boolean hasAbility = false;
-    public boolean abilityActive = false;
+    private boolean hasAbility;
+    private boolean abilityActive;
 
     public Climbing(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
     public State newState( BehaviourTools t)
     {
-        if ( triggered )
-        {
-            hasAbility = true;
-        }
-
-        if ( !hasAbility )
-        {
-            return null;
-        }
-
-        switch ( t.oldRabbit.state )
+        switch ( t.behaviourExecutor.state )
         {
             case RABBIT_CLIMBING_RIGHT_START:
             case RABBIT_CLIMBING_LEFT_START:
@@ -109,7 +99,7 @@ public class Climbing extends Behaviour
         int nextX = t.nextX();
         int nextY = t.nextY();
         Block nextBlock = t.world.getBlockAt( nextX, nextY );
-        Block aboveBlock = t.world.getBlockAt( t.oldRabbit.x, t.oldRabbit.y - 1 );
+        Block aboveBlock = t.world.getBlockAt( t.behaviourExecutor.x, t.behaviourExecutor.y - 1 );
 
         if ( !t.isRoof( aboveBlock ) && t.isWall( nextBlock ) )
         {
@@ -119,61 +109,55 @@ public class Climbing extends Behaviour
             );
         }
 
-        return null;
+        behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
+        return behaviourHandler.newState(t);
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
+        BehaviourTools t = new BehaviourTools( behaviourExecutor, world );
 
         if( t.rabbitIsClimbing() )
         { // Can't be both on a wall and on a slope.
-            oldRabbit.onSlope = false;
+            behaviourExecutor.setOnSlope(false);
         }
 
         switch ( state )
         {
             case RABBIT_CLIMBING_RIGHT_START:
-            case RABBIT_CLIMBING_LEFT_START:
-            {
+            case RABBIT_CLIMBING_LEFT_START: {
                 abilityActive = true;
-                return true;
+                break;
             }
             case RABBIT_CLIMBING_RIGHT_END:
-            case RABBIT_CLIMBING_LEFT_END:
-            {
-                oldRabbit.x = t.nextX();
-                --oldRabbit.y;
-                if ( t.hereIsUpSlope() )
-                {
-                    oldRabbit.onSlope = true;
+            case RABBIT_CLIMBING_LEFT_END: {
+                behaviourExecutor.x = t.nextX();
+                --behaviourExecutor.y;
+                if ( t.hereIsUpSlope() ) {
+                    behaviourExecutor.setOnSlope(true);
                 }
                 abilityActive = false;
-                return true;
+                break;
             }
             case RABBIT_CLIMBING_RIGHT_CONTINUE_1:
-            case RABBIT_CLIMBING_LEFT_CONTINUE_1:
-            {
+            case RABBIT_CLIMBING_LEFT_CONTINUE_1: {
                 abilityActive = true;
-                return true;
+                break;
             }
             case RABBIT_CLIMBING_RIGHT_CONTINUE_2:
-            case RABBIT_CLIMBING_LEFT_CONTINUE_2:
-            {
+            case RABBIT_CLIMBING_LEFT_CONTINUE_2: {
                 abilityActive = true;
-                --oldRabbit.y;
-                return true;
+                --behaviourExecutor.y;
+                break;
             }
             case RABBIT_CLIMBING_RIGHT_BANG_HEAD:
-            case RABBIT_CLIMBING_LEFT_BANG_HEAD:
-            {
-                oldRabbit.dir = opposite( oldRabbit.dir );
-                return true;
+            case RABBIT_CLIMBING_LEFT_BANG_HEAD: {
+                behaviourExecutor.setDirection(opposite( behaviourExecutor.getDirection()));
+                break;
             }
-            default:
-            {
-                return false;
+            default: {
+                behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
             }
         }
     }
@@ -200,5 +184,11 @@ public class Climbing extends Behaviour
         abilityActive = BehaviourState.restoreFromState(
             saveState, "Climbing.abilityActive", abilityActive
         );
+    }
+
+    @Override
+    public void clearMemberVariables() {
+        hasAbility = true;
+        abilityActive = true;
     }
 }

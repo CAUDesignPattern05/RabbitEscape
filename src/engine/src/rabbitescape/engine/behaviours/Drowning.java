@@ -3,7 +3,6 @@ package rabbitescape.engine.behaviours;
 import static rabbitescape.engine.CellularDirection.DOWN;
 import static rabbitescape.engine.CellularDirection.UP;
 
-import rabbitescape.engine.Behaviour;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.CellularDirection;
 import rabbitescape.engine.ChangeDescription.State;

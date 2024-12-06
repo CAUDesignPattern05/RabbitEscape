@@ -14,6 +14,7 @@ public class BehaviourHandler {
     private final Behaviour digging;
     private final Behaviour exploding;
     private final Behaviour walking;
+    private final Behaviour falling;
 
     private Behaviour behaviour;
     private boolean climbingAbility;
@@ -28,6 +29,7 @@ public class BehaviourHandler {
         digging = new Digging(this);
         exploding = new Exploding(this);
         walking = new Walking(this);
+        falling = new Falling(this);
 
         behaviour = walking;
         climbingAbility = false;
@@ -87,4 +89,6 @@ public class BehaviourHandler {
     }
 
     protected Behaviour getWalkingBehaviour() { return walking; }
+
+    protected Behaviour getFallingBehaviour() { return falling; }
 }

@@ -94,6 +94,8 @@ public abstract class BehaviourExecutor
 
     public Direction getDirection() { return direction; }
 
+    public void setDirection( Direction direction ) { this.direction = direction; }
+
     public boolean isOnSlope() { return onSlope; }
 
     public void setOnSlope( boolean onSlope ) { this.onSlope = onSlope; }

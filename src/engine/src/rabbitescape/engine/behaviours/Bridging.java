@@ -193,12 +193,12 @@ public class Bridging extends Behaviour
             default:
             {
                 behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
-                return behaviourHandler.newState(t);
+                return behaviourHandler.newState(t); // Stop bridging
             }
         }
     }
 
-    private static State stateIntoWall(
+    private State stateIntoWall(
         BehaviourTools t, BehaviourExecutor behaviourExecutor, World world, int ss )
     {
         // We are facing a wall.  This makes us a bit keener to
@@ -282,7 +282,8 @@ public class Bridging extends Behaviour
             }
             default:
             {
-                return null;
+                behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
+                return behaviourHandler.newState(t);
             }
         }
     }

@@ -27,7 +27,7 @@ public class Blocking extends Behaviour
 
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviorexecutor, State state ) {}
+    public void behave( World world, BehaviourExecutor behaviourExecutor, State state ) {}
 
     @Override
     public void saveState( Map<String, String> saveState )
@@ -47,8 +47,8 @@ public class Blocking extends Behaviour
 
     public static boolean blockerAt( World world, int nextX, int nextY )
     {
-        BehaviourExecutor[] behaviorexecutors = world.getRabbitsAt( nextX, nextY );
-        for ( BehaviourExecutor r : behaviorexecutors )
+        BehaviourExecutor[] behaviourExecutors = world.getRabbitsAt( nextX, nextY );
+        for ( BehaviourExecutor r : behaviourExecutors )
         {
             State state = r.state;
             if (state == RABBIT_BLOCKING || state == RABBIT_BLOCKING_RISE_RIGHT || state == RABBIT_BLOCKING_RISE_LEFT)

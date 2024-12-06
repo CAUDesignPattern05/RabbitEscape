@@ -7,47 +7,19 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.BehaviourExecutor;
 
 public class Brollychuting extends Behaviour
 {
-    boolean hasAbility = false;
+    private boolean hasAbility = true;
 
     public Brollychuting(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public State newState( BehaviourTools t)
+    public State newState(BehaviourTools t)
     {
-        if ( triggered )
-        {
-            hasAbility = true;
-        }
-
-        if( !hasAbility )
-        {
-            return null;
-        }
-
-        if ( climbing.abilityActive )
-        {
-            return null;
-        }
-
         Block below = t.blockBelow();
-
-        if ( t.isFlat( below ) )
-        {
-            return null;
-        }
-
-        if (
-            t.oldRabbit.onSlope
-         && !t.blockHereJustRemoved()
-        )
-        {
-            return null;
-        }
-
+        
         if ( below != null )
         {
             if ( t.isUpSlope( below ) )
@@ -70,55 +42,11 @@ public class Brollychuting extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
-        if ( state == RABBIT_BROLLYCHUTING )
-        {
-            oldRabbit.y = oldRabbit.y + 1;
-            return true;
+        if ( state == RABBIT_BROLLYCHUTING ) {
+            behaviourExecutor.y = behaviourExecutor.y + 1;
         }
-        return false;
-    }
-
-    public boolean hasBrolly()
-    {
-        return hasAbility;
-    }
-
-    @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
-    {
-        BehaviourTools t = new BehaviourTools( oldRabbit, world );
-
-        if ( !hasAbility && t.pickUpToken( brolly, true ) )
-        {
-            return true;
-        }
-
-        if( !hasAbility )
-        {
-            return false;
-        }
-
-        if ( climbing.abilityActive || digging.stepsOfDigging > 2 )
-        {
-            return false;
-        }
-
-        if ( t.isFlat( t.blockBelow() ) )
-        {
-            return false;
-        }
-
-        if (
-               oldRabbit.onSlope
-            && !t.blockHereJustRemoved()
-        )
-        {
-            return false;
-        }
-
-        return true;
     }
 
     @Override
@@ -136,6 +64,5 @@ public class Brollychuting extends Behaviour
         hasAbility = BehaviourState.restoreFromState(
             saveState, "Brollychuting.hasAbility", hasAbility
         );
-
     }
 }

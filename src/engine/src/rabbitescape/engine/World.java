@@ -105,7 +105,7 @@ public class World
     /** A grid of water. Only one water object
      * should be stored in each location. */
     public final LookupTable2D<WaterRegion> waterTable;
-    public final List<BehaviourExecutor> behaviourexecutors;
+    public final List<BehaviourExecutor> behaviourExecutors;
     public final List<Thing> things;
     public final Map<Token.Type, Integer> abilities;
     public final String name;
@@ -133,7 +133,7 @@ public class World
     public World(
         Dimension size,
         List<Block> blocks,
-        List<BehaviourExecutor> behaviourexecutors,
+        List<BehaviourExecutor> behaviourExecutors,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
@@ -158,7 +158,7 @@ public class World
     )
     {
         this.size = size;
-        this.behaviourexecutors = behaviourexecutors;
+        this.behaviourExecutors = behaviourExecutors;
         this.things = things;
         this.abilities = abilities;
         this.name = name;
@@ -200,7 +200,7 @@ public class World
     public World(
         Dimension size,
         LookupTable2D<Block> blockTable,
-        List<BehaviourExecutor> behaviourexecutors,
+        List<BehaviourExecutor> behaviourExecutors,
         List<Thing> things,
         LookupTable2D<WaterRegion> waterTable,
         Map<rabbitescape.engine.Token.Type, Integer> abilities,
@@ -225,7 +225,7 @@ public class World
     {
         this.size = size;
         this.blockTable = blockTable;
-        this.behaviourexecutors = behaviourexecutors;
+        this.behaviourExecutors = behaviourExecutors;
         this.things = things;
         this.waterTable = waterTable;
         this.abilities = abilities;
@@ -255,14 +255,14 @@ public class World
     private void init()
     {
         // Number the rabbits if necessary
-        for ( BehaviourExecutor r: behaviourexecutors )
+        for ( BehaviourExecutor r: behaviourExecutors )
         {
             rabbitIndex( r );
         }
 
         // Rearrange them, this may be necessary if they have been
         // restored from state.
-        Collections.sort( behaviourexecutors );
+        Collections.sort( behaviourExecutors );
 
         for ( Thing thing : allThings() )
         {
@@ -288,8 +288,8 @@ public class World
     public void countRabbitsForIndex()
     {
         rabbit_index_count = rabbit_index_count == 0 ?
-            behaviourexecutors.size() : rabbit_index_count;
-        for ( BehaviourExecutor r: behaviourexecutors )
+            behaviourExecutors.size() : rabbit_index_count;
+        for ( BehaviourExecutor r: behaviourExecutors )
         {
             rabbit_index_count = rabbit_index_count > r.getIndex() ?
                 rabbit_index_count : r.getIndex();
@@ -337,7 +337,7 @@ public class World
 
     private Iterable<Thing> allThings()
     {
-        return chain( waterTable.getItems(), behaviourexecutors, things );
+        return chain( waterTable.getItems(), behaviourExecutors, things );
     }
 
     public Block getBlockAt( int x, int y)
@@ -430,11 +430,11 @@ public class World
     {
         List<BehaviourExecutor> ret = new ArrayList<BehaviourExecutor>();
 
-        for ( BehaviourExecutor behaviourexecutor : behaviourexecutors )
+        for ( BehaviourExecutor behaviourExecutor : behaviourExecutors )
         {
-            if ( behaviourexecutor.x == x && behaviourexecutor.y == y )
+            if ( behaviourExecutor.x == x && behaviourExecutor.y == y )
             {
-                ret.add( behaviourexecutor );
+                ret.add( behaviourExecutor );
             }
         }
 
@@ -444,7 +444,7 @@ public class World
     public int numRabbitsOut()
     {
         int count = 0;
-        for ( BehaviourExecutor r : behaviourexecutors ) {
+        for ( BehaviourExecutor r : behaviourExecutors ) {
             if (r instanceof Rabbit) {
                 ++count;
             }

@@ -13,24 +13,15 @@ public class Exploding extends Behaviour
 
 
     @Override
-    public State newState( BehaviourTools t)
-    {
-        if ( triggered )
-        {
-            return RABBIT_EXPLODING;
-        }
-        return null;
+    public State newState(BehaviourTools t) {
+        return RABBIT_EXPLODING;
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
-        if ( state == RABBIT_EXPLODING )
-        {
-            world.changes.killRabbit( oldRabbit );
-            return true;
+        if ( state == RABBIT_EXPLODING ) {
+            world.changes.killRabbit(behaviourExecutor);
         }
-
-        return false;
     }
 }

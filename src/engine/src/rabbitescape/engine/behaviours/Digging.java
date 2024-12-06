@@ -10,80 +10,55 @@ import rabbitescape.engine.ChangeDescription.State;
 
 public class Digging extends Behaviour
 {
-    int stepsOfDigging;
+    private int stepsOfDigging;
 
     public Digging(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
 
     @Override
-    public State newState( BehaviourTools t)
+    public State newState(BehaviourTools t)
     {
-        if ( !triggered && stepsOfDigging == 0 )
-        {
-            return null;
-        }
-
-        t.oldRabbit.possiblyUndoSlopeBashHop( t.world );
-
-        if ( t.oldRabbit.state == RABBIT_DIGGING )
-        {
-            stepsOfDigging = 1;
+        if ( t.behaviourExecutor.state == RABBIT_DIGGING ) {
+            stepsOfDigging = 2;
             return RABBIT_DIGGING_2;
-        }
-
-        if (
-               triggered
-            || stepsOfDigging > 0
-        )
-        {
-            if ( t.oldRabbit.onSlope && t.blockHere() != null )
-            {
+        } else if ( t.behaviourExecutor.isOnSlope() && t.blockHere() != null) {
+            stepsOfDigging = 1;
+            return RABBIT_DIGGING_ON_SLOPE;
+        } else if (t.blockBelow() != null) {
+            if (t.blockBelow().material == Block.Material.METAL) {
+                stepsOfDigging = 0;
+                return RABBIT_DIGGING_USELESSLY;
+            } else {
                 stepsOfDigging = 1;
-                return RABBIT_DIGGING_ON_SLOPE;
-            }
-            else if ( t.blockBelow() != null )
-            {
-                if ( t.blockBelow().material == Block.Material.METAL )
-                {
-                    stepsOfDigging = 0;
-                    return RABBIT_DIGGING_USELESSLY;
-                }
-                else
-                {
-                stepsOfDigging = 2;
                 return RABBIT_DIGGING;
-                }
             }
+        } else {
+            this.behaviourHandler.setBehaviour(this.behaviourHandler.getWalkingBehaviour());
+            return behaviourHandler.newState(t);
         }
-
-        --stepsOfDigging;
-        return null;
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
-            case RABBIT_DIGGING:
-            {
-                world.changes.removeBlockAt( oldRabbit.x, oldRabbit.y + 1 );
-                ++oldRabbit.y;
-                return true;
+            case RABBIT_DIGGING: {
+                world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
+                ++behaviourExecutor.y;
+                break;
             }
-            case RABBIT_DIGGING_ON_SLOPE:
-            {
-                world.changes.removeBlockAt( oldRabbit.x, oldRabbit.y );
-                oldRabbit.onSlope = false;
-                return true;
+            case RABBIT_DIGGING_ON_SLOPE: {
+                world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y );
+                behaviourExecutor.setOnSlope(false);
+                break;
             }
-            case RABBIT_DIGGING_2:
+            case RABBIT_DIGGING_2: {
+                behaviourHandler.moveBehave(world, behaviourExecutor, state);
+                break;
+            }
             case RABBIT_DIGGING_USELESSLY:
-            {
-                return true;
-            }
-            default:
-            {
-                return false;
+            default: {
+                this.behaviourHandler.setBehaviour(this.behaviourHandler.getWalkingBehaviour());
             }
         }
     }
@@ -116,4 +91,8 @@ public class Digging extends Behaviour
         }
     }
 
+    @Override
+    public void clearMemberVariables() {
+        stepsOfDigging = 0;
+    }
 }
