@@ -13,9 +13,4 @@ public class Rabbot extends BehaviourExecutor
         deathHandler.setNextHandler( rabbotHandler );
         actionHandler.setNextHandler( deathHandler );
     }
-
-    @Override
-    public void step( World world )
-    {
-    }
 }

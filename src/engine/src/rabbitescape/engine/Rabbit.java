@@ -10,8 +10,4 @@ public class Rabbit extends BehaviourExecutor
         DeathHandler deathHandler = new DeathHandler();
         actionHandler.setNextHandler( deathHandler );
     }
-
-    @Override
-    public void step( World world ) {
-    }
 }
