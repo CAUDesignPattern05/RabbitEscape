@@ -154,6 +154,7 @@ public class Climbing extends Action
             case RABBIT_CLIMBING_RIGHT_BANG_HEAD:
             case RABBIT_CLIMBING_LEFT_BANG_HEAD: {
                 behaviourExecutor.setDirection(opposite( behaviourExecutor.getDirection()));
+                actionHandler.setBehaviour(actionHandler.getFallingBehaviour()); // start to fall
                 break;
             }
             default: {

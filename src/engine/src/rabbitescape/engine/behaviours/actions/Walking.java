@@ -12,15 +12,21 @@ public class Walking extends Action
     public Walking( ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
-    public State newState( BehaviourTools t)
+    public State newState( BehaviourTools t )
     {
-        if ( t.isOnUpSlope() ) {
+        if (!t.isOnSlope() && t.blockBelow() == null) {
+            actionHandler.setBehaviour(actionHandler.getFallingBehaviour());
+            return actionHandler.newState(t); // switching to falling
+        } else if ( t.isOnUpSlope() ) {
             Block aboveNext = t.blockAboveNext();
             Block above = t.blockAbove();
             int nextX = t.nextX();
             int nextY = t.behaviourExecutor.y - 1;
 
-            if (t.isWall(aboveNext) || Blocking.blockerAt(t.world, nextX, nextY)
+            if (actionHandler.isClimbingAbility() && !t.isRoof(above) && t.isWall(aboveNext)) {
+                actionHandler.setBehaviour(actionHandler.getClimbingBehaviour());
+                return actionHandler.newState(t);
+            } else if (t.isWall(aboveNext) || Blocking.blockerAt(t.world, nextX, nextY)
                 || t.isRoof(above) || (t.isCresting() && Blocking.blockerAt(t.world, nextX, t.behaviourExecutor.y))) {
                 return t.rl(
                     RABBIT_TURNING_RIGHT_TO_LEFT_RISING,
@@ -33,8 +39,10 @@ public class Walking extends Action
             } else {
                 return t.rl( RABBIT_RISING_RIGHT_END, RABBIT_RISING_LEFT_END );
             }
-        }
-        else if (t.isOnDownSlope()) {
+        } else if (actionHandler.isClimbingAbility() && !t.isRoof(t.blockAbove()) && t.isWall(t.blockNext())) {
+            actionHandler.setBehaviour(actionHandler.getClimbingBehaviour()); // switching to climbing
+            return actionHandler.newState(t);
+        } else if (t.isOnDownSlope()) {
             int nextX = t.nextX();
             int nextY = t.behaviourExecutor.y + 1;
             Block next = t.blockNext();
@@ -57,9 +65,6 @@ public class Walking extends Action
                     return t.rl( RABBIT_LOWERING_RIGHT_END, RABBIT_LOWERING_LEFT_END );
                 }
             }
-        } else if (t.blockBelow() == null) {
-            actionHandler.setBehaviour(actionHandler.getFallingBehaviour());
-            return actionHandler.newState(t);
         } else { // On flat ground now
             int nextX = t.nextX();
             int nextY = t.behaviourExecutor.y;
