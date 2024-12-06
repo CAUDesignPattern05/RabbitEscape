@@ -1,15 +1,15 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
-import static rabbitescape.engine.Token.Type.*;
 import static rabbitescape.engine.ChangeDescription.State.*;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Exploding extends Behaviour
+public class Exploding extends Action
 {
 
-    public Exploding(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Exploding( ActionHandler actionHandler) { super(actionHandler); }
 
 
     @Override

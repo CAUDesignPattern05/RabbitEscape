@@ -2,7 +2,10 @@ package rabbitescape.engine;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.BehaviourHandler;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
+import rabbitescape.engine.behaviours.deathBehaviours.DeathBehaviour;
+import rabbitescape.engine.behaviours.deathBehaviours.DeathHandler;
+import rabbitescape.engine.behaviours.rabbotBehaviours.RabbotHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,14 +14,14 @@ public abstract class BehaviourExecutor
     extends Thing implements Comparable<BehaviourExecutor>
 {
     private Direction direction;
-    private BehaviourHandler behaviourHandler;
+    protected ActionHandler actionHandler;
     private int index;
     private boolean onSlope;
 
     public BehaviourExecutor(int x, int y, Direction dir) {
         super( x, y, RABBIT_WALKING_LEFT );
         this.direction = dir;
-        this.behaviourHandler = new BehaviourHandler();
+        this.actionHandler = new ActionHandler();
         this.onSlope = false;
     }
 
@@ -27,9 +30,9 @@ public abstract class BehaviourExecutor
         BehaviourTools tool = new BehaviourTools(this, world);
 
         Token item = tool.pickUpToken();
-        if (item != null) behaviourHandler.setBehaviour(item);
+        if (item != null) actionHandler.setAction(item);
 
-        State newState = behaviourHandler.newState(tool);
+        State newState = actionHandler.newState(tool);
         if (newState != null) state = newState;
     }
 
@@ -44,7 +47,7 @@ public abstract class BehaviourExecutor
         BehaviourState.addToStateIfGtZero( ret, "index", index );
         BehaviourState.addToStateIfTrue( ret, "onSlope", onSlope );
 
-        behaviourHandler.saveState(ret);
+        actionHandler.saveState(ret);
         return ret;
     }
 
@@ -56,7 +59,7 @@ public abstract class BehaviourExecutor
             state, "onSlope", false
         );
 
-        behaviourHandler.restoreFromState(state);
+        actionHandler.restoreFromState(state);
     }
 
     @Override

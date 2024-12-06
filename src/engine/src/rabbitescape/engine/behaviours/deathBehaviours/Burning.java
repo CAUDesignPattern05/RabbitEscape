@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.deathBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
@@ -11,7 +11,7 @@ import rabbitescape.engine.World;
 public class Burning extends Behaviour
 {
 
-    public Burning(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Burning( ActionHandler actionHandler) { super(behaviourHandler); }
 
     @Override
     public State newState(BehaviourTools t)

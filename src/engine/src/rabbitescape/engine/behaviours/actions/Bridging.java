@@ -1,7 +1,6 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Token.Type.*;
 import static rabbitescape.engine.Block.Material.*;
 import static rabbitescape.engine.Block.Shape.*;
 
@@ -9,8 +8,9 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Bridging extends Behaviour
+public class Bridging extends Action
 {
     enum BridgeType
     {
@@ -23,7 +23,7 @@ public class Bridging extends Behaviour
     private int bigSteps;
     private BridgeType bridgeType = BridgeType.ALONG;
 
-    public Bridging(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Bridging(ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState( BehaviourTools t)
@@ -35,8 +35,8 @@ public class Bridging extends Behaviour
 
         if ( bigSteps <= 0 ) {
             smallSteps = 0;
-            behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
-            return behaviourHandler.newState(t);   // Finished bridging
+            actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+            return actionHandler.newState(t);   // Finished bridging
         } else {
             return ret;
         }
@@ -91,8 +91,8 @@ public class Bridging extends Behaviour
             )
         )
         {
-            behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
-            return behaviourHandler.newState(t); // Stop bridging
+            actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+            return actionHandler.newState(t); // Stop bridging
         }
 
         boolean slopeDown = (
@@ -192,8 +192,8 @@ public class Bridging extends Behaviour
             }
             default:
             {
-                behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
-                return behaviourHandler.newState(t); // Stop bridging
+                actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+                return actionHandler.newState(t); // Stop bridging
             }
         }
     }
@@ -282,8 +282,8 @@ public class Bridging extends Behaviour
             }
             default:
             {
-                behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
-                return behaviourHandler.newState(t);
+                actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+                return actionHandler.newState(t);
             }
         }
     }

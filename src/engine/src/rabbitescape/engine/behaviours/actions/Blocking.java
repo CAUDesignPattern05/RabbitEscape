@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
@@ -6,12 +6,13 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Blocking extends Behaviour
+public class Blocking extends Action
 {
     private boolean abilityActive;
 
-    public Blocking(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Blocking(ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState(BehaviourTools t) {

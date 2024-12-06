@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Block.Shape.*;
@@ -7,10 +7,11 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Falling extends Behaviour
+public class Falling extends Action
 {
-    public Falling(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Falling( ActionHandler actionHandler) { super(actionHandler); }
 
     private int heightFallen = 0;
 
@@ -21,7 +22,7 @@ public class Falling extends Behaviour
 
     @Override
     public void cancel()
-    {
+    {w
     }
 
     @Override

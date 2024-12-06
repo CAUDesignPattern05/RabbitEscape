@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import rabbitescape.engine.World;
 
-public class TestOutOfBounds
+public class TestOutOfBounding
 {
     @Test
     public void Die_if_walk_out_of_bounds()

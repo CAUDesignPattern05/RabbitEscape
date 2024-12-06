@@ -1,18 +1,18 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Token.Type.*;
 
 import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Digging extends Behaviour
+public class Digging extends Action
 {
     private int stepsOfDigging;
 
-    public Digging(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Digging( ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState(BehaviourTools t)
@@ -32,8 +32,8 @@ public class Digging extends Behaviour
                 return RABBIT_DIGGING;
             }
         } else {
-            this.behaviourHandler.setBehaviour(this.behaviourHandler.getWalkingBehaviour());
-            return behaviourHandler.newState(t);
+            this.actionHandler.setBehaviour(this.actionHandler.getWalkingBehaviour());
+            return actionHandler.newState(t);
         }
     }
 
@@ -53,12 +53,12 @@ public class Digging extends Behaviour
                 break;
             }
             case RABBIT_DIGGING_2: {
-                behaviourHandler.moveBehave(world, behaviourExecutor, state);
+                actionHandler.moveBehave(world, behaviourExecutor, state);
                 break;
             }
             case RABBIT_DIGGING_USELESSLY:
             default: {
-                this.behaviourHandler.setBehaviour(this.behaviourHandler.getWalkingBehaviour());
+                this.actionHandler.setBehaviour(this.actionHandler.getWalkingBehaviour());
             }
         }
     }

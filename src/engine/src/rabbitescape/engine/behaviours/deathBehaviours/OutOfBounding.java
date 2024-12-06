@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.deathBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
@@ -9,7 +9,7 @@ import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.World;
 import rabbitescape.engine.config.TapTimer;
 
-public class OutOfBounds extends Behaviour
+public class OutOfBounding extends Behaviour
 {
     @Override
     public void cancel()

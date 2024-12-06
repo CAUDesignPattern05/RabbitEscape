@@ -9,6 +9,7 @@ import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
+import rabbitescape.engine.behaviours.actions.Falling;
 
 public class OldRabbit extends Thing implements Comparable<OldRabbit>
 {

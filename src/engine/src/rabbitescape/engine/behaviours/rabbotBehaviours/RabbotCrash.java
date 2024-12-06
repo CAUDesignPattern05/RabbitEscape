@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.rabbotBehaviours;
 
 import rabbitescape.engine.Behaviour;
 import rabbitescape.engine.BehaviourTools;

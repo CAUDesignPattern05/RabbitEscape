@@ -1,20 +1,20 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Direction.*;
-import static rabbitescape.engine.Token.Type.*;
 
 import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Climbing extends Behaviour
+public class Climbing extends Action
 {
     private boolean hasAbility;
     private boolean abilityActive;
 
-    public Climbing(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Climbing( ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState( BehaviourTools t)
@@ -109,8 +109,8 @@ public class Climbing extends Behaviour
             );
         }
 
-        behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
-        return behaviourHandler.newState(t);
+        actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+        return actionHandler.newState(t);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class Climbing extends Behaviour
                 break;
             }
             default: {
-                behaviourHandler.setBehaviour(behaviourHandler.getWalkingBehaviour());
+                actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
             }
         }
     }

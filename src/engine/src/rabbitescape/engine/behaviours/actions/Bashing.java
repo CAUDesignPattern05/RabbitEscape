@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Direction.*;
@@ -7,17 +7,18 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.BehaviourHandler;
 
-public class Bashing extends Behaviour
+public class Bashing extends Action
 {
     private int isBashed;
 
-    public Bashing(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Bashing(ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState(BehaviourTools t) {
         if (isBashed == 1) {
-            return behaviourHandler.newMoveState(t);
+            return actionHandler.newMoveState(t);
         } else if (t.isOnUpSlope() && t.blockAboveNext() != null ) {
             if (t.blockAboveNext().material == Block.Material.METAL) {
                 return t.rl( RABBIT_BASHING_USELESSLY_RIGHT_UP, RABBIT_BASHING_USELESSLY_LEFT_UP );
@@ -41,7 +42,7 @@ public class Bashing extends Behaviour
     public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         if (isBashed == 1) {
-            behaviourHandler.moveBehave(world, behaviourExecutor, state);
+            actionHandler.moveBehave(world, behaviourExecutor, state);
             isBashed = 0;
         } else {
             switch ( state ) {
@@ -61,11 +62,11 @@ public class Bashing extends Behaviour
                 case RABBIT_BASHING_USELESSLY_RIGHT_UP:
                 case RABBIT_BASHING_USELESSLY_LEFT_UP: {
                     behaviourExecutor.y -= 1;
-                    this.behaviourHandler.setBehaviour(this.behaviourHandler.getWalkingBehaviour());
+                    this.actionHandler.setBehaviour(this.actionHandler.getWalkingBehaviour());
                     break;
                 }
                 default:
-                    this.behaviourHandler.setBehaviour(this.behaviourHandler.getWalkingBehaviour());
+                    this.actionHandler.setBehaviour(this.actionHandler.getWalkingBehaviour());
                     break;
             }
         }

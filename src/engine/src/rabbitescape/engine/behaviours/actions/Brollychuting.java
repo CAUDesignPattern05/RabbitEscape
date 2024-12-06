@@ -1,19 +1,19 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Token.Type.brolly;
 
 import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.BehaviourExecutor;
+import rabbitescape.engine.behaviours.Behaviour;
 
-public class Brollychuting extends Behaviour
+public class Brollychuting extends Action
 {
     private boolean hasAbility = true;
 
-    public Brollychuting(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Brollychuting( ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState(BehaviourTools t)

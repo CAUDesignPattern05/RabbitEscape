@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.deathBehaviours;
 
 import static rabbitescape.engine.CellularDirection.DOWN;
 import static rabbitescape.engine.CellularDirection.UP;
@@ -9,6 +9,7 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.WaterRegion;
 import rabbitescape.engine.World;
+import rabbitescape.engine.behaviours.Behaviour;
 
 public class Drowning extends Behaviour
 {

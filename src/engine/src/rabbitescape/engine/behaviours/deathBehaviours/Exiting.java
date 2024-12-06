@@ -1,9 +1,10 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.deathBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.Behaviour;
 
 public class Exiting extends Behaviour
 {

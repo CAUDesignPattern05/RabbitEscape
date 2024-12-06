@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Direction.*;
@@ -7,9 +7,9 @@ import static rabbitescape.engine.Block.Shape.*;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 
-public class Walking extends Behaviour
+public class Walking extends Action
 {
-    public Walking(BehaviourHandler behaviourHandler) { super(behaviourHandler); }
+    public Walking( ActionHandler actionHandler) { super(actionHandler); }
 
     @Override
     public State newState( BehaviourTools t)
@@ -58,8 +58,8 @@ public class Walking extends Behaviour
                 }
             }
         } else if (t.blockBelow() == null) {
-            behaviourHandler.setBehaviour(behaviourHandler.getFallingBehaviour());
-            return behaviourHandler.newState(t);
+            actionHandler.setBehaviour(actionHandler.getFallingBehaviour());
+            return actionHandler.newState(t);
         } else { // On flat ground now
             int nextX = t.nextX();
             int nextY = t.behaviourExecutor.y;
