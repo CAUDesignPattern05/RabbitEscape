@@ -53,7 +53,7 @@ public class Exiting extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         if (
                state == RABBIT_ENTERING_EXIT
@@ -61,7 +61,7 @@ public class Exiting extends Behaviour
             || state == RABBIT_ENTERING_EXIT_CLIMBING_LEFT
            )
         {
-            world.changes.saveRabbit( oldRabbit );
+            notifyExiting( behaviourExecutor );
             return true;
         }
         else

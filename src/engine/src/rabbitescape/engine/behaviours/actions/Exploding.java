@@ -21,7 +21,7 @@ public class Exploding extends Action
     public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         if ( state == RABBIT_EXPLODING ) {
-            world.changes.killRabbit(behaviourExecutor);
+            notifyDeath(behaviourExecutor);
         }
     }
 }

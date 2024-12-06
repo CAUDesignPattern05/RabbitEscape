@@ -2,7 +2,8 @@ package rabbitescape.engine.behaviours.deathBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
-import rabbitescape.engine.Behaviour;
+import rabbitescape.engine.behaviours.Behaviour;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.OldRabbit;
@@ -41,14 +42,14 @@ public class OutOfBounding extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch( state )
         {
             case RABBIT_OUT_OF_BOUNDS:
             {
-                checkMars( world, oldRabbit );
-                world.changes.killRabbit( oldRabbit );
+                checkMars( world, behaviourExecutor );
+                notifyDeath( behaviourExecutor );
                 return true;
             }
             default:

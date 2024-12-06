@@ -2,7 +2,8 @@ package rabbitescape.engine.behaviours.deathBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
-import rabbitescape.engine.Behaviour;
+import rabbitescape.engine.BehaviourExecutor;
+import rabbitescape.engine.behaviours.Behaviour;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.OldRabbit;
@@ -32,14 +33,14 @@ public class Burning extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
         case RABBIT_BURNING:
         case RABBIT_BURNING_ON_SLOPE:
         {
-            world.changes.killRabbit( oldRabbit );
+            notifyDeath(behaviourExecutor);
             return true;
         }
         default:

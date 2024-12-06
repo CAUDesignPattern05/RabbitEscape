@@ -47,7 +47,7 @@ public class Falling extends Action
         return handled;
     }
 
-    private boolean moveRabbit( World world, OldRabbit oldRabbit, State state )
+    private boolean moveRabbit( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
@@ -58,7 +58,7 @@ public class Falling extends Action
             case RABBIT_DYING_OF_FALLING_SLOPE_RISE_LEFT_2:
             case RABBIT_DYING_OF_FALLING_2_SLOPE_RISE_LEFT_2:
             {
-                world.changes.killRabbit( oldRabbit );
+                notifyDeath(behaviourExecutor);
                 return true;
             }
             case RABBIT_FALLING:

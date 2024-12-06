@@ -3,12 +3,8 @@ package rabbitescape.engine.behaviours.deathBehaviours;
 import static rabbitescape.engine.CellularDirection.DOWN;
 import static rabbitescape.engine.CellularDirection.UP;
 
-import rabbitescape.engine.BehaviourTools;
-import rabbitescape.engine.CellularDirection;
+import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.OldRabbit;
-import rabbitescape.engine.WaterRegion;
-import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 
 public class Drowning extends Behaviour
@@ -60,12 +56,12 @@ public class Drowning extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
         case RABBIT_DROWNING:
-            world.changes.killRabbit( oldRabbit );
+            notifyDeath( behaviourExecutor );
             return true;
         default:
             return false;
