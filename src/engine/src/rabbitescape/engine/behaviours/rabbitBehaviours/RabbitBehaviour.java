@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours.deathBehaviours;
+package rabbitescape.engine.behaviours.rabbitBehaviours;
 
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
@@ -6,22 +6,21 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 
-import java.util.Map;
-
-public abstract class DeathBehaviour extends Behaviour
+public abstract class RabbitBehaviour extends Behaviour
 {
-    DeathHandler deathHandler;
+    RabbitHandler rabbitHandler;
 
-    public DeathBehaviour(DeathHandler deathHandler) {
-        this.deathHandler = deathHandler;
+    public  RabbitBehaviour(RabbitHandler rabbitHandler) {
+        this.rabbitHandler = rabbitHandler;
     }
+
+    public abstract boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world );
 
     public abstract State newState( BehaviourTools t );
 
-    public abstract void behave(
+    public abstract boolean behave(
         World world,
         BehaviourExecutor behaviourExecutor,
         State state
     );
-
 }

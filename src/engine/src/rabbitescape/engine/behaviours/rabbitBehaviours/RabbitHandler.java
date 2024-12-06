@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours.rabbotBehaviours;
+package rabbitescape.engine.behaviours.rabbitBehaviours;
 
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
@@ -6,27 +6,27 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 import rabbitescape.engine.behaviours.BehaviourHandler;
-import rabbitescape.engine.behaviours.rabbitBehaviours.Burning;
-import rabbitescape.engine.behaviours.rabbitBehaviours.Drowning;
+import rabbitescape.engine.behaviours.basicBehaviours.Exiting;
+import rabbitescape.engine.behaviours.basicBehaviours.OutOfBounding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RabbotHandler extends BehaviourHandler
+public class RabbitHandler extends BehaviourHandler
 {
     private final List<Behaviour> behaviours;
 
-    public RabbotHandler() {
+    public RabbitHandler() {
         behaviours = new ArrayList<>();
         createBehaviours();
     }
 
     private void createBehaviours() {
-        Behaviour rabbotCrashing = new RabbotCrashing(this);
-        Behaviour rabbotWaiting = new RabbotWaiting(this);
+        Behaviour burning = new Burning(this);
+        Behaviour drowning = new Drowning(this);
 
-        behaviours.add( rabbotCrashing );
-        behaviours.add( rabbotWaiting );
+        behaviours.add( burning );
+        behaviours.add( drowning );
     }
 
     @Override

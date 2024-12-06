@@ -1,37 +1,31 @@
-package rabbitescape.engine.behaviours.deathBehaviours;
+package rabbitescape.engine.behaviours.basicBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-
-import rabbitescape.engine.Behaviour;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.OldRabbit;
 import rabbitescape.engine.World;
 import rabbitescape.engine.config.TapTimer;
 
-public class OutOfBounding extends Behaviour
+public class OutOfBounding extends BasicBehaviour
 {
-    @Override
-    public void cancel()
-    {
-    }
+    public OutOfBounding( BasicHandler basicHandler) { super(basicHandler); }
 
     @Override
-    public boolean checkTriggered( OldRabbit oldRabbit, World world )
+    public boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world )
     {
         return (
-            oldRabbit.x < 0
-            || oldRabbit.x >= world.size.width
-            || oldRabbit.y < 0
-            || oldRabbit.y >= world.size.height
+            behaviourExecutor.x < 0
+            || behaviourExecutor.x >= world.size.width
+            || behaviourExecutor.y < 0
+            || behaviourExecutor.y >= world.size.height
         );
     }
 
     @Override
-    public State newState(
-        BehaviourTools t, boolean triggered
-    )
+    public State newState(BehaviourTools t)
     {
+        boolean triggered = checkTriggered( t.behaviourExecutor, t.world );
         if ( triggered )
         {
             return RABBIT_OUT_OF_BOUNDS;
@@ -41,34 +35,32 @@ public class OutOfBounding extends Behaviour
     }
 
     @Override
-    public boolean behave( World world, OldRabbit oldRabbit, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch( state )
         {
             case RABBIT_OUT_OF_BOUNDS:
             {
-                checkMars( world, oldRabbit );
-                world.changes.killRabbit( oldRabbit );
+                checkMars( world, behaviourExecutor );
+                world.changes.killRabbit( behaviourExecutor );
                 return true;
             }
             default:
-            {
                 return false;
-            }
         }
     }
 
     /**
      * Test if mars mode has been triggered
      */
-    private void checkMars( World world, OldRabbit oldRabbit )
+    private void checkMars( World world, BehaviourExecutor behaviourExecutor )
     {
         /* The rabbit must leave the world at the correct coordinates,
          * the index count is likely to only be correct if this is the
          * first rabbit out of the entrance, and it must be the correct
          * level.
          */
-        if ( 12 == oldRabbit.x && -1 == oldRabbit.y &&
+        if ( 12 == behaviourExecutor.x && -1 == behaviourExecutor.y &&
              world.getRabbitIndexCount() == 2 &&
              world.name.equals( "Ghost versus pie" ) )
         {

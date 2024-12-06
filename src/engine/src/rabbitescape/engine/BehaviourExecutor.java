@@ -3,9 +3,6 @@ package rabbitescape.engine;
 import static rabbitescape.engine.ChangeDescription.State.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.actions.ActionHandler;
-import rabbitescape.engine.behaviours.deathBehaviours.DeathBehaviour;
-import rabbitescape.engine.behaviours.deathBehaviours.DeathHandler;
-import rabbitescape.engine.behaviours.rabbotBehaviours.RabbotHandler;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours.rabbotBehaviours;
+package rabbitescape.engine.behaviours.basicBehaviours;
 
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
@@ -6,12 +6,12 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 
-public abstract class RabbotBehaviour extends Behaviour
+public abstract class BasicBehaviour extends Behaviour
 {
-    RabbotHandler rabbotHandler;
+    BasicHandler basicHandler;
 
-    public RabbotBehaviour(RabbotHandler rabbotHandler) {
-        this.rabbotHandler = rabbotHandler;
+    public BasicBehaviour( BasicHandler basicHandler) {
+        this.basicHandler = basicHandler;
     }
 
     public abstract boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world );
@@ -23,5 +23,4 @@ public abstract class RabbotBehaviour extends Behaviour
         BehaviourExecutor behaviourExecutor,
         State state
     );
-
 }

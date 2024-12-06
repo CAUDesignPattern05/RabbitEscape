@@ -21,7 +21,7 @@ public abstract class Behaviour
     /**
      * Move the rabbit in the world. Kill it, or record its safe exit.
      */
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state );
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state );
 
     /**
      * Examine the rabbit's situation and return true if this Behaviour must

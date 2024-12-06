@@ -7,7 +7,7 @@ public abstract class BehaviourHandler {
     protected BehaviourHandler nextHandler;
 
     public abstract State newState(BehaviourTools tool);
-    public abstract void behave(
+    public abstract boolean behave(
         World world,
         BehaviourExecutor behaviourExecutor,
         State state
