@@ -6,6 +6,8 @@ import java.util.Map;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.block.Block;
+import rabbitescape.engine.block.BridgeBlock;
+import rabbitescape.engine.block.blockshape.BridgeShape;
 import rabbitescape.engine.factory.blockfactory.BridgeFactory;
 
 public class Bridging extends Behaviour
@@ -406,13 +408,15 @@ public class Bridging extends Behaviour
         return handled;
     }
 
+
     private boolean moveRabbit(World world, Rabbit rabbit, State state) {
+        System.out.println(state);
         switch (state) {
             case RABBIT_BRIDGING_RIGHT_3:
             case RABBIT_BRIDGING_DOWN_UP_RIGHT_3: {
                 rabbit.x++;
                 world.changes.addBlock(
-                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.RIGHT, 0)
+                    new BridgeBlock(rabbit.x, rabbit.y, new BridgeShape( Direction.RIGHT ), 0)
                 );
                 return true;
             }
@@ -420,7 +424,7 @@ public class Bridging extends Behaviour
             case RABBIT_BRIDGING_DOWN_UP_LEFT_3: {
                 rabbit.x--;
                 world.changes.addBlock(
-                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.LEFT, 0)
+                    new BridgeBlock(rabbit.x, rabbit.y, new BridgeShape( Direction.LEFT ), 0)
                 );
                 return true;
             }
@@ -428,7 +432,7 @@ public class Bridging extends Behaviour
                 rabbit.x++;
                 rabbit.y--;
                 world.changes.addBlock(
-                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.RIGHT, 0)
+                    new BridgeBlock(rabbit.x, rabbit.y, new BridgeShape( Direction.RIGHT ), 0)
                 );
                 return true;
             }
@@ -436,7 +440,7 @@ public class Bridging extends Behaviour
                 rabbit.x--;
                 rabbit.y--;
                 world.changes.addBlock(
-                    bridgeFactory.createBridge(rabbit.x, rabbit.y, Direction.LEFT, 0)
+                    new BridgeBlock(rabbit.x, rabbit.y, new BridgeShape( Direction.LEFT ), 0)
                 );
                 return true;
             }

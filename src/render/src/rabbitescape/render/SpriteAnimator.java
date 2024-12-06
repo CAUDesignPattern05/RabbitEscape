@@ -5,17 +5,26 @@ import java.util.List;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.block.Block;
+import rabbitescape.engine.block.DecayBlock;
+import rabbitescape.engine.block.blockshape.BlockShape;
 import rabbitescape.engine.block.blockmaterial.BlockMaterial;
 import rabbitescape.engine.block.blockmaterial.EarthMaterial;
 import rabbitescape.engine.block.blockmaterial.MetalMaterial;
 import rabbitescape.engine.util.Util;
 
-import static rabbitescape.engine.OldBlock.Material.EARTH;
 
 public class SpriteAnimator
 {
     private final World world;
     private final AnimationCache animationCache;
+
+    private static final String[] decay_block = new String[]
+        {
+            "block",
+            "block",
+            "block",
+            "block"
+        };
 
     private static final String[] metal_block = new String[]
         {
@@ -187,6 +196,9 @@ public class SpriteAnimator
     private String bitmapNameForBlock( Block block )
     {
         BlockMaterial material = block.getMaterial();
+        if (block instanceof DecayBlock ){
+            return decay_block[block.getVariant()];
+        }
         if (material instanceof EarthMaterial){
             switch ( block.getShape() )
             {
@@ -206,7 +218,8 @@ public class SpriteAnimator
             return metal_block[block.getVariant()];
         }
 
+
         throw new RuntimeException(
-            "Unknown Block type: " + block.material + " " + block.getShape());
+            "Unknown Block type: ");
     }
 }

@@ -180,7 +180,7 @@ public class World
         this.paused = paused;
         this.comments = comments;
         this.voidStyle = voidStyle;
-
+        System.out.println(this.name);
         if ( -1 == size.width )
         {
             // make allowance for tests with no world

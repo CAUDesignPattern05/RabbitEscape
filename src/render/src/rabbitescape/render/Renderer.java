@@ -39,7 +39,7 @@ public class Renderer<T extends Bitmap, P extends Paint>
 
     private void drawSprite( Canvas<T, P> canvas, Sprite sprite, P paint )
     {
-        T bitmap = bitmapCache.get( sprite.bitmapName, tileSize );
+        T bitmap = bitmapCache.get( sprite.bitmapName, tileSize );//여기
 
         int left = sprite.offsetX( tileSize )
             + offsetX + ( sprite.tileX * tileSize );

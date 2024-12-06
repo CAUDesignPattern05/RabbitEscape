@@ -279,7 +279,7 @@ public class WaterRegionRenderer implements LookupItem2D
             case TOP_LEFT:
                 xOffset = 0;
                 //if ( shapeEquals( block, Block.Shape.UP_LEFT ) )
-                if ((block.riseDir() == LEFT) && !block.isBridge())
+                if (block != null && (block.riseDir() == LEFT) && !block.isBridge())
                 {
                     yOffset = 0;
                 }
@@ -293,7 +293,7 @@ public class WaterRegionRenderer implements LookupItem2D
 //                if ( shapeEquals( block, Block.Shape.UP_LEFT ) ||
 //                    shapeEquals( block, Block.Shape.UP_RIGHT ) )
 //                {
-                if(!block.isFlat() && !block.isBridge()){
+                if(block != null && !block.isFlat() && !block.isBridge()){
                     yOffset = ( 32 - height ) / 2;
                 }
                 else
@@ -303,7 +303,7 @@ public class WaterRegionRenderer implements LookupItem2D
                 break;
             case TOP_RIGHT:
                 xOffset = 32;
-                if ( (block.riseDir() == Direction.RIGHT) && !block.isBridge())
+                if ( block != null && (block.riseDir() == Direction.RIGHT) && !block.isBridge())
                 {
                     yOffset = 0;
                 }
@@ -387,7 +387,7 @@ public class WaterRegionRenderer implements LookupItem2D
         switch ( d )
         {
             case BOTTOM_LEFT:
-                if ( (block.riseDir() == Direction.RIGHT) && !block.isBridge() )
+                if ( block != null && (block.riseDir() == Direction.RIGHT) && !block.isBridge() )
                 {
                     xOffset = 32;
                 }
@@ -397,7 +397,7 @@ public class WaterRegionRenderer implements LookupItem2D
                 }
                 break;
             case BOTTOM_RIGHT:
-                if ( (block.riseDir() == LEFT) && !block.isBridge() )
+                if (block != null &&  (block.riseDir() == LEFT) && !block.isBridge() )
                 {
                     xOffset = 0;
                 }

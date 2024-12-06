@@ -14,5 +14,6 @@
     <orderEntry type="module" module-name="src/render" />
     <orderEntry type="module" module-name="src/engine" />
     <orderEntry type="module" module-name="rabbit-escape-engine" />
+    <orderEntry type="module" module-name="rabbit-escape-render" />
   </component>
 </module>

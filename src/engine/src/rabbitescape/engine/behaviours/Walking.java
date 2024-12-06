@@ -298,10 +298,11 @@ public class Walking extends Behaviour
             }
             default:
             {
-                throw new AssertionError(
-                    "Should have handled all states in Walking or before,"
-                    + " but we are in state " + state.name()
-                );
+                return false;
+//                throw new AssertionError(
+//                    "Should have handled all states in Walking or before,"
+//                    + " but we are in state " + state.name()
+//                );
             }
         }
     }

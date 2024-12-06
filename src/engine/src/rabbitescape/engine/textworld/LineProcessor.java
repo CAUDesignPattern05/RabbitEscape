@@ -492,27 +492,82 @@ public class LineProcessor
 
     public Thing processChar(char c, int x, int y, VariantGenerator variantGen) {
         FactoryManager factoryManager = FactoryManager.getInstance();
-        if (c == ' ')
-            return null;
-        try {
-            // Attempt to create a block
-            Block block = ( Block )factoryManager.getFactory("Block").create(c, x, y, variantGen);
-            if (block != null) {
-                blocks.add(block);
+        switch (c)
+        {
+            case ' ':
                 return null;
+            case 'N':
+            {
+                // Default amount for a full water region, but may be
+                // overwritten by an explicit water definition line.
+                waterAmounts.put(
+                    new Position( x, y ),
+                    WaterUtil.MAX_CAPACITY
+                );
+                break;
             }
-        } catch (IllegalArgumentException ignored) {}
-
-        try {
-            // Attempt to create a thing
-            Thing thing = ( Thing )factoryManager.getFactory("Thing").create(c, x, y, variantGen);
-            if (thing != null) {
-                things.add(thing);
-                return thing;
+            case 'n':
+            {
+                // Default amount for a half water region, but may be
+                // overwritten by an explicit water definition line.
+                waterAmounts.put(
+                    new Position( x, y ),
+                    WaterUtil.HALF_CAPACITY
+                );
+                break;
             }
-        } catch (IllegalArgumentException ignored) {}
+            case '*':
+            {
+                starPoints.add( new Position( x, y ) );
+                break;
+            }
+            default:
+                try
+                {
+                    // Attempt to create a block
+                    Block block = ( Block )factoryManager.getFactory( "Block" )
+                        .create( c, x, y, variantGen );
+                    if ( block != null )
+                    {
+                        blocks.add( block );
+                        return null;
+                    }
+                }
+                catch ( IllegalArgumentException ignored )
+                {
+                }
+                try
+                {
+                    // Attempt to create a thing
+                    Thing thing = ( Thing )factoryManager.getFactory( "Token" )
+                        .create( c, x, y, variantGen );
+                    if ( thing != null )
+                    {
+                        things.add( thing );
+                        return thing;
+                    }
+                }
+                catch ( IllegalArgumentException ignored )
+                {
+                }
+                try
+                {
+                    // Attempt to create a thing
+                    Thing thing = ( Thing )factoryManager.getFactory( "Thing" )
+                        .create( c, x, y, variantGen );
+                    if ( thing != null )
+                    {
+                        things.add( thing );
+                        return thing;
+                    }
+                }
+                catch ( IllegalArgumentException ignored )
+                {
+                }
+                throw new IllegalArgumentException("Unknown character: " + c);
+        }
 
-        throw new IllegalArgumentException("Unknown character: " + c);
+        return null;
     }
 
 

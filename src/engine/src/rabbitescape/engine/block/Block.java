@@ -6,12 +6,13 @@ import rabbitescape.engine.block.blockshape.BlockShape;
 import rabbitescape.engine.util.LookupItem2D;
 import rabbitescape.engine.util.Position;
 
-public class Block implements LookupItem2D {
-    private final int x;
-    private final int y;
-    public final BlockMaterial material;
-    private final BlockShape shape;
-    private final int variant;
+public abstract class Block implements LookupItem2D
+{
+    protected final int x;
+    protected final int y;
+    protected final BlockMaterial material;
+    protected final BlockShape shape;
+    protected final int variant;
 
     public Block(int x, int y, BlockMaterial material, BlockShape shape, int variant) {
         this.x = x;
@@ -21,41 +22,26 @@ public class Block implements LookupItem2D {
         this.variant = variant;
     }
 
-    public boolean isDestructible() {
-        return material.isDestructible();
+    // 고유 행동 정의
+    public abstract void onStepped();
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public BlockMaterial getMaterial() { return material; }
+    public BlockShape.Type getShape() { return shape.getShape(); }
+    public int getVariant() { return variant; }
+    public boolean isFlat() {return shape.getShape() == BlockShape.Type.FLAT;}
+    @Override
+    public Position getPosition() {
+        return new Position(x, y);
     }
-    public boolean isFlat() {return shape.isFlat();}
     public Direction riseDir() {
         return shape.riseDir();
     }
     public boolean isBridge() {
         return shape.isBridge();
     }
-
-    @Override
-    public Position getPosition() {
-        return new Position(x, y);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public BlockShape.Type getShape()
-    {
-        return shape.getShape();
-    }
-
-    public BlockMaterial getMaterial()
-    {
-        return material;
-    }
-
-    public int getVariant() {
-        return variant;
+    public boolean isDestructible() {
+        return material.isDestructible();
     }
 }

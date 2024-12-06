@@ -34,7 +34,7 @@ public abstract class BlockShape {
 
     // Getter for shape type
     public Type getShape() {
-        return shape;
+        return this.shape;
     }
 
     public boolean isFlat() {

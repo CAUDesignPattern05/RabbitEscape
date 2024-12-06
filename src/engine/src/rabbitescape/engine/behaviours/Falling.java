@@ -7,6 +7,7 @@ import java.util.Map;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.block.Block;
+import rabbitescape.engine.block.blockshape.BlockShape;
 
 public class Falling extends Behaviour
 {
@@ -46,7 +47,7 @@ public class Falling extends Behaviour
         {
             // Whenever we fall onto a slope, we are on top of it
             Block thisBlock = world.getBlockAt( rabbit.x, rabbit.y );
-            if ( thisBlock != null && !thisBlock.isFlat() )
+            if ( thisBlock != null && (thisBlock.getShape() != BlockShape.Type.FLAT ))
             {
                 rabbit.onSlope = true;
             }
