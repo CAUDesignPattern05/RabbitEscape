@@ -1,13 +1,15 @@
 package rabbitescape.engine.behaviours;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import rabbitescape.engine.BehaviourExecutor;
-import rabbitescape.engine.BehaviourTools;
+import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.World;
 
-public abstract class Behaviour
+
+public abstract class Behaviour implements RabbitNotifier
 {
     /**
      * Subclasses examine the rabbit's situation using BehaviourTools and
@@ -16,21 +18,58 @@ public abstract class Behaviour
      * must take over.
      * Note that the state determines the animation used.
      */
-    public State newState(BehaviourTools t);
+    public abstract State newState( BehaviourTools t );
 
     /**
      * Move the rabbit in the world. Kill it, or record its safe exit.
      */
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state );
+    public abstract void behave(
+        World world,
+        BehaviourExecutor behaviourExecutor,
+        State state
+    );
 
     /**
      * Examine the rabbit's situation and return true if this Behaviour must
      * take control.
      */
 
-    public void saveState( Map<String, String> saveState );
+    public abstract void saveState( Map<String, String> saveState );
 
-    public void restoreFromState( Map<String, String> saveState );
+    public abstract void restoreFromState( Map<String, String> saveState );
 
-    public void clearMemberVariables();
+    public abstract void clearMemberVariables();
+
+
+    private ArrayList<RabbitObserver> observers = new ArrayList<>();
+
+    @Override
+    public void registerObserver( RabbitObserver observer )
+    {
+        observers.add( observer );
+    }
+
+    @Override
+    public void removeObserver( RabbitObserver observer )
+    {
+        observers.remove( observer );
+    }
+
+    @Override
+    public void notifyDeath(BehaviourExecutor behaviourExecutor )
+    {
+        for ( RabbitObserver observer : observers )
+        {
+            observer.updateDeath( behaviourExecutor );
+        }
+    }
+
+    @Override
+    public void notifyExiting(BehaviourExecutor behaviourExecutor)
+    {
+        for ( RabbitObserver observer : observers )
+        {
+            observer.updateExiting( behaviourExecutor );
+        }
+    }
 }
