@@ -39,7 +39,7 @@ public class Bashing extends Action
     }
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         if (isBashed == 1) {
             actionHandler.moveBehave(world, behaviourExecutor, state);
@@ -70,6 +70,7 @@ public class Bashing extends Action
                     break;
             }
         }
+        return isBashed == 1;
     }
 
     private int destX( BehaviourExecutor behaviourExecutor )

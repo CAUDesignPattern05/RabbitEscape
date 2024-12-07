@@ -16,21 +16,21 @@ public abstract class Behaviour
      * must take over.
      * Note that the state determines the animation used.
      */
-    public State newState(BehaviourTools t);
+    public abstract State newState(BehaviourTools t);
 
     /**
      * Move the rabbit in the world. Kill it, or record its safe exit.
      */
-    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state );
+    public abstract boolean behave( World world, BehaviourExecutor behaviourExecutor, State state );
 
     /**
      * Examine the rabbit's situation and return true if this Behaviour must
      * take control.
      */
 
-    public void saveState( Map<String, String> saveState );
+    public abstract void saveState( Map<String, String> saveState );
 
-    public void restoreFromState( Map<String, String> saveState );
+    public abstract void restoreFromState( Map<String, String> saveState );
 
-    public void clearMemberVariables();
+    public abstract void clearMemberVariables();
 }

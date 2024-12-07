@@ -28,7 +28,9 @@ public class Blocking extends Action
 
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state ) {}
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state ) {
+        return true;
+    }
 
     @Override
     public void saveState( Map<String, String> saveState )

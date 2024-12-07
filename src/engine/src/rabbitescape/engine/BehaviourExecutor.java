@@ -13,6 +13,7 @@ public abstract class BehaviourExecutor
     private Direction direction;
     protected ActionHandler actionHandler;
     private int index;
+    protected int fatalHeight;
     private boolean onSlope;
     private boolean isAffectedByRabbot;
 
@@ -108,4 +109,6 @@ public abstract class BehaviourExecutor
     public void setAffectedByRabbot( boolean isAffectedByRabbot) { this.isAffectedByRabbot = isAffectedByRabbot; }
 
     public boolean getAffectedByRabbot() { return isAffectedByRabbot; }
+
+    public int getFatalHeight() { return fatalHeight; }
 }

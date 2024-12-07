@@ -42,11 +42,13 @@ public class Brollychuting extends Action
     }
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         if ( state == RABBIT_BROLLYCHUTING ) {
             behaviourExecutor.y = behaviourExecutor.y + 1;
         }
+
+        return hasAbility;
     }
 
     @Override

@@ -359,7 +359,7 @@ public class Bridging extends Action
     }
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         boolean handled = moveRabbit( world, behaviourExecutor, state );
 
@@ -368,6 +368,8 @@ public class Bridging extends Action
             // If we're bridging, we're on a slope
             behaviourExecutor.setOnSlope(true);
         }
+
+        return handled;
     }
 
     private boolean moveRabbit( World world, BehaviourExecutor behaviourExecutor, State state )

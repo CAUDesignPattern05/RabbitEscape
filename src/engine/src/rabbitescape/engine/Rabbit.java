@@ -7,6 +7,8 @@ public class Rabbit extends BehaviourExecutor
 {
     public Rabbit(int x, int y, Direction dir) {
         super(x, y, dir);
+        fatalHeight = 4;
+
         setAffectedByRabbot( true );
         BasicHandler deathHandler = new BasicHandler();
         RabbitHandler rabbitHandler = new RabbitHandler();

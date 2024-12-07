@@ -38,7 +38,7 @@ public class Digging extends Action
     }
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
@@ -61,6 +61,8 @@ public class Digging extends Action
                 this.actionHandler.setBehaviour(this.actionHandler.getWalkingBehaviour());
             }
         }
+
+        return stepsOfDigging > 0;
     }
 
     @Override

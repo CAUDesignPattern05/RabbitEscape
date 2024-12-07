@@ -48,13 +48,13 @@ public class ActionHandler extends BehaviourHandler {
         return walking.newState( tool );
     }
 
-    public void behave(
+    public boolean behave(
         World world,
         BehaviourExecutor behaviourExecutor,
         State state
     )
     {
-        action.behave( world, behaviourExecutor, state );
+        return action.behave( world, behaviourExecutor, state );
     }
 
     @Override

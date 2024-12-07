@@ -310,6 +310,11 @@ public class BehaviourTools
         return behaviourExecutor.isOnSlope() && hereIsUpSlope();
     }
 
+    public int getFatalHeight()
+    {
+        return behaviourExecutor.getFatalHeight();
+    }
+
     /**
      * Check if rabbit is changing from an up slope directly to a down slope.
      */

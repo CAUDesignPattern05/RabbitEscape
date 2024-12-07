@@ -88,7 +88,7 @@ public class Walking extends Action
 
     @Override
     @SuppressWarnings("fallthrough")
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
@@ -203,6 +203,8 @@ public class Walking extends Action
                 );
             }
         }
+
+        return true;
     }
 
     /**

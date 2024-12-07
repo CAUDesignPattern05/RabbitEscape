@@ -18,10 +18,12 @@ public class Exploding extends Action
     }
 
     @Override
-    public void behave( World world, BehaviourExecutor behaviourExecutor, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         if ( state == RABBIT_EXPLODING ) {
             world.changes.killRabbit(behaviourExecutor);
         }
+
+        return true;
     }
 }
