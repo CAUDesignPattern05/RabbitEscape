@@ -52,7 +52,7 @@ public class Drowning extends RabbitBehaviour
         {
             case RABBIT_DROWNING:
             {
-                world.changes.killRabbit( behaviourExecutor );
+                notifyDeath( behaviourExecutor );
                 return true;
             }
             default:

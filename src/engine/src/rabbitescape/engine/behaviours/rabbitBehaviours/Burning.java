@@ -44,7 +44,7 @@ public class Burning extends RabbitBehaviour
             case RABBIT_BURNING:
             case RABBIT_BURNING_ON_SLOPE:
             {
-                world.changes.killRabbit( behaviourExecutor );
+                notifyDeath( behaviourExecutor );
                 return true;
             }
             default:

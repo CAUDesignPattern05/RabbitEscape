@@ -52,7 +52,7 @@ public class Exiting extends BasicBehaviour
             case RABBIT_ENTERING_EXIT_CLIMBING_LEFT:
             case RABBIT_ENTERING_EXIT_CLIMBING_RIGHT:
             {
-                world.changes.saveRabbit( behaviourExecutor );
+                notifyExiting( behaviourExecutor );
                 return true;
             }
             default:
