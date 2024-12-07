@@ -20,7 +20,7 @@ public abstract class Behaviour extends ObservableSubject {
     /**
      * Move the rabbit in the world. Kill it, or record its safe exit.
      */
-    public abstract void behave(
+    public abstract boolean behave(
             World world,
             BehaviourExecutor behaviourExecutor,
             State state);

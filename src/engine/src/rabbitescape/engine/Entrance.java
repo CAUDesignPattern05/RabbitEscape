@@ -55,7 +55,6 @@ public class Entrance extends Thing {
 
         BehaviourExecutor r = new Rabbit(x, y + 1, RIGHT);
 
-        Rabbit r = new Rabbit(x, y + 1, RIGHT);
         r.registerObserver(world, r);
 
         notifyBirth(this, r);
