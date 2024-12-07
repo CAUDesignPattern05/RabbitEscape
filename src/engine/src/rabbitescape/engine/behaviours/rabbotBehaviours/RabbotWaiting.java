@@ -2,7 +2,7 @@ package rabbitescape.engine.behaviours.rabbotBehaviours;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.behaviours.actions.Blocking;
 import rabbitescape.engine.behaviours.actions.Digging;
 

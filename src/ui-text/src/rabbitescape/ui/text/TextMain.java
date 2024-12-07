@@ -212,7 +212,7 @@ public class TextMain
             return new World(
                 world.size,
                 world.blockTable,
-                world.rabbits,
+                world.behaviourExecutors,
                 world.things,
                 world.waterTable,
                 world.abilities,

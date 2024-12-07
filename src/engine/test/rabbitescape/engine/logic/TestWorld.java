@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.DontStepAfterFinish;
@@ -375,9 +375,9 @@ public class TestWorld
         world.step();  // Now 1 is a bridger
 
         // This is what we are testing: there are no rabbits in the empty square
-        OldRabbit[] oldRabbits = world.getRabbitsAt( 2, 0 );
+        BehaviourExecutor[] behaviourExecutors = world.getRabbitsAt( 2, 0 );
 
-        assertThat( oldRabbits.length, equalTo( 0 ) );
+        assertThat( behaviourExecutors.length, equalTo( 0 ) );
     }
 
     @Test
@@ -392,12 +392,12 @@ public class TestWorld
         world.step();  // Now 1 is a bridger
 
         // This is what we are testing: ask what's in the rabbitty square
-        OldRabbit[] oldRabbits = world.getRabbitsAt( 1, 0 );
+        BehaviourExecutor[] behaviourExecutors = world.getRabbitsAt( 1, 0 );
 
-        assertThat( oldRabbits[0].state, equalTo( RABBIT_BRIDGING_RIGHT_1 ) );
-        assertThat( oldRabbits[1].state, equalTo( RABBIT_WALKING_RIGHT ) );
+        assertThat( behaviourExecutors[0].state, equalTo( RABBIT_BRIDGING_RIGHT_1 ) );
+        assertThat( behaviourExecutors[1].state, equalTo( RABBIT_WALKING_RIGHT ) );
 
-        assertThat( oldRabbits.length, equalTo( 2 ) );
+        assertThat( behaviourExecutors.length, equalTo( 2 ) );
     }
 
     @Test
@@ -411,7 +411,7 @@ public class TestWorld
         world.step();
 
         // Sanity: 5 rabbits alive
-        assertThat( world.oldRabbits.size(), equalTo( 5 ) );
+        assertThat( world.behaviourExecutors.size(), equalTo( 5 ) );
 
         // This is what we are testing: explode them all
         world.changes.explodeAllRabbits();
@@ -430,7 +430,7 @@ public class TestWorld
         world.step();
 
         // ... they are dead
-        assertThat( world.oldRabbits.size(), equalTo( 0 ) );
+        assertThat( world.behaviourExecutors.size(), equalTo( 0 ) );
     }
 
     @Test

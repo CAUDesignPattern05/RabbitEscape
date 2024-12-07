@@ -3,7 +3,7 @@ package rabbitescape.engine.behaviours.rabbotBehaviours;
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.World;
 
 public class RabbotCrashing extends RabbotBehaviour

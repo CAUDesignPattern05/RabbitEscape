@@ -60,7 +60,7 @@ public class Entrance extends Thing
 
         timeToNextRabbit = delay[delayIndex];
 
-        OldRabbit r = new OldRabbit( x, y + 1, RIGHT, OldRabbit.Type.RABBIT );
+        BehaviourExecutor r = new Rabbit( x, y + 1, RIGHT);
 
         world.changes.enterRabbit( r );
 

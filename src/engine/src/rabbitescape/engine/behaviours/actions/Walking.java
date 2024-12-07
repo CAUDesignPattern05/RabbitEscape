@@ -187,7 +187,6 @@ public class Walking extends Action
             }
             case RABBIT_TURNING_RIGHT_TO_LEFT:
                 behaviourExecutor.setOnSlope(false); // Intentional fall-through
-                break;
             case RABBIT_TURNING_RIGHT_TO_LEFT_RISING:
             case RABBIT_TURNING_RIGHT_TO_LEFT_LOWERING:
             {

@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.*;
 import org.junit.*;
 
 import rabbitescape.engine.*;
-import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.Block.Shape;
 import rabbitescape.engine.textworld.TextWorldManip;
 
@@ -127,17 +127,17 @@ public class TestWorldChanges
 
         World world = TextWorldManip.createWorld( worldText );
         Token tok0 = world.getTokenAt( 1, 1 );
-        OldRabbit oldRabbit0 = world.oldRabbits.get( 0 );
-        OldRabbit oldRabbit1 = world.oldRabbits.get( 1 );
-        OldRabbit oldRabbit2 = world.oldRabbits.get( 2 );
+        BehaviourExecutor BehaviourExecutor0 = world.behaviourExecutors.get( 0 );
+        BehaviourExecutor BehaviourExecutor1 = world.behaviourExecutors.get( 1 );
+        BehaviourExecutor BehaviourExecutor2 = world.behaviourExecutors.get( 2 );
 
         // One of every type of change
         world.changes.enterRabbit(
-            new OldRabbit( 1, 2, Direction.RIGHT, OldRabbit.Type.RABBIT ) );
+            new Rabbit( 1, 2, Direction.RIGHT ) );
 
-        world.changes.killRabbit( oldRabbit0 );
-        world.changes.saveRabbit( oldRabbit1 );
-        world.changes.killRabbit( oldRabbit2 );
+        world.changes.killRabbit( BehaviourExecutor0 );
+        world.changes.saveRabbit( BehaviourExecutor1 );
+        world.changes.killRabbit( BehaviourExecutor2 );
         world.changes.addToken( 2, 1, Token.Type.bash );
         world.changes.removeToken( tok0 );
         world.changes.addBlock( new Block( 1, 1, Block.Material.EARTH, Shape.FLAT, 0 ) );

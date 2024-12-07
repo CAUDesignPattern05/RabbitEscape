@@ -23,10 +23,7 @@ import java.util.TreeSet;
 
 import org.junit.Test;
 
-import rabbitescape.engine.Direction;
-import rabbitescape.engine.OldRabbit;
-import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.*;
 
 public class TestUtil
 {
@@ -1084,11 +1081,11 @@ public class TestUtil
             new Token( 1, 1, Token.Type.bridge )
         };
 
-        OldRabbit[] oldRabbits = new OldRabbit[]
-            { new OldRabbit( 3, 3, Direction.LEFT, OldRabbit.Type.RABBIT ) };
+        BehaviourExecutor[] behaviourExecutors = new BehaviourExecutor[]
+            { new Rabbit( 3, 3, Direction.LEFT) };
 
         Iterable<Thing> chained = Util.chain( Arrays.asList( tokens ), Arrays.asList(
-            oldRabbits ) );
+            behaviourExecutors ) );
 
         String s = "";
 

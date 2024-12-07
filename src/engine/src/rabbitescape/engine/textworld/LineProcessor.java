@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import rabbitescape.engine.*;
-import rabbitescape.engine.OldRabbit;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.MegaCoder;
 import rabbitescape.engine.util.Position;
@@ -75,7 +75,7 @@ public class LineProcessor
         "(.*)\\.(\\d{1,3})" );
 
     private final List<Block> blocks;
-    private final List<OldRabbit> oldRabbits;
+    private final List<BehaviourExecutor> behaviourExecutors;
     private final List<Thing> things;
     private final Map<Position, Integer> waterAmounts;
     private final Map<Token.Type, Integer> abilities;
@@ -95,7 +95,7 @@ public class LineProcessor
 
     public LineProcessor(
         List<Block> blocks,
-        List<OldRabbit> oldRabbits,
+        List<BehaviourExecutor> behaviourExecutors,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
@@ -104,7 +104,7 @@ public class LineProcessor
     )
     {
         this.blocks = blocks;
-        this.oldRabbits = oldRabbits;
+        this.behaviourExecutors = behaviourExecutors;
         this.things = things;
         this.waterAmounts = waterAmounts;
         this.abilities = abilities;
@@ -538,30 +538,30 @@ public class LineProcessor
             }
             case 'r':
             {
-                OldRabbit r = new OldRabbit( x, y, RIGHT, OldRabbit.Type.RABBIT );
+                BehaviourExecutor r = new Rabbit( x, y, RIGHT);
                 ret = r;
-                oldRabbits.add( r );
+                behaviourExecutors.add( r );
                 break;
             }
             case 'j':
             {
-                OldRabbit r = new OldRabbit( x, y, LEFT, OldRabbit.Type.RABBIT );
+                BehaviourExecutor r = new Rabbit( x, y, LEFT);
                 ret = r;
-                oldRabbits.add( r );
+                behaviourExecutors.add( r );
                 break;
             }
             case 't':
             {
-                OldRabbit r = new OldRabbit( x, y, RIGHT, OldRabbit.Type.RABBOT );
+                BehaviourExecutor r = new Rabbot( x, y, RIGHT);
                 ret = r;
-                oldRabbits.add( r );
+                behaviourExecutors.add( r );
                 break;
             }
             case 'y':
             {
-                OldRabbit r = new OldRabbit( x, y, LEFT, OldRabbit.Type.RABBOT );
+                BehaviourExecutor r = new Rabbot( x, y, LEFT);
                 ret = r;
-                oldRabbits.add( r );
+                behaviourExecutors.add( r );
                 break;
             }
             case 'Q':

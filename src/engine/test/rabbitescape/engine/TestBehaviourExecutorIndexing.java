@@ -6,7 +6,7 @@ import static rabbitescape.engine.Tools.equalTo;
 import static rabbitescape.engine.textworld.TextWorldManip.createWorld;
 import static rabbitescape.engine.textworld.TextWorldManip.renderCompleteWorld;
 
-public class TestOldRabbitIndexing
+public class TestBehaviourExecutorIndexing
 {
 
     @Test

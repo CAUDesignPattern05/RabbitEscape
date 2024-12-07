@@ -6,6 +6,8 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 
+import java.util.Map;
+
 public abstract class RabbotBehaviour extends Behaviour
 {
     RabbotHandler rabbotHandler;
@@ -24,4 +26,11 @@ public abstract class RabbotBehaviour extends Behaviour
         State state
     );
 
+    public void saveState( Map<String, String> saveState ) {}
+
+    public void restoreFromState( Map<String, String> saveState ) {}
+
+    public void clearMemberVariables()
+    {
+    }
 }

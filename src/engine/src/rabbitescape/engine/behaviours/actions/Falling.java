@@ -21,6 +21,11 @@ public class Falling extends Action
     @Override
     public State newState( BehaviourTools t )
     {
+        if ((t.isOnSlope() && t.blockHere() != null) || (!t.isOnSlope() && t.blockBelow() != null)) {
+            actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+            return actionHandler.newState(t);
+        }
+
         if ( actionHandler.isBrollychutingAbility() )
         {
             actionHandler.setBehaviour( actionHandler.getBrollychutingBehaviour() );

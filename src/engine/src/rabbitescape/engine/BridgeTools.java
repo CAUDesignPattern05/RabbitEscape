@@ -7,9 +7,9 @@ public class BridgeTools
 
     public static boolean someoneIsBridgingAt( World world, int x, int y )
     {
-        for ( OldRabbit oldRabbit : world.oldRabbits )
+        for ( BehaviourExecutor BehaviourExecutor : world.behaviourExecutors )
         {
-            if ( rabbitIsBridgingAt( oldRabbit, x, y ) )
+            if ( rabbitIsBridgingAt( BehaviourExecutor, x, y ) )
             {
                 return true;
             }
@@ -17,10 +17,10 @@ public class BridgeTools
         return false;
     }
 
-    public static boolean rabbitIsBridgingAt( OldRabbit oldRabbit, int x, int y )
+    public static boolean rabbitIsBridgingAt( BehaviourExecutor BehaviourExecutor, int x, int y )
     {
         Position bridging = RabbitStates.whereBridging(
-            new StateAndPosition( oldRabbit.state, oldRabbit.x, oldRabbit.y ) );
+            new StateAndPosition( BehaviourExecutor.state, BehaviourExecutor.x, BehaviourExecutor.y ) );
 
         if ( bridging == null )
         {

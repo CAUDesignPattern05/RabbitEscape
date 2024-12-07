@@ -32,11 +32,14 @@ public abstract class BehaviourExecutor
         Token item = tool.pickUpToken();
         if (item != null) actionHandler.setBehaviour(item);
 
-        actionHandler.handleRequest( world, this, state );
+        State newState = actionHandler.newState(tool);
+        if (newState != null) this.setState(newState);
     }
 
     @Override
-    public void step( World world ) {}
+    public void step( World world ) {
+        actionHandler.handleRequest(world, this, this.getState());
+    }
 
     @Override
     public Map<String, String> saveState(boolean runtimeMeta) {

@@ -60,7 +60,7 @@ public class Blocking extends Action
         return false;
     }
 
-    static boolean isBlocking( State s )
+    public static boolean isBlocking( State s )
     {
         switch ( s ) {
         case RABBIT_BLOCKING:

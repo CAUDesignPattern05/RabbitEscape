@@ -66,7 +66,7 @@ public class BasicHandler extends BehaviourHandler
         State newState = this.newState(tool);
         if (newState != null) behaviourExecutor.setState(newState);
 
-        boolean handled = this.behave(world, behaviourExecutor, state);
+        boolean handled = this.behave(world, behaviourExecutor, behaviourExecutor.getState());
         if (nextHandler != null && !handled) {
             nextHandler.handleRequest(world, behaviourExecutor, behaviourExecutor.getState());
         }

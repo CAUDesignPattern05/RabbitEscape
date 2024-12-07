@@ -127,7 +127,7 @@ public class TestPhysics
         }
 
         // The rabbit has moved
-        assertEquals( 6, world.rabbits.get( 0 ).x );
+        assertEquals( 6, world.behaviourExecutors.get( 0 ).x );
     }
 
     class TracingWinListener implements LevelWinListener

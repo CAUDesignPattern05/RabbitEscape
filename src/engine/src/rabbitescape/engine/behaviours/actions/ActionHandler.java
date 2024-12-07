@@ -61,12 +61,7 @@ public class ActionHandler extends BehaviourHandler {
     public void handleRequest(World world,
         BehaviourExecutor behaviourExecutor,
         State state) {
-
-        BehaviourTools tool = new BehaviourTools(behaviourExecutor, world);
-        State newState = this.newState(tool);
-        if (newState != null) behaviourExecutor.setState(newState);
-
-        this.behave(world, behaviourExecutor, state);
+        this.behave(world, behaviourExecutor, behaviourExecutor.getState());
         if (nextHandler != null) {
             nextHandler.handleRequest(world, behaviourExecutor, behaviourExecutor.getState());
         }

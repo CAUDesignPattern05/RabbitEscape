@@ -17,6 +17,14 @@ public class Bashing extends Action
 
     @Override
     public State newState(BehaviourTools t) {
+        if (isBashed == 2) {
+            isBashed = 0;
+            if ((t.isOnUpSlope() && t.blockAboveNext() == null) || t.blockNext() == null) {
+                actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+                return actionHandler.newState(t);
+            }
+        }
+
         if (isBashed == 1) {
             return actionHandler.newMoveState(t);
         } else if (t.isOnUpSlope() && t.blockAboveNext() != null ) {
@@ -43,7 +51,7 @@ public class Bashing extends Action
     {
         if (isBashed == 1) {
             actionHandler.moveBehave(world, behaviourExecutor, state);
-            isBashed = 0;
+            isBashed = 2;
         } else {
             switch ( state ) {
                 case RABBIT_BASHING_RIGHT:
