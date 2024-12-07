@@ -2,11 +2,11 @@ package rabbitescape.engine;
 
 public interface RabbitNotifier
 {
-    public void registerObserver( RabbitObserver observer, BehaviourExecutor behaviourExecutor );
+    public void registerObserver( RabbitObserver observer, ObservableSubject observableSubject );
 
-    public void removeObserver( RabbitObserver observer, BehaviourExecutor behaviourExecutor );
+    public void removeObserver( RabbitObserver observer, ObservableSubject observableSubject );
 
-    public void notifyBirth(BehaviourExecutor behaviourExecutor);
+    public void notifyBirth(ObservableSubject observableSubject, BehaviourExecutor behaviourExecutor);
 
     public void notifyDeath(BehaviourExecutor behaviourExecutor);
 

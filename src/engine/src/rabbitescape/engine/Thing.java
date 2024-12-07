@@ -5,7 +5,7 @@ import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
 
-public abstract class Thing implements ShownOnOverlay
+public abstract class Thing extends ObservableSubject implements ShownOnOverlay
 {
     public State state;
     public int x;

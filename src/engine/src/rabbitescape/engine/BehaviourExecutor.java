@@ -109,15 +109,4 @@ public abstract class BehaviourExecutor
 
 
 
-    public ArrayList<RabbitObserver> observers;
-
-    public ArrayList<RabbitObserver> getObservers()
-    {
-        return observers;
-    }
-
-    public void setObservers( ArrayList<RabbitObserver> observers )
-    {
-        this.observers = observers;
-    }
 }
