@@ -41,23 +41,27 @@ public abstract class Behaviour implements RabbitNotifier
     public abstract void clearMemberVariables();
 
 
-    private ArrayList<RabbitObserver> observers = new ArrayList<>();
 
     @Override
-    public void registerObserver( RabbitObserver observer )
+    public void registerObserver( RabbitObserver observer, BehaviourExecutor behaviourExecutor)
     {
+        ArrayList<RabbitObserver> observers = behaviourExecutor.getObservers();
         observers.add( observer );
+        behaviourExecutor.setObservers( observers );
     }
 
     @Override
-    public void removeObserver( RabbitObserver observer )
+    public void removeObserver( RabbitObserver observer, BehaviourExecutor behaviourExecutor)
     {
+        ArrayList<RabbitObserver> observers = behaviourExecutor.getObservers();
         observers.remove( observer );
+        behaviourExecutor.setObservers( observers );
     }
 
     @Override
-    public void notifyDeath(BehaviourExecutor behaviourExecutor )
+    public void notifyDeath(BehaviourExecutor behaviourExecutor)
     {
+        ArrayList<RabbitObserver> observers = behaviourExecutor.getObservers();
         for ( RabbitObserver observer : observers )
         {
             observer.updateDeath( behaviourExecutor );
@@ -67,6 +71,7 @@ public abstract class Behaviour implements RabbitNotifier
     @Override
     public void notifyExiting(BehaviourExecutor behaviourExecutor)
     {
+        ArrayList<RabbitObserver> observers = behaviourExecutor.getObservers();
         for ( RabbitObserver observer : observers )
         {
             observer.updateExiting( behaviourExecutor );

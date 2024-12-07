@@ -7,6 +7,7 @@ import rabbitescape.engine.behaviours.deathBehaviours.DeathBehaviour;
 import rabbitescape.engine.behaviours.deathBehaviours.DeathHandler;
 import rabbitescape.engine.behaviours.rabbotBehaviours.RabbotHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,4 +106,18 @@ public abstract class BehaviourExecutor
     public void setState(State state) { this.state = state; }
 
     public State getState() { return state; }
+
+
+
+    public ArrayList<RabbitObserver> observers;
+
+    public ArrayList<RabbitObserver> getObservers()
+    {
+        return observers;
+    }
+
+    public void setObservers( ArrayList<RabbitObserver> observers )
+    {
+        this.observers = observers;
+    }
 }
