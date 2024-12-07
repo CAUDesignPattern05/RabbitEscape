@@ -29,7 +29,7 @@ public class Blocking extends Action
 
     @Override
     public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state ) {
-        return true;
+        return false;
     }
 
     @Override

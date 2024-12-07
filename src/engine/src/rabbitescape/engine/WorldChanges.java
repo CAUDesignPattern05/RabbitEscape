@@ -93,7 +93,9 @@ public class WorldChanges
         world.num_waiting = 0;
         for ( BehaviourExecutor behaviourExecutor : world.behaviourExecutors )
         {
-            behaviourExecutor.state = State.RABBIT_EXPLODING;
+            behaviourExecutor.actionHandler.setExplodingBehaviour();
+            behaviourExecutor.actionHandler.newState(new BehaviourTools(behaviourExecutor, world));
+            behaviourExecutor.actionHandler.behave(world, behaviourExecutor, behaviourExecutor.getState());
         }
     }
 

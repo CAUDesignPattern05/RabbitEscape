@@ -28,6 +28,8 @@ public class Bridging extends Action
     @Override
     public State newState( BehaviourTools t)
     {
+        nextStep();
+
         State ret = bridgingState( t, bigSteps, smallSteps, bridgeType );
         if ( ret == null ) {
             bigSteps = 0;
@@ -212,7 +214,8 @@ public class Bridging extends Action
         // Don't bridge if there is no block behind us (we're not in a hole)
         if ( isSlope( thisBlock ) && world.getBlockAt( bx, ny ) == null )
         {
-            return null;
+            actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+            return actionHandler.newState(t);
         }
 
         switch( ss )
@@ -235,7 +238,8 @@ public class Bridging extends Action
                     else
                     {
                         // We would hit our head, so don't bridge.
-                        return null;
+                        actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+                        return actionHandler.newState(t);
                     }
                 }
                 else
@@ -369,7 +373,7 @@ public class Bridging extends Action
             behaviourExecutor.setOnSlope(true);
         }
 
-        return handled;
+        return false;
     }
 
     private boolean moveRabbit( World world, BehaviourExecutor behaviourExecutor, State state )

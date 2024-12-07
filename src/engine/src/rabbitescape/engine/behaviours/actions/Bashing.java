@@ -19,7 +19,7 @@ public class Bashing extends Action
     public State newState(BehaviourTools t) {
         if (isBashed == 2) {
             isBashed = 0;
-            if ((t.isOnUpSlope() && t.blockAboveNext() == null) || t.blockNext() == null) {
+            if (t.blockBelow() == null || (t.isOnUpSlope() && t.blockAboveNext() == null) || t.blockNext() == null) {
                 actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
                 return actionHandler.newState(t);
             }
@@ -78,7 +78,7 @@ public class Bashing extends Action
                     break;
             }
         }
-        return isBashed == 1;
+        return false;
     }
 
     private int destX( BehaviourExecutor behaviourExecutor )

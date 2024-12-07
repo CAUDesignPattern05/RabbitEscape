@@ -203,7 +203,7 @@ public class Walking extends Action
             }
         }
 
-        return true;
+        return false;
     }
 
     /**

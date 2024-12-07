@@ -61,8 +61,8 @@ public class ActionHandler extends BehaviourHandler {
     public void handleRequest(World world,
         BehaviourExecutor behaviourExecutor,
         State state) {
-        this.behave(world, behaviourExecutor, behaviourExecutor.getState());
-        if (nextHandler != null) {
+        boolean handled = this.behave(world, behaviourExecutor, behaviourExecutor.getState());
+        if (nextHandler != null && !handled) {
             nextHandler.handleRequest(world, behaviourExecutor, behaviourExecutor.getState());
         }
     }
@@ -125,6 +125,11 @@ public class ActionHandler extends BehaviourHandler {
     protected void setBehaviour( Behaviour behaviour )
     {
         this.action = behaviour;
+        this.action.clearMemberVariables();
+    }
+
+    public void setExplodingBehaviour() {
+        this.action = exploding;
         this.action.clearMemberVariables();
     }
 

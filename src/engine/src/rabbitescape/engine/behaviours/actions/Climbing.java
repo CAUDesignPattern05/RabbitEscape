@@ -162,7 +162,7 @@ public class Climbing extends Action
             }
         }
 
-        return hasAbility;
+        return false;
     }
 
     @Override

@@ -158,6 +158,11 @@ public class BehaviourTools
         return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 2 );
     }
 
+    public Block block3Below()
+    {
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 3 );
+    }
+
     public Block blockBelowNext()
     {
         return world.getBlockAt( nextX(), behaviourExecutor.y + 1 );

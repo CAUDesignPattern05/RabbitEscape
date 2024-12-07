@@ -11,7 +11,6 @@ public class Exploding extends Action
 
     public Exploding( ActionHandler actionHandler) { super(actionHandler); }
 
-
     @Override
     public State newState(BehaviourTools t) {
         return RABBIT_EXPLODING;

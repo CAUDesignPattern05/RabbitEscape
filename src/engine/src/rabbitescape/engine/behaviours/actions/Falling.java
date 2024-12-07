@@ -15,16 +15,16 @@ public class Falling extends Action
         super( actionHandler );
     }
 
-    private int heightFallen = 0;
+    private int heightFallen;
 
 
     @Override
     public State newState( BehaviourTools t )
     {
-        if ((t.isOnSlope() && t.blockHere() != null) || (!t.isOnSlope() && t.blockBelow() != null)) {
-            actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
-            return actionHandler.newState(t);
-        }
+//        if ((t.isOnSlope() && t.blockHere() != null) || (!t.isOnSlope() && t.blockBelow() != null)) {
+//            actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+//            return actionHandler.newState(t);
+//        }
 
         if ( actionHandler.isBrollychutingAbility() )
         {
@@ -60,7 +60,7 @@ public class Falling extends Action
             else if ( BehaviourTools.isLeftRiseSlope( t.blockBelow() ) )
                 return RABBIT_DYING_OF_FALLING_SLOPE_RISE_LEFT;
             else
-                return State.RABBIT_FALLING_1_TO_DEATH;
+                return RABBIT_FALLING_1_TO_DEATH;
         } else {
             Block below = t.blockBelow();
 
@@ -112,6 +112,14 @@ public class Falling extends Action
                 }
             }
 
+            Block threeBelow = t.block3Below();
+            if ( threeBelow != null && t.isFlat( threeBelow ) ) {
+                return t.rl(
+                    RABBIT_FALLING_ONTO_LOWER_RIGHT,
+                    RABBIT_FALLING_ONTO_LOWER_LEFT
+                );
+            }
+
             return State.RABBIT_FALLING;
         }
     }
@@ -122,13 +130,10 @@ public class Falling extends Action
     {
         boolean handled = moveRabbit( world, behaviourExecutor, state );
 
-        if ( handled )
-        {
-            // Whenever we fall onto a slope, we are on top of it
-            Block thisBlock = world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y );
-            behaviourExecutor.setOnSlope(
-                thisBlock != null && thisBlock.shape != FLAT );
-        }
+        // Whenever we fall onto a slope, we are on top of it
+        Block thisBlock = world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y );
+        behaviourExecutor.setOnSlope(
+            thisBlock != null && thisBlock.shape != FLAT );
 
         return handled;
     }
@@ -148,20 +153,31 @@ public class Falling extends Action
                 return true;
             }
             case RABBIT_FALLING:
-            case RABBIT_FALLING_ONTO_LOWER_RIGHT:
-            case RABBIT_FALLING_ONTO_LOWER_LEFT:
-            case RABBIT_FALLING_ONTO_RISE_RIGHT:
-            case RABBIT_FALLING_ONTO_RISE_LEFT:
             case RABBIT_DYING_OF_FALLING_2_SLOPE_RISE_RIGHT:
             case RABBIT_DYING_OF_FALLING_2_SLOPE_RISE_LEFT:
             {
                 heightFallen += 2;
                 behaviourExecutor.y = behaviourExecutor.y + 2;
-                return true;
+                return false;
+            }
+            case RABBIT_FALLING_ONTO_LOWER_RIGHT:
+            case RABBIT_FALLING_ONTO_LOWER_LEFT:
+            case RABBIT_FALLING_ONTO_RISE_RIGHT:
+            case RABBIT_FALLING_ONTO_RISE_LEFT:
+            {
+                heightFallen += 2;
+                behaviourExecutor.y = behaviourExecutor.y + 2;
+                actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+                return false;
             }
             case RABBIT_DYING_OF_FALLING_SLOPE_RISE_RIGHT:
             case RABBIT_DYING_OF_FALLING_SLOPE_RISE_LEFT:
             case RABBIT_FALLING_1_TO_DEATH:
+            {
+                heightFallen += 1;
+                behaviourExecutor.y = behaviourExecutor.y + 1;
+                return false;
+            }
             case RABBIT_FALLING_1:
             case RABBIT_FALLING_1_ONTO_LOWER_RIGHT:
             case RABBIT_FALLING_1_ONTO_LOWER_LEFT:
@@ -170,11 +186,11 @@ public class Falling extends Action
             {
                 heightFallen += 1;
                 behaviourExecutor.y = behaviourExecutor.y + 1;
-                return true;
+                actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
+                return false;
             }
             default:
             {
-                heightFallen = 0;
                 return false;
             }
         }
@@ -194,5 +210,10 @@ public class Falling extends Action
         heightFallen = BehaviourState.restoreFromState(
             saveState, "Falling.heightFallen", heightFallen
         );
+    }
+
+    @Override
+    public void clearMemberVariables() {
+        heightFallen = 0;
     }
 }

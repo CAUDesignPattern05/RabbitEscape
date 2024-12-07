@@ -22,20 +22,8 @@ public class Brollychuting extends Action
         
         if ( below != null )
         {
-            if ( t.isUpSlope( below ) )
-            {
-                return t.rl(
-                    RABBIT_FALLING_1_ONTO_RISE_RIGHT,
-                    RABBIT_FALLING_1_ONTO_RISE_LEFT
-                );
-            }
-            else // Must be a slope in the opposite direction
-            {
-                return t.rl(
-                    RABBIT_FALLING_1_ONTO_LOWER_RIGHT,
-                    RABBIT_FALLING_1_ONTO_LOWER_LEFT
-                );
-            }
+            actionHandler.setBehaviour(actionHandler.getFallingBehaviour());
+            return actionHandler.newState(t);
         }
 
         return RABBIT_BROLLYCHUTING;
@@ -44,11 +32,8 @@ public class Brollychuting extends Action
     @Override
     public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
-        if ( state == RABBIT_BROLLYCHUTING ) {
-            behaviourExecutor.y = behaviourExecutor.y + 1;
-        }
-
-        return hasAbility;
+        behaviourExecutor.y = behaviourExecutor.y + 1;
+        return false;
     }
 
     @Override

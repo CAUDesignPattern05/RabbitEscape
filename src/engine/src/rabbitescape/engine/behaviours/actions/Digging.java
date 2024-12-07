@@ -17,7 +17,7 @@ public class Digging extends Action
     @Override
     public State newState(BehaviourTools t)
     {
-        if ( t.behaviourExecutor.state == RABBIT_DIGGING ) {
+        if ( t.behaviourExecutor.getState() == RABBIT_DIGGING ) {
             stepsOfDigging = 2;
             return RABBIT_DIGGING_2;
         } else if ( t.behaviourExecutor.isOnSlope() && t.blockHere() != null) {
@@ -53,7 +53,6 @@ public class Digging extends Action
                 break;
             }
             case RABBIT_DIGGING_2: {
-                actionHandler.moveBehave(world, behaviourExecutor, state);
                 break;
             }
             case RABBIT_DIGGING_USELESSLY:
@@ -62,7 +61,7 @@ public class Digging extends Action
             }
         }
 
-        return stepsOfDigging > 0;
+        return false;
     }
 
     @Override
