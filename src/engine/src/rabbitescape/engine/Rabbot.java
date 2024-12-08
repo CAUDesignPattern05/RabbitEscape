@@ -15,4 +15,12 @@ public class Rabbot extends BehaviourExecutor
         deathHandler.setNextHandler( rabbotHandler );
         actionHandler.setNextHandler( deathHandler );
     }
+
+    @Override
+    public String stateName()
+    {
+        String normalName = super.stateName();
+        return normalName.replaceFirst(
+                "^rabbit", "rabbot" );
+    }
 }
