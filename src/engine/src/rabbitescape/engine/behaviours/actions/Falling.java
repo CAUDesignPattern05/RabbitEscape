@@ -17,13 +17,7 @@ public class Falling extends Action {
 
     @Override
     public State newState(BehaviourTools t) {
-        // if ((t.isOnSlope() && t.blockHere() != null) || (!t.isOnSlope() &&
-        // t.blockBelow() != null)) {
-        // actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
-        // return actionHandler.newState(t);
-        // }
-
-        if (actionHandler.isBrollychutingAbility()) {
+        if (actionHandler.isBrollychutingAbility() && t.blockBelow() == null) {
             actionHandler.setBehaviour(actionHandler.getBrollychutingBehaviour());
             return actionHandler.newState(t);
         } // Brollychuting exchange
@@ -107,8 +101,7 @@ public class Falling extends Action {
 
         // Whenever we fall onto a slope, we are on top of it
         Block thisBlock = world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y);
-        behaviourExecutor.setOnSlope(
-                thisBlock != null && thisBlock.shape != FLAT);
+        behaviourExecutor.setOnSlope( thisBlock != null );
 
         return handled;
     }
