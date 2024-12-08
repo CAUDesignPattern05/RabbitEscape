@@ -27,6 +27,9 @@ public class Entrance extends Thing {
         if (delay[0] == -1) {
             delay = world.rabbit_delay;
         }
+        if (this.getObservers().isEmpty()){
+            this.registerObserver( world, this );
+        }
     }
 
     @Override

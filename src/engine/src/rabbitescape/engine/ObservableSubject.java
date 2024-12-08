@@ -6,6 +6,11 @@ public abstract class ObservableSubject implements RabbitNotifier
 {
     private ArrayList<RabbitObserver> observers;
 
+    public ObservableSubject()
+    {
+        observers = new ArrayList<>();
+    }
+
     public ArrayList<RabbitObserver> getObservers()
     {
         return observers;
