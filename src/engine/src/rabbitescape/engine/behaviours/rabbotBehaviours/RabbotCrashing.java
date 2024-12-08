@@ -20,7 +20,7 @@ public class RabbotCrashing extends RabbotBehaviour
                     otherBehaviourExecutor.y == behaviourExecutor.y
                 )
                 {
-                    world.changes.killRabbit( otherBehaviourExecutor );
+                    notifyDeath( otherBehaviourExecutor );
                     return true;
                 }
             }
@@ -49,7 +49,7 @@ public class RabbotCrashing extends RabbotBehaviour
         {
             case RABBIT_CRASHING:
             {
-                world.changes.killRabbit( behaviourExecutor );
+                notifyDeath( behaviourExecutor );
                 return true;
             }
             default:
