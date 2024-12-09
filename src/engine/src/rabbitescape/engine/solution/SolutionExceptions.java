@@ -1,6 +1,6 @@
 package rabbitescape.engine.solution;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.CompletionState;
 import rabbitescape.engine.err.RabbitEscapeException;

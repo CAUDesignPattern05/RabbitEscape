@@ -6,7 +6,7 @@ import static rabbitescape.engine.util.Util.*;
 import java.util.Map;
 
 import rabbitescape.engine.LevelWinListener;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.CompletionState;
 import rabbitescape.engine.solution.SandboxGame;

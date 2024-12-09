@@ -5,13 +5,12 @@ import static rabbitescape.engine.util.Util.*;
 import java.io.PrintStream;
 
 import rabbitescape.engine.World;
-import rabbitescape.engine.Token.Type;
+import rabbitescape.engine.token.Token.Type;
 import rabbitescape.engine.World.CantAddTokenOutsideWorld;
 import rabbitescape.engine.World.CompletionState;
 import rabbitescape.engine.World.DontStepAfterFinish;
 import rabbitescape.engine.World.NoSuchAbilityInThisWorld;
 import rabbitescape.engine.World.NoneOfThisAbilityLeft;
-import rabbitescape.engine.solution.SolutionExceptions;
 import rabbitescape.engine.textworld.TextWorldManip;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.Util;

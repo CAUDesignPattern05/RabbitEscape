@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import rabbitescape.engine.ChangeDescription;
 import rabbitescape.engine.LevelWinListener;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.solution.SolutionIgnorer;
 import rabbitescape.engine.textworld.TextWorldManip;
@@ -127,7 +127,7 @@ public class TestPhysics
         }
 
         // The rabbit has moved
-        assertEquals( 6, world.rabbits.get( 0 ).x );
+        assertEquals( 6, world.behaviourExecutors.get( 0 ).x );
     }
 
     class TracingWinListener implements LevelWinListener

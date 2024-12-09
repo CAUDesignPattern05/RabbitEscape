@@ -5,7 +5,7 @@ import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.Test;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 
 public class TestSelectAction
 {

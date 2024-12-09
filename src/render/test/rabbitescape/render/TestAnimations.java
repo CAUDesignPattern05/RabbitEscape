@@ -6,21 +6,19 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static rabbitescape.engine.Rabbit.Type.*;
 import static rabbitescape.engine.util.Util.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.Direction;
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.*;
 import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.render.AnimationLoader;
+import rabbitescape.engine.token.BlockToken;
 
 public class TestAnimations
 {
     @Test
     public void States_must_have_animations_and_frames_must_have_images()
     {
-        Thing token = new Token( 2, 1, Token.Type.block );
+        Thing token = new BlockToken( 2, 1 );
         for ( State s: State.values() )
         {
             token.state = s;
@@ -53,7 +51,7 @@ public class TestAnimations
             }
         };
 
-        Rabbit rabbit = new Rabbit( 1, 2, Direction.LEFT, RABBOT );
+        BehaviourExecutor rabbit = new Rabbot( 1, 2, Direction.LEFT);
 
         for ( State s: filter(isRabbitState, list(State.values())) )
         {

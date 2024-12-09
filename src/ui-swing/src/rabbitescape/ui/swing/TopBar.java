@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.render.gameloop.Physics;
 
 import static rabbitescape.engine.i18n.Translation.t;

@@ -146,7 +146,7 @@ public class TestGameLoop
             super(
                 w.size,
                 w.blockTable.getListCopy(),
-                w.rabbits,
+                w.behaviourExecutors,
                 w.things,
                 w.getWaterContents(),
                 w.abilities,
