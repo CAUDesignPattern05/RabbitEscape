@@ -465,6 +465,16 @@ public class LineProcessor {
                 } catch (IllegalArgumentException ignored) {
                 }
                 try {
+                    // Attempt to create a block
+                    BehaviourExecutor behaviourExecutor = (BehaviourExecutor) factoryManager.getFactory("Rabbit")
+                        .create(c, x, y, variantGen);
+                    if (behaviourExecutor != null) {
+                        things.add(behaviourExecutor);
+                        return null;
+                    }
+                } catch (IllegalArgumentException ignored) {
+                }
+                try {
                     // Attempt to create a thing
                     Thing thing = (Thing) factoryManager.getFactory("Thing")
                             .create(c, x, y, variantGen);
