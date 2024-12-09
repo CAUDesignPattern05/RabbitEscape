@@ -13,7 +13,7 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.BehaviourExecutor;
-import rabbitescape.engine.Block;
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.ChangeDescription;
 import rabbitescape.engine.IgnoreWorldStatsListener;
 import rabbitescape.engine.Rabbit;
@@ -22,6 +22,7 @@ import rabbitescape.engine.token.Token;
 import rabbitescape.engine.VoidMarkerStyle;
 import rabbitescape.engine.World;
 import rabbitescape.engine.WorldStatsListener;
+import rabbitescape.engine.factory.FactoryManager;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.Position;
 import rabbitescape.engine.util.Util;

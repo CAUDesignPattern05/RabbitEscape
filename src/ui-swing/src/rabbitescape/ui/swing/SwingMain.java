@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 
 import rabbitescape.engine.config.Config;
 import rabbitescape.engine.config.ConfigTools;
+import rabbitescape.engine.factory.FactoryInitializer;
 import rabbitescape.engine.i18n.Translation;
 import rabbitescape.engine.util.RealFileSystem;
 import rabbitescape.render.BitmapCache;
@@ -51,7 +52,7 @@ public class SwingMain
         Locale locale = Locale.getDefault();
         Translation.init( locale );
         Config config = SwingConfigSetup.createConfig();
-
+        FactoryInitializer.initialize();
         Sound sound = SwingSound.create(
             ConfigTools.getBool( config, CFG_MUTED ) );
 

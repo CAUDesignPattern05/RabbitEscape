@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import rabbitescape.engine.Block.Shape;
+import rabbitescape.engine.block.Block;
+import rabbitescape.engine.block.blockshape.BlockShape;
 import rabbitescape.engine.util.LookupTable2D;
 import rabbitescape.engine.util.Position;
 import rabbitescape.engine.util.WaterUtil;
@@ -29,9 +30,9 @@ public class WaterRegionFactory
      *            Any water region contents that are currently known.
      */
     public static LookupTable2D<WaterRegion> generateWaterTable(
-        LookupTable2D<Block> blockTable, 
-        Map<Position, 
-        Integer> waterAmounts 
+        LookupTable2D<Block> blockTable,
+        Map<Position,
+        Integer> waterAmounts
     )
     {
         LookupTable2D<WaterRegion> waterTable =
@@ -45,12 +46,12 @@ public class WaterRegionFactory
                 {
                     waterAmount = 0;
                 }
-                createWaterRegionsAtPoint( 
-                    blockTable, 
+                createWaterRegionsAtPoint(
+                    blockTable,
                     waterTable,
-                    x, 
-                    y, 
-                    waterAmount 
+                    x,
+                    y,
+                    waterAmount
                 );
             }
         }
@@ -66,10 +67,10 @@ public class WaterRegionFactory
         int contents )
     {
         List<Block> blocks = blockTable.getItemsAt( x, y );
-        Shape[] shapes = new Shape[blocks.size()];
+        BlockShape.Type[] shapes = new BlockShape.Type[blocks.size()];
         for ( int i = 0; i < blocks.size(); i++ )
         {
-            shapes[i] = blocks.get( i ).shape;
+            shapes[i] = blocks.get( i ).getShape();
         }
 
         boolean outsideWorld = ( x == -1 || x == blockTable.size.width
@@ -81,28 +82,28 @@ public class WaterRegionFactory
     }
 
     /** Create a set of empty water regions from the given shaped blocks. */
-    public static List<WaterRegion> makeWaterRegion( 
-        int x, 
+    public static List<WaterRegion> makeWaterRegion(
+        int x,
         int y,
-        Shape[] shapes,
-        boolean outsideWorld 
+        BlockShape.Type[] shapes,
+        boolean outsideWorld
     )
     {
         return makeWaterRegion( x, y, shapes, 0, outsideWorld );
     }
 
     /** Create a set of water regions from the given shaped blocks. */
-    public static List<WaterRegion> makeWaterRegion( 
-        int x, 
+    public static List<WaterRegion> makeWaterRegion(
+        int x,
         int y,
-        Shape[] shapes,
+        BlockShape.Type[] shapes,
         int contents,
-        boolean outsideWorld 
+        boolean outsideWorld
     )
     {
         Set<CellularDirection> connections = new HashSet<>(
             Arrays.asList( UP, LEFT, RIGHT, DOWN ) );
-        for ( Shape shape : shapes )
+        for ( BlockShape.Type shape : shapes )
         {
             switch ( shape )
             {
@@ -130,13 +131,13 @@ public class WaterRegionFactory
         int capacity = findCapacity( connections );
 
         return Arrays.asList(
-            new WaterRegion( 
-                x, 
+            new WaterRegion(
+                x,
                 y,
                 connections,
-                capacity, 
-                contents, 
-                outsideWorld 
+                capacity,
+                contents,
+                outsideWorld
         ) );
     }
 

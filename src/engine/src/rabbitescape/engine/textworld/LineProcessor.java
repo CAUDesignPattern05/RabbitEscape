@@ -1,12 +1,5 @@
 package rabbitescape.engine.textworld;
 
-import static rabbitescape.engine.Block.Material.EARTH;
-import static rabbitescape.engine.Block.Material.METAL;
-import static rabbitescape.engine.Block.Shape.BRIDGE_UP_LEFT;
-import static rabbitescape.engine.Block.Shape.BRIDGE_UP_RIGHT;
-import static rabbitescape.engine.Block.Shape.FLAT;
-import static rabbitescape.engine.Block.Shape.UP_LEFT;
-import static rabbitescape.engine.Block.Shape.UP_RIGHT;
 import static rabbitescape.engine.Direction.LEFT;
 import static rabbitescape.engine.Direction.RIGHT;
 import static rabbitescape.engine.util.Util.asChars;
@@ -20,9 +13,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.*;
 import rabbitescape.engine.BehaviourExecutor;
-import rabbitescape.engine.Block;
 import rabbitescape.engine.Entrance;
 import rabbitescape.engine.Exit;
 import rabbitescape.engine.Fire;
@@ -31,6 +24,7 @@ import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
 import rabbitescape.engine.token.*;
 import rabbitescape.engine.VoidMarkerStyle;
+import rabbitescape.engine.factory.FactoryManager;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.MegaCoder;
 import rabbitescape.engine.util.Position;
@@ -39,6 +33,7 @@ import rabbitescape.engine.util.WaterUtil;
 
 public class LineProcessor {
     public static final String CODE_SUFFIX = ".code";
+    private final FactoryManager factoryManager = FactoryManager.getInstance();
 
     public static class KeyListKey {
         public final String prefix;
@@ -389,134 +384,24 @@ public class LineProcessor {
         ++height;
     }
 
-    public Thing processChar(
-            char c, int x, int y, VariantGenerator variantGen) {
-        Thing ret = null;
-
+    public Thing processChar(char c, int x, int y, VariantGenerator variantGen) {
+        FactoryManager factoryManager = FactoryManager.getInstance();
         switch (c) {
-            case ' ': {
-                break;
-            }
-            case '#': {
-                blocks.add(
-                        new Block(x, y, EARTH, FLAT, variantGen.next(4)));
-                break;
-            }
-            case 'M': {
-                blocks.add(
-                        new Block(x, y, METAL, FLAT, variantGen.next(4)));
-                break;
-            }
-            case '/': {
-                blocks.add(
-                        new Block(x, y, EARTH, UP_RIGHT, variantGen.next(4)));
-                break;
-            }
-            case '\\': {
-                blocks.add(
-                        new Block(x, y, EARTH, UP_LEFT, variantGen.next(4)));
-                break;
-            }
-            case '(': {
-                blocks.add(
-                        new Block(x, y, EARTH, BRIDGE_UP_RIGHT, 0));
-                break;
-            }
-            case ')': {
-                blocks.add(
-                        new Block(x, y, EARTH, BRIDGE_UP_LEFT, 0));
-                break;
-            }
-            case 'r': {
-                BehaviourExecutor r = new Rabbit(x, y, RIGHT);
-                ret = r;
-                behaviourExecutors.add(r);
-                break;
-            }
-            case 'j': {
-                BehaviourExecutor r = new Rabbit(x, y, LEFT);
-                ret = r;
-                behaviourExecutors.add(r);
-                break;
-            }
-            case 't': {
-                BehaviourExecutor r = new Rabbot(x, y, RIGHT);
-                ret = r;
-                behaviourExecutors.add(r);
-                break;
-            }
-            case 'y': {
-                BehaviourExecutor r = new Rabbot(x, y, LEFT);
-                ret = r;
-                behaviourExecutors.add(r);
-                break;
-            }
-            case 'Q': {
-                ret = new Entrance(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'O': {
-                ret = new Exit(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'A': {
-                ret = new Fire(x, y, variantGen.next(4));
-                things.add(ret);
-                break;
-            }
-            case 'P': {
-                ret = new Pipe(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'b': {
-                ret = new BashToken(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'd': {
-                ret = new DigToken(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'i': {
-                ret = new BridgeToken(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'k': {
-                ret = new BlockToken(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'c': {
-                ret = new ClimbToken(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'p': {
-                ret = new ExplodeToken(x, y);
-                things.add(ret);
-                break;
-            }
-            case 'l': {
-                ret = new BrollyToken(x, y);
-                things.add(ret);
-                break;
-            }
+            case ' ':
+                return null;
             case 'N': {
                 // Default amount for a full water region, but may be
                 // overwritten by an explicit water definition line.
-                waterAmounts.put(new Position(x, y),
+                waterAmounts.put(
+                        new Position(x, y),
                         WaterUtil.MAX_CAPACITY);
                 break;
             }
             case 'n': {
                 // Default amount for a half water region, but may be
                 // overwritten by an explicit water definition line.
-                waterAmounts.put(new Position(x, y),
+                waterAmounts.put(
+                        new Position(x, y),
                         WaterUtil.HALF_CAPACITY);
                 break;
             }
@@ -524,11 +409,41 @@ public class LineProcessor {
                 starPoints.add(new Position(x, y));
                 break;
             }
-            default: {
-                throw new UnknownCharacter(lines, lineNum, x);
-            }
+            default:
+                try {
+                    // Attempt to create a block
+                    Block block = (Block) factoryManager.getFactory("Block")
+                            .create(c, x, y, variantGen);
+                    if (block != null) {
+                        blocks.add(block);
+                        return null;
+                    }
+                } catch (IllegalArgumentException ignored) {
+                }
+                try {
+                    // Attempt to create a thing
+                    Thing thing = (Thing) factoryManager.getFactory("Token")
+                            .create(c, x, y, variantGen);
+                    if (thing != null) {
+                        things.add(thing);
+                        return thing;
+                    }
+                } catch (IllegalArgumentException ignored) {
+                }
+                try {
+                    // Attempt to create a thing
+                    Thing thing = (Thing) factoryManager.getFactory("Thing")
+                            .create(c, x, y, variantGen);
+                    if (thing != null) {
+                        things.add(thing);
+                        return thing;
+                    }
+                } catch (IllegalArgumentException ignored) {
+                }
+                throw new IllegalArgumentException("Unknown character: " + c);
         }
-        return ret;
+
+        return null;
     }
 
     public VoidMarkerStyle.Style generateVoidMarkerStyle() {

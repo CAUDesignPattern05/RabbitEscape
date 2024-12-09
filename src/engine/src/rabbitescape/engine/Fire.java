@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
 
 public class Fire extends Thing
 {
