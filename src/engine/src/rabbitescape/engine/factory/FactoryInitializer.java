@@ -1,6 +1,6 @@
 package rabbitescape.engine.factory;
 
-import rabbitescape.engine.block.blockfactory.BlockFactory;
+import rabbitescape.engine.factory.blockfactory.BlockFactory;
 
 public class FactoryInitializer {
     public static void initialize() {
@@ -8,9 +8,6 @@ public class FactoryInitializer {
 
         // Register Block factories
         factoryManager.registerFactory("Block", new BlockFactory());
-
-        // Register Token factories
-        factoryManager.registerFactory("Token", new TokenFactory());
 
         // Register Rabbit factories
         factoryManager.registerFactory("Rabbit", new RabbitFactory());

@@ -1,14 +1,13 @@
 package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Block.Material.*;
-import static rabbitescape.engine.Block.Shape.*;
 
 import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.Behaviour;
+import rabbitescape.engine.block.Block;
+import rabbitescape.engine.factory.blockfactory.BridgeFactory;
 
 public class Bridging extends Action {
     enum BridgeType {
@@ -20,9 +19,11 @@ public class Bridging extends Action {
     private int smallSteps;
     private int bigSteps;
     private BridgeType bridgeType = BridgeType.ALONG;
+    private final BridgeFactory bridgeFactory;
 
     public Bridging(ActionHandler actionHandler) {
         super(actionHandler);
+        this.bridgeFactory = new BridgeFactory();
     }
 
     @Override
@@ -244,7 +245,7 @@ public class Bridging extends Action {
                 (nextBlock != null
                         &&
                         (nextBlock.riseDir() != behaviourExecutor.getDirection()
-                                || nextBlock.shape == FLAT));
+                                || nextBlock.isFlat()));
     }
 
     private static boolean isSlopeUp(BehaviourExecutor behaviourExecutor, Block hereBlock) {
@@ -279,7 +280,7 @@ public class Bridging extends Action {
     }
 
     private static boolean isSlope(Block thisBlock) {
-        return (thisBlock != null && thisBlock.shape != FLAT);
+        return (thisBlock != null && !thisBlock.isFlat());
     }
 
     @Override
@@ -332,11 +333,10 @@ public class Bridging extends Action {
             case RABBIT_BRIDGING_DOWN_UP_RIGHT_3: {
                 behaviourExecutor.x++;
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_RIGHT,
+                                Direction.RIGHT,
                                 0));
 
                 return true;
@@ -345,11 +345,10 @@ public class Bridging extends Action {
             case RABBIT_BRIDGING_DOWN_UP_LEFT_3: {
                 behaviourExecutor.x--;
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_LEFT,
+                                Direction.LEFT,
                                 0));
 
                 return true;
@@ -358,11 +357,10 @@ public class Bridging extends Action {
                 behaviourExecutor.x++;
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_RIGHT,
+                                Direction.RIGHT,
                                 0));
 
                 return true;
@@ -371,11 +369,10 @@ public class Bridging extends Action {
                 behaviourExecutor.x--;
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_LEFT,
+                                Direction.LEFT,
                                 0));
 
                 return true;
@@ -383,22 +380,20 @@ public class Bridging extends Action {
             case RABBIT_BRIDGING_IN_CORNER_RIGHT_3: {
                 behaviourExecutor.setOnSlope(true);
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_RIGHT,
+                                Direction.RIGHT,
                                 0));
                 return true;
             }
             case RABBIT_BRIDGING_IN_CORNER_LEFT_3: {
                 behaviourExecutor.setOnSlope(true);
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_LEFT,
+                                Direction.LEFT,
                                 0));
                 return true;
             }
@@ -406,11 +401,10 @@ public class Bridging extends Action {
                 behaviourExecutor.setOnSlope(true);
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_RIGHT,
+                                Direction.RIGHT,
                                 0));
                 return true;
             }
@@ -418,11 +412,10 @@ public class Bridging extends Action {
                 behaviourExecutor.setOnSlope(true);
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                        new Block(
+                        bridgeFactory.createBridge(
                                 behaviourExecutor.x,
                                 behaviourExecutor.y,
-                                EARTH,
-                                BRIDGE_UP_LEFT,
+                                Direction.LEFT,
                                 0));
                 return true;
             }

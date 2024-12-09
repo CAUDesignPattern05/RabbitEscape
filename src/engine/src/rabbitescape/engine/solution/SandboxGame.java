@@ -88,7 +88,7 @@ public class SandboxGame {
                 clonedThings.add(cloneRabbit(BehaviourExecutor));
             } else if (thing instanceof Token) {
                 Token token = (Token) thing;
-                clonedThings.add(TokenFactory.createToken(token.x, token.y, token.type));
+                clonedThings.add( TokenFactory.createToken(token.x, token.y, token.type));
             } else if (thing instanceof Fire) {
                 Fire fire = (Fire) thing;
                 clonedThings.add(new Fire(fire.x, fire.y, fire.variant));

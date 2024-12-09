@@ -2,8 +2,8 @@ package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Direction.*;
-import static rabbitescape.engine.Block.Shape.*;
 
+import rabbitescape.engine.block.Block;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 
@@ -228,12 +228,6 @@ public class Walking extends Action
 
     private boolean isBridge( Block block )
     {
-        return (
-               block != null
-            && (
-                   block.shape == BRIDGE_UP_LEFT
-                || block.shape == BRIDGE_UP_RIGHT
-            )
-        );
+        return ( block != null && block.isBridge() );
     }
 }

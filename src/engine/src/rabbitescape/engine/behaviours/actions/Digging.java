@@ -6,7 +6,6 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.Behaviour;
 
 public class Digging extends Action
 {
@@ -24,7 +23,7 @@ public class Digging extends Action
             stepsOfDigging = 1;
             return RABBIT_DIGGING_ON_SLOPE;
         } else if (t.blockBelow() != null) {
-            if (t.blockBelow().material == Block.Material.METAL) {
+            if (!t.blockBelow().isDestructible()) {
                 stepsOfDigging = 0;
                 return RABBIT_DIGGING_USELESSLY;
             } else {

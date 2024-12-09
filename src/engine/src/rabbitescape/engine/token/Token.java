@@ -2,6 +2,7 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
 
 import java.util.HashMap;
 import java.util.Map;

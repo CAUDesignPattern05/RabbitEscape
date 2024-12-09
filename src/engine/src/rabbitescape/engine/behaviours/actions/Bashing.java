@@ -7,7 +7,6 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.BehaviourHandler;
 
 public class Bashing extends Action
 {
@@ -28,7 +27,7 @@ public class Bashing extends Action
         if (isBashed == 1) {
             return actionHandler.newMoveState(t);
         } else if (t.isOnUpSlope() && t.blockAboveNext() != null ) {
-            if (t.blockAboveNext().material == Block.Material.METAL) {
+            if (!t.blockAboveNext().isDestructible()) {
                 return t.rl( RABBIT_BASHING_USELESSLY_RIGHT_UP, RABBIT_BASHING_USELESSLY_LEFT_UP );
             } else {
                 return t.rl( RABBIT_BASHING_UP_RIGHT, RABBIT_BASHING_UP_LEFT );
@@ -36,7 +35,7 @@ public class Bashing extends Action
         } else if (t.isOnUpSlope() && t.blockAboveNext() == null) {
             return t.rl( RABBIT_BASHING_USELESSLY_RIGHT_UP, RABBIT_BASHING_USELESSLY_LEFT_UP );
         } else if ( t.blockNext() != null ) {
-            if ( t.blockNext().material == Block.Material.METAL ) {
+            if ( !t.blockNext().isDestructible() ) {
                 return t.rl( RABBIT_BASHING_USELESSLY_RIGHT, RABBIT_BASHING_USELESSLY_LEFT );
             } else {
                 return t.rl( RABBIT_BASHING_RIGHT, RABBIT_BASHING_LEFT );

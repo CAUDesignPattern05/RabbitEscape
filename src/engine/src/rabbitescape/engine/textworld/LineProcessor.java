@@ -22,9 +22,10 @@ import rabbitescape.engine.Fire;
 import rabbitescape.engine.Pipe;
 import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.Thing;
-import rabbitescape.engine.token.*;
 import rabbitescape.engine.VoidMarkerStyle;
 import rabbitescape.engine.factory.FactoryManager;
+import rabbitescape.engine.token.Token;
+import rabbitescape.engine.token.TokenFactory;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.MegaCoder;
 import rabbitescape.engine.util.Position;
@@ -386,6 +387,7 @@ public class LineProcessor {
 
     public Thing processChar(char c, int x, int y, VariantGenerator variantGen) {
         FactoryManager factoryManager = FactoryManager.getInstance();
+        Thing ret = null;
         switch (c) {
             case ' ':
                 return null;
@@ -409,6 +411,48 @@ public class LineProcessor {
                 starPoints.add(new Position(x, y));
                 break;
             }
+            case 'b':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.bash );
+                things.add( ret );
+                break;
+            }
+            case 'd':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.dig );
+                things.add( ret );
+                break;
+            }
+            case 'i':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.bridge );
+                things.add( ret );
+                break;
+            }
+            case 'k':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.block );
+                things.add( ret );
+                break;
+            }
+            case 'c':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.climb );
+                things.add( ret );
+                break;
+            }
+            case 'p':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.explode );
+                things.add( ret );
+                break;
+            }
+            case 'l':
+            {
+                ret = TokenFactory.createToken( x, y, Token.Type.brolly );
+                things.add( ret );
+                break;
+            }
             default:
                 try {
                     // Attempt to create a block
@@ -417,16 +461,6 @@ public class LineProcessor {
                     if (block != null) {
                         blocks.add(block);
                         return null;
-                    }
-                } catch (IllegalArgumentException ignored) {
-                }
-                try {
-                    // Attempt to create a thing
-                    Thing thing = (Thing) factoryManager.getFactory("Token")
-                            .create(c, x, y, variantGen);
-                    if (thing != null) {
-                        things.add(thing);
-                        return thing;
                     }
                 } catch (IllegalArgumentException ignored) {
                 }

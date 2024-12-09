@@ -4,7 +4,6 @@ import static rabbitescape.engine.ChangeDescription.State.*;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.Behaviour;
 
 public class Exploding extends Action
 {

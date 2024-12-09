@@ -1,4 +1,4 @@
-package rabbitescape.engine.block.blockfactory;
+package rabbitescape.engine.factory.blockfactory;
 
 import rabbitescape.engine.Direction;
 import rabbitescape.engine.block.*;
@@ -17,7 +17,7 @@ public class BlockFactory implements Factory<Block> {
         VariantGenerator variantGen = (VariantGenerator) args[0];
 
         switch (c) {
-            case 'D': System.out.println("Decay!!");return new DecayBlock(x, y, variantGen.next(4), 3);
+            case 'D': return new DecayBlock(x, y, variantGen.next(4), 3);
             case '#': return new EarthBlock(x, y, new FlatShape(), variantGen.next(4));
             case 'M': return new MetalBlock(x, y, new FlatShape(), variantGen.next(4));
             case '/': return new EarthBlock(x, y, new UprightShape(), variantGen.next(4));

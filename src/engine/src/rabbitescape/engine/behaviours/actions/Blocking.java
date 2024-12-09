@@ -6,7 +6,7 @@ import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.behaviours.Behaviour;
+import rabbitescape.engine.block.Block;
 
 public class Blocking extends Action
 {

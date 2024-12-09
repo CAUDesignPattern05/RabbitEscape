@@ -1,12 +1,12 @@
 package rabbitescape.engine.behaviours.actions;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
-import static rabbitescape.engine.Block.Shape.*;
 
 import java.util.Map;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.Block;
 
 public class Falling extends Action {
     public Falling(ActionHandler actionHandler) {

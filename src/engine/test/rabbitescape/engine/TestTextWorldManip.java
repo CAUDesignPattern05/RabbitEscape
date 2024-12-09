@@ -556,7 +556,7 @@ public class TestTextWorldManip {
                 renderCompleteWorld(world, false, false),
                 equalTo(
                         "*",
-                        ":*=rk" // No {Blocking.abilityActive:true} because runtime
+                        ":*=rk"
                 ));
     }
 
