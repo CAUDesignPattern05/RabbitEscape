@@ -19,9 +19,9 @@ public class WorldChanges
     private final World world;
     public final WorldStatsListener statsListener;
 
-    private final List<Rabbit> rabbitsToEnter = new ArrayList<Rabbit>();
-    private final List<Rabbit> rabbitsToKill  = new ArrayList<Rabbit>();
-    private final List<Rabbit> rabbitsToSave  = new ArrayList<Rabbit>();
+    private final List<BehaviourExecutor> rabbitsToEnter = new ArrayList<BehaviourExecutor>();
+    private final List<BehaviourExecutor> rabbitsToKill  = new ArrayList<BehaviourExecutor>();
+    private final List<BehaviourExecutor> rabbitsToSave  = new ArrayList<BehaviourExecutor>();
     private final List<Token>  tokensToAdd    = new ArrayList<Token>();
     public  final List<Token>  tokensToRemove = new ArrayList<Token>();
     public  final List<Fire>   fireToRemove   = new ArrayList<Fire>();
@@ -32,7 +32,7 @@ public class WorldChanges
 
     private boolean explodeAll = false;
 
-    private List<Rabbit> rabbitsJustEntered = new ArrayList<Rabbit>();
+    private List<BehaviourExecutor> rabbitsJustEntered = new ArrayList<BehaviourExecutor>();
 
     public WorldChanges( World world, WorldStatsListener statsListener )
     {
@@ -44,17 +44,17 @@ public class WorldChanges
     public synchronized void apply()
     {
         // Add any new things
-        for ( Rabbit rabbit : rabbitsToEnter )
+        for ( BehaviourExecutor behaviourExecutor : rabbitsToEnter )
         {
-            rabbit.calcNewState( world );
+            behaviourExecutor.calcNewState( world );
         }
-        world.rabbits.addAll( rabbitsToEnter );
+        world.behaviourExecutors.addAll( rabbitsToEnter );
         world.things.addAll( tokensToAdd );
         world.blockTable.addAll( blocksToAdd );
 
         // Remove dead/saved rabbits, used tokens, dug out blocks
-        world.rabbits.removeAll( rabbitsToKill );
-        world.rabbits.removeAll( rabbitsToSave );
+        world.behaviourExecutors.removeAll( rabbitsToKill );
+        world.behaviourExecutors.removeAll( rabbitsToSave );
         world.things.removeAll(  tokensToRemove );
         world.things.removeAll( fireToRemove );
         world.blockTable.removeAll(  blocksToRemove );
@@ -93,9 +93,9 @@ public class WorldChanges
     private void doExplodeAll()
     {
         world.num_waiting = 0;
-        for ( Rabbit rabbit : world.rabbits )
+        for ( BehaviourExecutor behaviourExecutor : world.behaviourExecutors )
         {
-            rabbit.state = State.RABBIT_EXPLODING;
+            behaviourExecutor.actionHandler.setExplodingBehaviour();
         }
     }
 
@@ -117,17 +117,17 @@ public class WorldChanges
         rabbitsToEnter.clear();
     }
 
-    public synchronized void enterRabbit( Rabbit rabbit )
+    public synchronized void enterRabbit( BehaviourExecutor behaviourExecutor )
     {
         --world.num_waiting;
-        rabbitsToEnter.add( rabbit );
+        rabbitsToEnter.add( behaviourExecutor );
     }
 
     private synchronized void revertKillRabbits()
     {
-        for ( Rabbit rabbit : rabbitsToKill )
+        for ( BehaviourExecutor behaviourExecutor : rabbitsToKill )
         {
-            if ( rabbit.type == Rabbit.Type.RABBIT )
+            if (behaviourExecutor instanceof Rabbit)
             {
                 --world.num_killed;
             }
@@ -135,13 +135,13 @@ public class WorldChanges
         rabbitsToKill.clear();
     }
 
-    public synchronized void killRabbit( Rabbit rabbit )
+    public synchronized void killRabbit( BehaviourExecutor behaviourExecutor )
     {
-        if ( rabbit.type == Rabbit.Type.RABBIT )
+        if (behaviourExecutor instanceof Rabbit)
         {
             ++world.num_killed;
         }
-        rabbitsToKill.add( rabbit );
+        rabbitsToKill.add( behaviourExecutor );
     }
 
     private void revertSaveRabbits()
@@ -150,10 +150,10 @@ public class WorldChanges
         rabbitsToSave.clear();
     }
 
-    public synchronized void saveRabbit( Rabbit rabbit )
+    public synchronized void saveRabbit( BehaviourExecutor behaviourExecutor )
     {
         ++world.num_saved;
-        rabbitsToSave.add( rabbit );
+        rabbitsToSave.add( behaviourExecutor );
     }
 
     private synchronized void revertAddTokens()
@@ -233,13 +233,13 @@ public class WorldChanges
         explodeAll = true;
     }
 
-    public List<Rabbit> rabbitsJustEntered()
+    public List<BehaviourExecutor> rabbitsJustEntered()
     {
         return rabbitsJustEntered;
     }
 
     public void rememberWhatWillHappen()
     {
-        rabbitsJustEntered = new ArrayList<Rabbit>( rabbitsToEnter );
+        rabbitsJustEntered = new ArrayList<BehaviourExecutor>( rabbitsToEnter );
     }
 }

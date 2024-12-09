@@ -9,12 +9,12 @@ import rabbitescape.engine.util.Position;
 
 public class BehaviourTools
 {
-    public final Rabbit rabbit;
+    public final BehaviourExecutor behaviourExecutor;
     public final World world;
 
-    public BehaviourTools( Rabbit rabbit, World world )
+    public BehaviourTools( BehaviourExecutor behaviourExecutor, World world )
     {
-        this.rabbit = rabbit;
+        this.behaviourExecutor = behaviourExecutor;
         this.world = world;
     }
 
@@ -23,31 +23,21 @@ public class BehaviourTools
         ChangeDescription.State leftState
     )
     {
-        return rabbit.dir == RIGHT ? rightState : leftState;
+        return behaviourExecutor.getDirection() == RIGHT ? rightState : leftState;
     }
 
-    public boolean pickUpToken( Token.Type type )
-    {
+    public boolean pickUpToken( Token.Type type ) {
         return pickUpToken( type, false );
     }
 
     public boolean rabbitIsFalling()
     {
-        switch (rabbit.state)
+        switch ( behaviourExecutor.state )
         {
         case RABBIT_FALLING:
-        case RABBIT_FALLING_1:
         case RABBIT_FALLING_1_TO_DEATH:
         case RABBIT_DYING_OF_FALLING_2:
         case RABBIT_DYING_OF_FALLING:
-        case RABBIT_FALLING_ONTO_LOWER_RIGHT:
-        case RABBIT_FALLING_ONTO_RISE_RIGHT:
-        case RABBIT_FALLING_ONTO_LOWER_LEFT:
-        case RABBIT_FALLING_ONTO_RISE_LEFT:
-        case RABBIT_FALLING_1_ONTO_LOWER_RIGHT:
-        case RABBIT_FALLING_1_ONTO_RISE_RIGHT:
-        case RABBIT_FALLING_1_ONTO_LOWER_LEFT:
-        case RABBIT_FALLING_1_ONTO_RISE_LEFT:
         case RABBIT_DYING_OF_FALLING_SLOPE_RISE_RIGHT:
         case RABBIT_DYING_OF_FALLING_SLOPE_RISE_RIGHT_2:
         case RABBIT_DYING_OF_FALLING_2_SLOPE_RISE_RIGHT:
@@ -64,7 +54,7 @@ public class BehaviourTools
 
     public boolean rabbitIsClimbing()
     {
-        switch( rabbit.state)
+        switch( behaviourExecutor.state)
         {
         case RABBIT_ENTERING_EXIT_CLIMBING_RIGHT:
         case RABBIT_ENTERING_EXIT_CLIMBING_LEFT:
@@ -86,7 +76,7 @@ public class BehaviourTools
 
     public boolean rabbitIsBashing()
     {
-        switch( rabbit.state)
+        switch( behaviourExecutor.state)
         {
         case RABBIT_BASHING_RIGHT:
         case RABBIT_BASHING_LEFT:
@@ -108,14 +98,14 @@ public class BehaviourTools
      */
     public boolean pickUpToken( Token.Type type, boolean evenIfNotOnGround )
     {
-        if ( rabbitIsFalling() && rabbit.isFallingToDeath() )
+        if ( rabbitIsFalling())
         {
             return false; // Dying rabbits not allowed to consume tokens
         }
 
         if ( evenIfNotOnGround || onGround() )
         {
-            Token token = world.getTokenAt( rabbit.x, rabbit.y );
+            Token token = world.getTokenAt( behaviourExecutor.x, behaviourExecutor.y );
             if ( token != null && token.type == type )
             {
                 world.changes.removeToken( token );
@@ -125,44 +115,65 @@ public class BehaviourTools
         return false;
     }
 
+    public Token pickUpToken() {
+        if (rabbitIsFalling()) {
+            return null; // Dying rabbits not allowed to consume tokens
+        }
+
+        if (onGround()) {
+            Token token = world.getTokenAt( behaviourExecutor.x, behaviourExecutor.y );
+            if ( token != null)
+            {
+                world.changes.removeToken( token );
+                return token;
+            }
+        }
+        return null;
+    }
+
     public Block blockHere()
     {
-        return world.getBlockAt( rabbit.x, rabbit.y );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y );
     }
 
     public Block blockNext()
     {
-        return world.getBlockAt( nextX(), rabbit.y );
+        return world.getBlockAt( nextX(), behaviourExecutor.y );
     }
 
     public Block blockBelow()
     {
-        return world.getBlockAt( rabbit.x, rabbit.y + 1 );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
     }
 
     public Block block2Below()
     {
-        return world.getBlockAt( rabbit.x, rabbit.y + 2 );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 2 );
+    }
+
+    public Block block3Below()
+    {
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y + 3 );
     }
 
     public Block blockBelowNext()
     {
-        return world.getBlockAt( nextX(), rabbit.y + 1 );
+        return world.getBlockAt( nextX(), behaviourExecutor.y + 1 );
     }
 
     public Block blockAbove()
     {
-        return world.getBlockAt( rabbit.x, rabbit.y - 1 );
+        return world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y - 1 );
     }
 
     public Block blockAboveNext()
     {
-        return world.getBlockAt( nextX(), rabbit.y - 1 );
+        return world.getBlockAt( nextX(), behaviourExecutor.y - 1 );
     }
 
     private boolean onGround()
     {
-        return ( rabbit.onSlope || blockBelow() != null );
+        return ( behaviourExecutor.isOnSlope() || blockBelow() != null );
     }
 
     public boolean isWall( Block block )
@@ -172,7 +183,7 @@ public class BehaviourTools
             && (
                    block.shape == FLAT
                 || (
-                    block.riseDir() == opposite( rabbit.dir )
+                    block.riseDir() == opposite( behaviourExecutor.getDirection() )
                     && isSolid( block )
                 )
             )
@@ -277,7 +288,7 @@ public class BehaviourTools
 
     private boolean goingUpSlope()
     {
-        if ( rabbit.onSlope )
+        if ( behaviourExecutor.isOnSlope() )
         {
             if( isOnUpSlope() )
             {
@@ -287,9 +298,19 @@ public class BehaviourTools
         return false;
     }
 
+    public boolean isOnSlope()
+    {
+        return behaviourExecutor.isOnSlope();
+    }
+
     public boolean isOnUpSlope()
     {
-        return rabbit.onSlope && hereIsUpSlope();
+        return behaviourExecutor.isOnSlope() && hereIsUpSlope();
+    }
+
+    public int getFatalHeight()
+    {
+        return behaviourExecutor.getFatalHeight();
     }
 
     /**
@@ -312,7 +333,7 @@ public class BehaviourTools
     public boolean isValleying()
     {
         // block where slope would be if it continues
-        Block alongBlock = world.getBlockAt( nextX(), rabbit.y );
+        Block alongBlock = world.getBlockAt( nextX(), behaviourExecutor.y );
 
         return isOnDownSlope() &&
                isUpSlope( alongBlock );
@@ -325,12 +346,12 @@ public class BehaviourTools
 
     public boolean isUpSlope( Block block )
     {
-        return ( block != null && block.riseDir() == rabbit.dir );
+        return ( block != null && block.riseDir() == behaviourExecutor.getDirection() );
     }
 
     public boolean isOnDownSlope()
     {
-        return rabbit.onSlope && hereIsDownSlope();
+        return behaviourExecutor.isOnSlope() && hereIsDownSlope();
     }
 
     private boolean hereIsDownSlope()
@@ -340,7 +361,7 @@ public class BehaviourTools
 
     public boolean isDownSlope( Block block )
     {
-        return ( block != null && block.riseDir() == opposite( rabbit.dir ) );
+        return ( block != null && block.riseDir() == opposite( behaviourExecutor.getDirection() ) );
     }
 
     public static boolean isSlopeNotBridge( Block b )
@@ -362,8 +383,8 @@ public class BehaviourTools
     public int nextX()
     {
         return
-            rabbit.x + (
-                rabbit.dir == RIGHT ? 1 : -1
+            behaviourExecutor.x + (
+                behaviourExecutor.getDirection() == RIGHT ? 1 : -1
             );
     }
 
@@ -371,11 +392,11 @@ public class BehaviourTools
     {
         if ( goingUpSlope() )
         {
-            return rabbit.y - 1;
+            return behaviourExecutor.y - 1;
         }
         else
         {
-            return rabbit.y;
+            return behaviourExecutor.y;
         }
     }
 
@@ -388,7 +409,7 @@ public class BehaviourTools
     {
         for ( Position p : world.changes.blocksJustRemoved )
         {
-            if ( rabbit.x == p.x && rabbit.y == p.y )
+            if ( behaviourExecutor.x == p.x && behaviourExecutor.y == p.y )
             {
                 return true;
             }

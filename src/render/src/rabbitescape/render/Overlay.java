@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import rabbitescape.engine.Rabbit;
+import rabbitescape.engine.*;
 import rabbitescape.engine.Thing;
 import rabbitescape.engine.WaterRegion;
 import rabbitescape.engine.World;
@@ -23,7 +23,7 @@ public class Overlay
 
         items = Util.list( Util.chain(
             world.things,
-            world.rabbits,
+            world.behaviourExecutors,
             world.waterTable.getListCopy()
         ) );
     }
@@ -32,7 +32,7 @@ public class Overlay
     {
         List<WaterRegion> waterRegions = waterRegionsAt( x, y );
         List<Thing> things = world.getThingsAt( x, y );
-        Rabbit[] rabbits = world.getRabbitsAt( x, y );
+        BehaviourExecutor[] rabbits = world.getRabbitsAt( x, y );
 
         if ( waterRegions.size() == 0 &&
              things.size() == 0  &&
