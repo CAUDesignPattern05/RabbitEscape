@@ -150,4 +150,6 @@ public class ActionHandler extends BehaviourHandler {
     {
         return brollychutingAbility;
     }
+
+    public boolean isExploding() { return action == exploding; }
 }

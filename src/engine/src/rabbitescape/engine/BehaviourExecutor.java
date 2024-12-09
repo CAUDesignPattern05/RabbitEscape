@@ -29,10 +29,12 @@ public abstract class BehaviourExecutor
     public void calcNewState(World world) {
         BehaviourTools tool = new BehaviourTools(this, world);
 
-        Token item = tool.pickUpToken();
-        if (item != null)
-            actionHandler.setBehaviour(item);
-
+        if ( !actionHandler.isExploding() )
+        {
+            Token item = tool.pickUpToken();
+            if (item != null)
+                actionHandler.setBehaviour(item);
+        }
         State newState = actionHandler.newState(tool);
         if (newState != null)
             this.setState(newState);

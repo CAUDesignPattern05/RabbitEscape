@@ -94,8 +94,6 @@ public class WorldChanges
         for ( BehaviourExecutor behaviourExecutor : world.behaviourExecutors )
         {
             behaviourExecutor.actionHandler.setExplodingBehaviour();
-            behaviourExecutor.actionHandler.newState(new BehaviourTools(behaviourExecutor, world));
-            behaviourExecutor.actionHandler.behave(world, behaviourExecutor, behaviourExecutor.getState());
         }
     }
 
