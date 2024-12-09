@@ -7,7 +7,7 @@ import org.junit.*;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.BehaviourExecutor;
-import rabbitescape.engine.Block.Shape;
+//import rabbitescape.engine.Block.Shape;
 import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.textworld.TextWorldManip;
@@ -128,7 +128,7 @@ public class TestWorldChanges {
         world.changes.killRabbit(BehaviourExecutor2);
         world.changes.addToken(2, 1, Token.Type.bash);
         world.changes.removeToken(tok0);
-        world.changes.addBlock(new Block(1, 1, Block.Material.EARTH, Shape.FLAT, 0));
+//        world.changes.addBlock(new Block(1, 1, Block.Material.EARTH, Shape.FLAT, 0));
         world.changes.removeBlockAt(0, 0);
 
         // This is what we are testing - revert the changes

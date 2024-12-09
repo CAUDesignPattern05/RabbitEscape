@@ -48,8 +48,7 @@ src/engine/bin/compile.touchfile: ${JAVA_ENGINE}
 		"${TEST_CLASSPATH}" \
 		src/engine/bin \
 		src/engine/src \
-
-#		src/engine/test
+		src/engine/test
 
 src/render/bin/compile.touchfile: ${JAVA_ENGINE} ${JAVA_RENDER}
 	@echo ". Compiling rendering"
