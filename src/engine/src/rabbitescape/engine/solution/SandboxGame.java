@@ -5,16 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import rabbitescape.engine.Entrance;
-import rabbitescape.engine.Exit;
-import rabbitescape.engine.Fire;
-import rabbitescape.engine.IgnoreWorldStatsListener;
-import rabbitescape.engine.Pipe;
-import rabbitescape.engine.Rabbit;
-import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.VoidMarkerStyle;
-import rabbitescape.engine.World;
+import rabbitescape.engine.*;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.textworld.Comment;
 
 /**
@@ -40,11 +32,11 @@ public class SandboxGame
      */
     public SandboxGame( World world )
     {
-        List<Rabbit> clonedRabbits = makeClonedRabbits( world.rabbits );
+        List<BehaviourExecutor> clonedBehaviourExecutors = makeClonedRabbits( world.behaviourExecutors );
         List<Thing> clonedThings = makeClonedThings( world.things );
         this.world = new World( world.size,
             world.blockTable.getListCopy(),
-            clonedRabbits,
+            clonedBehaviourExecutors,
             clonedThings,
             world.getWaterContents(),
             new HashMap<>( world.abilities ),
@@ -89,10 +81,10 @@ public class SandboxGame
             {
                 clonedThings.add( new Exit( thing.x, thing.y ) );
             }
-            else if ( thing instanceof Rabbit )
+            else if ( thing instanceof BehaviourExecutor )
             {
-                Rabbit rabbit = (Rabbit)thing;
-                clonedThings.add( cloneRabbit( rabbit ) );
+                BehaviourExecutor BehaviourExecutor = ( BehaviourExecutor )thing;
+                clonedThings.add( cloneRabbit( BehaviourExecutor ) );
             }
             else if ( thing instanceof Token )
             {
@@ -123,30 +115,34 @@ public class SandboxGame
     /**
      * Make a clone of a list of rabbits.
      *
-     * @param rabbits
+     * @param behaviourExecutors
      *            The list of rabbits to clone.
      * @return The cloned list.
      */
-    private List<Rabbit> makeClonedRabbits( List<Rabbit> rabbits )
+    private List<BehaviourExecutor> makeClonedRabbits( List<BehaviourExecutor> behaviourExecutors )
     {
-        List<Rabbit> clonedRabbits = new ArrayList<>();
-        for ( Rabbit rabbit : rabbits )
+        List<BehaviourExecutor> clonedBehaviourExecutors = new ArrayList<>();
+        for ( BehaviourExecutor behaviourExecutor : behaviourExecutors )
         {
-            clonedRabbits.add( cloneRabbit( rabbit ) );
+            clonedBehaviourExecutors.add( cloneRabbit( behaviourExecutor ) );
         }
-        return clonedRabbits;
+        return clonedBehaviourExecutors;
     }
 
     /**
      * Clone a single rabbit.
      *
-     * @param rabbit
+     * @param BehaviourExecutor
      *            The rabbit to be cloned.
      * @return The cloned rabbit.
      */
-    private Rabbit cloneRabbit( Rabbit rabbit )
+    private BehaviourExecutor cloneRabbit( BehaviourExecutor BehaviourExecutor )
     {
-        return new Rabbit( rabbit.x, rabbit.y, rabbit.dir, rabbit.type );
+        if (BehaviourExecutor instanceof Rabbit) {
+            return new Rabbit(BehaviourExecutor.x, BehaviourExecutor.y, BehaviourExecutor.getDirection());
+        } else {
+            return new Rabbot(BehaviourExecutor.x, BehaviourExecutor.y, BehaviourExecutor.getDirection());
+        }
     }
 
     /**

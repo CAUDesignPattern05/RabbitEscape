@@ -1,37 +1,24 @@
-package rabbitescape.engine.behaviours;
+package rabbitescape.engine.behaviours.rabbitBehaviours;
 
 import static rabbitescape.engine.CellularDirection.DOWN;
 import static rabbitescape.engine.CellularDirection.UP;
 
-import rabbitescape.engine.Behaviour;
-import rabbitescape.engine.BehaviourTools;
-import rabbitescape.engine.CellularDirection;
+import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.Rabbit;
-import rabbitescape.engine.WaterRegion;
-import rabbitescape.engine.World;
 
-public class Drowning extends Behaviour
+public class Drowning extends RabbitBehaviour
 {
-    @Override
-    public void cancel()
-    {
-    }
+    public Drowning( RabbitHandler rabbitHandler) { super(rabbitHandler); }
 
     @Override
-    public boolean checkTriggered( Rabbit rabbit, World world )
+    public boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world )
     {
-        if ( rabbit.type == Rabbit.Type.RABBOT )
-        {
-            return false;  // Rabbots don't drown
-        }
-
-        int yCoordinate = rabbit.y;
+        int yCoordinate = behaviourExecutor.y;
         CellularDirection directionToCheck = UP;
-        if ( rabbit.onSlope )
+        if ( behaviourExecutor.isOnSlope() )
         {
             // The rabbit's head is at the bottom of the cell above.
-            yCoordinate = rabbit.y - 1;
+            yCoordinate = behaviourExecutor.y - 1;
             directionToCheck = DOWN;
         }
         // TODO Find out why the rabbit's y coordinate is allowed to be
@@ -41,7 +28,7 @@ public class Drowning extends Behaviour
             return false;
         }
         for ( WaterRegion waterRegion :
-              world.waterTable.getItemsAt( rabbit.x, yCoordinate ) )
+              world.waterTable.getItemsAt( behaviourExecutor.x, yCoordinate ) )
         {
             if ( waterRegion.isConnected( directionToCheck ) )
             {
@@ -52,23 +39,24 @@ public class Drowning extends Behaviour
     }
 
     @Override
-    public State newState(
-        BehaviourTools t,
-        boolean triggered )
+    public State newState(BehaviourTools t)
     {
+        boolean triggered = checkTriggered( t.behaviourExecutor, t.world );
         return ( triggered ? State.RABBIT_DROWNING : null );
     }
 
     @Override
-    public boolean behave( World world, Rabbit rabbit, State state )
+    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
     {
         switch ( state )
         {
-        case RABBIT_DROWNING:
-            world.changes.killRabbit( rabbit );
-            return true;
-        default:
-            return false;
+            case RABBIT_DROWNING:
+            {
+                notifyDeath( behaviourExecutor );
+                return true;
+            }
+            default:
+                return false;
         }
     }
 }

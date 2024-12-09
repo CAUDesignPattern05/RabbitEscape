@@ -2,21 +2,20 @@ package rabbitescape.engine;
 
 import static rabbitescape.engine.util.Util.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rabbitescape.engine.Rabbit.Type;
-import rabbitescape.engine.WaterRegion;
 import rabbitescape.engine.err.RabbitEscapeException;
 import rabbitescape.engine.textworld.Comment;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.LookupTable2D;
 import rabbitescape.engine.util.Position;
 
-public class World
+public class World implements RabbitObserver
 {
     public static class DontStepAfterFinish extends RabbitEscapeException
     {
@@ -104,10 +103,12 @@ public class World
 
     public final Dimension size;
     public final LookupTable2D<Block> blockTable;
-    /** A grid of water. Only one water object
-     * should be stored in each location. */
+    /**
+     * A grid of water. Only one water object should be stored in each
+     * location.
+     */
     public final LookupTable2D<WaterRegion> waterTable;
-    public final List<Rabbit> rabbits;
+    public final List<BehaviourExecutor> behaviourExecutors;
     public final List<Thing> things;
     public final Map<Token.Type, Integer> abilities;
     public final String name;
@@ -135,7 +136,7 @@ public class World
     public World(
         Dimension size,
         List<Block> blocks,
-        List<Rabbit> rabbits,
+        List<BehaviourExecutor> behaviourExecutors,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
@@ -160,7 +161,7 @@ public class World
     )
     {
         this.size = size;
-        this.rabbits = rabbits;
+        this.behaviourExecutors = behaviourExecutors;
         this.things = things;
         this.abilities = abilities;
         this.name = name;
@@ -190,8 +191,10 @@ public class World
         else
         {
             this.blockTable = new LookupTable2D<Block>( blocks, size );
-            this.waterTable = WaterRegionFactory.generateWaterTable( blockTable,
-                waterAmounts );
+            this.waterTable = WaterRegionFactory.generateWaterTable(
+                blockTable,
+                waterAmounts
+            );
         }
 
         this.changes = new WorldChanges( this, statsListener );
@@ -202,7 +205,7 @@ public class World
     public World(
         Dimension size,
         LookupTable2D<Block> blockTable,
-        List<Rabbit> rabbits,
+        List<BehaviourExecutor> behaviourExecutors,
         List<Thing> things,
         LookupTable2D<WaterRegion> waterTable,
         Map<rabbitescape.engine.Token.Type, Integer> abilities,
@@ -223,11 +226,12 @@ public class World
         boolean paused,
         Comment[] comments,
         IgnoreWorldStatsListener statsListener,
-        VoidMarkerStyle.Style voidStyle )
+        VoidMarkerStyle.Style voidStyle
+    )
     {
         this.size = size;
         this.blockTable = blockTable;
-        this.rabbits = rabbits;
+        this.behaviourExecutors = behaviourExecutors;
         this.things = things;
         this.waterTable = waterTable;
         this.abilities = abilities;
@@ -257,14 +261,14 @@ public class World
     private void init()
     {
         // Number the rabbits if necessary
-        for ( Rabbit r: rabbits )
+        for ( BehaviourExecutor r : behaviourExecutors )
         {
             rabbitIndex( r );
         }
 
         // Rearrange them, this may be necessary if they have been
         // restored from state.
-        Collections.sort( rabbits );
+        Collections.sort( behaviourExecutors );
 
         for ( Thing thing : allThings() )
         {
@@ -272,11 +276,11 @@ public class World
         }
     }
 
-    public void rabbitIndex( Rabbit r )
+    public void rabbitIndex( BehaviourExecutor r )
     {
-        r.index = ( r.index == Rabbit.NOT_INDEXED )
-                ? ++rabbit_index_count
-                : r.index;
+        int newIndex = ( r.getIndex() == 0 ) ? ++rabbit_index_count
+            : r.getIndex();
+        r.setIndex( newIndex );
     }
 
     public int getRabbitIndexCount()
@@ -285,17 +289,17 @@ public class World
     }
 
     /**
-     * For levels with some rabbits in to start with.
-     * Then entering rabbits are indexed correctly.
+     * For levels with some rabbits in to start with. Then entering rabbits are
+     * indexed correctly.
      */
     public void countRabbitsForIndex()
     {
         rabbit_index_count = rabbit_index_count == 0 ?
-            rabbits.size() : rabbit_index_count;
-        for ( Rabbit r:rabbits )
+            behaviourExecutors.size() : rabbit_index_count;
+        for ( BehaviourExecutor r : behaviourExecutors )
         {
-            rabbit_index_count = rabbit_index_count > r.index ?
-                rabbit_index_count : r.index;
+            rabbit_index_count = rabbit_index_count > r.getIndex() ?
+                rabbit_index_count : r.getIndex();
         }
     }
 
@@ -340,13 +344,13 @@ public class World
 
     private Iterable<Thing> allThings()
     {
-        return chain( waterTable.getItems(), rabbits, things );
+        return chain( waterTable.getItems(), behaviourExecutors, things );
     }
 
-    public Block getBlockAt( int x, int y)
+    public Block getBlockAt( int x, int y )
     {
-        if ( x <  0          || y <  0           ||
-             x >= size.width || y >= size.height  )
+        if ( x < 0 || y < 0 ||
+            x >= size.width || y >= size.height )
         {
             return null;
         }
@@ -389,7 +393,7 @@ public class World
             {
                 if ( !changes.tokensToRemove.contains( thing ) )
                 {
-                    return (Token)thing;
+                    return ( Token )thing;
                 }
             }
         }
@@ -404,7 +408,7 @@ public class World
             if ( thing.x == x && thing.y == y )
             {
                 if ( !changes.tokensToRemove.contains( thing ) &&
-                     !changes.fireToRemove.contains( thing ) )
+                    !changes.fireToRemove.contains( thing ) )
                 {
                     ret.add( thing );
                 }
@@ -429,26 +433,28 @@ public class World
         return false;
     }
 
-    public Rabbit[] getRabbitsAt( int x, int y )
+    public BehaviourExecutor[] getRabbitsAt( int x, int y )
     {
-        List<Rabbit> ret = new ArrayList<Rabbit>();
+        List<BehaviourExecutor> ret = new ArrayList<BehaviourExecutor>();
 
-        for ( Rabbit rabbit : rabbits )
+        for ( BehaviourExecutor behaviourExecutor : behaviourExecutors )
         {
-            if ( rabbit.x == x && rabbit.y == y )
+            if ( behaviourExecutor.x == x && behaviourExecutor.y == y )
             {
-                ret.add( rabbit );
+                ret.add( behaviourExecutor );
             }
         }
 
-        return ret.toArray( new Rabbit[ret.size()] );
+        return ret.toArray( new BehaviourExecutor[ ret.size() ] );
     }
 
     public int numRabbitsOut()
     {
         int count = 0;
-        for ( Rabbit r : rabbits ) {
-            if ( r.type == Type.RABBIT ) {
+        for ( BehaviourExecutor r : behaviourExecutors )
+        {
+            if ( r instanceof Rabbit )
+            {
                 ++count;
             }
         }
@@ -463,18 +469,18 @@ public class World
     public void recalculateWaterRegions( Position point )
     {
         int contents = 0;
-        for (WaterRegion waterRegion :
-             waterTable.getItemsAt( point.x, point.y ))
+        for ( WaterRegion waterRegion :
+            waterTable.getItemsAt( point.x, point.y ) )
         {
             contents += waterRegion.getContents();
         }
         waterTable.removeItemsAt( point.x, point.y );
         WaterRegionFactory.createWaterRegionsAtPoint(
-            blockTable, 
-            waterTable, 
-            point.x, 
-            point.y, 
-            contents 
+            blockTable,
+            waterTable,
+            point.x,
+            point.y,
+            contents
         );
     }
 
@@ -492,10 +498,31 @@ public class World
             int contents = waterRegion.getContents();
             if ( contents != 0 )
             {
-                waterAmounts.put( waterRegion.getPosition(),
-                    contents );
+                waterAmounts.put(
+                    waterRegion.getPosition(),
+                    contents
+                );
             }
         }
         return waterAmounts;
+    }
+
+    @Override
+    public void updateBirth( BehaviourExecutor behaviourExecutor )
+    {
+        changes.enterRabbit( behaviourExecutor );
+        rabbitIndex( behaviourExecutor );
+    }
+
+    @Override
+    public void updateDeath( BehaviourExecutor behaviourExecutor )
+    {
+        changes.killRabbit( behaviourExecutor );
+    }
+
+    @Override
+    public void updateExiting( BehaviourExecutor behaviourExecutor )
+    {
+        changes.saveRabbit( behaviourExecutor );
     }
 }

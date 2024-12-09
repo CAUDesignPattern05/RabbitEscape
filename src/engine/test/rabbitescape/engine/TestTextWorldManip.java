@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import static rabbitescape.engine.ChangeDescription.State.*;
 import static rabbitescape.engine.Tools.*;
 import static rabbitescape.engine.textworld.TextWorldManip.*;
-import static rabbitescape.engine.Rabbit.Type.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -533,8 +532,8 @@ public class TestTextWorldManip
         );
 
         // put 2 rabbits and 2 items all in the same place, on top of a block
-        world.rabbits.add( new Rabbit( 2, 2, Direction.RIGHT, RABBIT ) );
-        world.rabbits.add( new Rabbit( 2, 2, Direction.LEFT, RABBIT ) );
+        world.behaviourExecutors.add( new Rabbit( 2, 2, Direction.RIGHT ) );
+        world.behaviourExecutors.add( new Rabbit( 2, 2, Direction.LEFT ) );
         world.things.add( new Token( 2, 2, Token.Type.bash ) );
         world.things.add( new Token( 2, 2, Token.Type.bridge ) );
 
@@ -562,8 +561,8 @@ public class TestTextWorldManip
         );
 
         // Rabbits in top left
-        world.rabbits.add( new Rabbit( 1, 1, Direction.RIGHT, RABBIT ) );
-        world.rabbits.add( new Rabbit( 1, 1, Direction.LEFT, RABBIT ) );
+        world.behaviourExecutors.add( new Rabbit( 1, 1, Direction.RIGHT) );
+        world.behaviourExecutors.add( new Rabbit( 1, 1, Direction.LEFT) );
 
         // bash and bridge in top right
         world.things.add( new Token( 2, 1, Token.Type.bash ) );
@@ -628,7 +627,7 @@ public class TestTextWorldManip
             ":*=r{Blocking.abilityActive:true}k"  // Make blocking active
         );
 
-        world.rabbits.get( 0 ).restoreFromState( map("Blocking.abilityActive", "true") );
+        world.behaviourExecutors.get( 0 ).restoreFromState( map("Blocking.abilityActive", "true") );
 
         assertThat(
             renderCompleteWorld( world, false, false ),

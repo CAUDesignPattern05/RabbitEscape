@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rabbitescape.engine.*;
-import rabbitescape.engine.util.Util;
+import rabbitescape.engine.util.*;
 
 public class SpriteAnimator
 {
@@ -69,9 +69,9 @@ public class SpriteAnimator
             addThing( frameNum, thing, null, ret );
         }
 
-        for ( Rabbit rabbit : world.rabbits )
+        for ( BehaviourExecutor behaviourExecutor : world.behaviourExecutors )
         {
-            addThing( frameNum, rabbit, null, ret );
+            addThing( frameNum, behaviourExecutor, null, ret );
         }
 
         for ( Thing thing : Util.filterIn( world.things, Fire.class ) )

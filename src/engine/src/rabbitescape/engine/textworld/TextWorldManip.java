@@ -11,15 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rabbitescape.engine.Block;
-import rabbitescape.engine.ChangeDescription;
-import rabbitescape.engine.IgnoreWorldStatsListener;
-import rabbitescape.engine.Rabbit;
-import rabbitescape.engine.Thing;
-import rabbitescape.engine.Token;
-import rabbitescape.engine.VoidMarkerStyle;
-import rabbitescape.engine.World;
-import rabbitescape.engine.WorldStatsListener;
+import rabbitescape.engine.*;
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.Position;
 import rabbitescape.engine.util.Util;
@@ -117,7 +110,7 @@ public class TextWorldManip
     )
     {
         List<Block> blocks = new ArrayList<>();
-        List<Rabbit> rabbits = new ArrayList<>();
+        List<BehaviourExecutor> behaviourExecutors = new ArrayList<>();
         List<Thing> things = new ArrayList<>();
         Map<Position, Integer> waterAmounts = new HashMap<>();
         Map<Token.Type, Integer> abilities = new HashMap<>();
@@ -126,7 +119,7 @@ public class TextWorldManip
 
         LineProcessor processor = new LineProcessor(
             blocks,
-            rabbits,
+            behaviourExecutors,
             things,
             waterAmounts,
             abilities,
@@ -139,8 +132,8 @@ public class TextWorldManip
         World world = createWorldFromLineProcessor(
             nameIfNoneSupplied, 
             statsListener, 
-            blocks, 
-            rabbits, 
+            blocks,
+            behaviourExecutors,
             things,
             waterAmounts, 
             abilities, 
@@ -157,7 +150,7 @@ public class TextWorldManip
         String nameIfNoneSupplied,
         WorldStatsListener statsListener,
         List<Block> blocks,
-        List<Rabbit> rabbits,
+        List<BehaviourExecutor> behaviourExecutors,
         List<Thing> things,
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
@@ -169,7 +162,7 @@ public class TextWorldManip
         return new World(
             processor.size(),
             blocks,
-            rabbits,
+            behaviourExecutors,
             things,
             waterAmounts,
             abilities,
@@ -199,7 +192,7 @@ public class TextWorldManip
         return new World(
             new Dimension( width, height ),
             new ArrayList<Block>(),
-            new ArrayList<Rabbit>(),
+            new ArrayList<BehaviourExecutor>(),
             new ArrayList<Thing>(),
             new HashMap<Position, Integer>(),
             new HashMap<Token.Type, Integer>(),
@@ -233,7 +226,7 @@ public class TextWorldManip
         Chars chars = new Chars( world, false );
 
         BlockRenderer.render( chars, world.blockTable );
-        RabbitRenderer.render( chars, world.rabbits, runtimeMeta );
+        RabbitRenderer.render( chars, world.behaviourExecutors, runtimeMeta );
         ThingRenderer.render( chars, world.things, runtimeMeta );
 
         if ( showChanges )
@@ -262,7 +255,7 @@ public class TextWorldManip
 
         BlockRenderer.render( chars, world.blockTable );
         WaterRenderer.render( chars, world.waterTable );
-        RabbitRenderer.render( chars, world.rabbits, runtimeMeta );
+        RabbitRenderer.render( chars, world.behaviourExecutors, runtimeMeta );
         ThingRenderer.render( chars, world.things, runtimeMeta );
 
         String[] things = charsToComplete( chars, world.comments );
