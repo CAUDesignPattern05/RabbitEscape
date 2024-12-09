@@ -127,4 +127,6 @@ public abstract class Token extends Thing
         String n = ability.name();
         return n.substring( 0, 1 ).toUpperCase() + n.substring( 1 );
     }
+
+    public Type getType() { return type; }
 }

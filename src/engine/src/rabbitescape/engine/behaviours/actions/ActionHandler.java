@@ -3,6 +3,7 @@ package rabbitescape.engine.behaviours.actions;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
+import rabbitescape.engine.token.Token;
 
 import java.util.Map;
 

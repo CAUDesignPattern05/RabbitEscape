@@ -24,7 +24,7 @@ import rabbitescape.engine.Rabbit;
 import rabbitescape.engine.token.BridgeToken;
 import rabbitescape.engine.token.Token;
 import rabbitescape.engine.BehaviourExecutor;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.DontStepAfterFinish;
 import rabbitescape.engine.WorldStatsListener;
