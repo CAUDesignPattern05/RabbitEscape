@@ -9,104 +9,84 @@ import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.Behaviour;
 
-public class Climbing extends Action
-{
+public class Climbing extends Action {
     private boolean hasAbility;
     private boolean abilityActive;
 
-    public Climbing( ActionHandler actionHandler) { super(actionHandler); }
+    public Climbing(ActionHandler actionHandler) {
+        super(actionHandler);
+    }
 
     @Override
-    public State newState( BehaviourTools t)
-    {
-        switch ( t.behaviourExecutor.state )
-        {
+    public State newState(BehaviourTools t) {
+        switch (t.behaviourExecutor.state) {
             case RABBIT_CLIMBING_RIGHT_START:
             case RABBIT_CLIMBING_LEFT_START:
-                return newStateStart( t );
+                return newStateStart(t);
             case RABBIT_CLIMBING_RIGHT_CONTINUE_1:
             case RABBIT_CLIMBING_LEFT_CONTINUE_1:
-                return newStateCont1( t );
+                return newStateCont1(t);
             case RABBIT_CLIMBING_RIGHT_CONTINUE_2:
             case RABBIT_CLIMBING_LEFT_CONTINUE_2:
-                return newStateCont2( t );
+                return newStateCont2(t);
             default:
-                return newStateNotClimbing( t );
+                return newStateNotClimbing(t);
         }
     }
 
-    private State newStateStart( BehaviourTools t )
-    {
+    private State newStateStart(BehaviourTools t) {
         Block endBlock = t.blockAboveNext();
 
-        if ( t.isWall( endBlock ) )
-        {
+        if (t.isWall(endBlock)) {
             return t.rl(
-                RABBIT_CLIMBING_RIGHT_CONTINUE_2,
-                RABBIT_CLIMBING_LEFT_CONTINUE_2
-            );
-        }
-        else
-        {
+                    RABBIT_CLIMBING_RIGHT_CONTINUE_2,
+                    RABBIT_CLIMBING_LEFT_CONTINUE_2);
+        } else {
             return t.rl(
-                RABBIT_CLIMBING_RIGHT_END,
-                RABBIT_CLIMBING_LEFT_END
-            );
+                    RABBIT_CLIMBING_RIGHT_END,
+                    RABBIT_CLIMBING_LEFT_END);
         }
     }
 
-    private State newStateCont1( BehaviourTools t )
-    {
+    private State newStateCont1(BehaviourTools t) {
         return t.rl(
-            RABBIT_CLIMBING_RIGHT_CONTINUE_2,
-            RABBIT_CLIMBING_LEFT_CONTINUE_2
-        );
+                RABBIT_CLIMBING_RIGHT_CONTINUE_2,
+                RABBIT_CLIMBING_LEFT_CONTINUE_2);
     }
 
-    private State newStateCont2( BehaviourTools t )
-    {
+    private State newStateCont2(BehaviourTools t) {
         Block aboveBlock = t.blockAbove();
 
-        if ( t.isRoof( aboveBlock ) )
-        {
+        if (t.isRoof(aboveBlock)) {
             abilityActive = false;
             return t.rl(
-                RABBIT_CLIMBING_RIGHT_BANG_HEAD,
-                RABBIT_CLIMBING_LEFT_BANG_HEAD
-            );
+                    RABBIT_CLIMBING_RIGHT_BANG_HEAD,
+                    RABBIT_CLIMBING_LEFT_BANG_HEAD);
         }
 
         Block endBlock = t.blockAboveNext();
 
-        if ( t.isWall( endBlock ) )
-        {
+        if (t.isWall(endBlock)) {
             return t.rl(
-                RABBIT_CLIMBING_RIGHT_CONTINUE_1,
-                RABBIT_CLIMBING_LEFT_CONTINUE_1
-            );
-        }
-        else
-        {
+                    RABBIT_CLIMBING_RIGHT_CONTINUE_1,
+                    RABBIT_CLIMBING_LEFT_CONTINUE_1);
+        } else {
             return t.rl(
-                RABBIT_CLIMBING_RIGHT_END,
-                RABBIT_CLIMBING_LEFT_END
-            );
+                    RABBIT_CLIMBING_RIGHT_END,
+                    RABBIT_CLIMBING_LEFT_END);
         }
     }
 
-    private State newStateNotClimbing( BehaviourTools t )
-    {
+    private State newStateNotClimbing(BehaviourTools t) {
         int nextX = t.nextX();
         int nextY = t.nextY();
-        Block nextBlock = t.world.getBlockAt( nextX, nextY );
-        Block aboveBlock = t.world.getBlockAt( t.behaviourExecutor.x, t.behaviourExecutor.y - 1 );
+        Block nextBlock = t.world.getBlockAt(nextX, nextY);
+        Block aboveBlock = t.world.getBlockAt(t.behaviourExecutor.x, t.behaviourExecutor.y - 1);
 
-        if ( !t.isRoof( aboveBlock ) && t.isWall( nextBlock ) )
-        {
+        if (!t.isRoof(aboveBlock) && t.isWall(nextBlock)) {
             return t.rl(
-                RABBIT_CLIMBING_RIGHT_START,
-                RABBIT_CLIMBING_LEFT_START
-            );
+                    RABBIT_CLIMBING_RIGHT_START,
+                    RABBIT_CLIMBING_LEFT_START);
         }
 
         actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
@@ -114,17 +94,14 @@ public class Climbing extends Action
     }
 
     @Override
-    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
-    {
-        BehaviourTools t = new BehaviourTools( behaviourExecutor, world );
+    public boolean behave(World world, BehaviourExecutor behaviourExecutor, State state) {
+        BehaviourTools t = new BehaviourTools(behaviourExecutor, world);
 
-        if( t.rabbitIsClimbing() )
-        { // Can't be both on a wall and on a slope.
+        if (t.rabbitIsClimbing()) { // Can't be both on a wall and on a slope.
             behaviourExecutor.setOnSlope(false);
         }
 
-        switch ( state )
-        {
+        switch (state) {
             case RABBIT_CLIMBING_RIGHT_START:
             case RABBIT_CLIMBING_LEFT_START: {
                 abilityActive = true;
@@ -134,7 +111,7 @@ public class Climbing extends Action
             case RABBIT_CLIMBING_LEFT_END: {
                 behaviourExecutor.x = t.nextX();
                 --behaviourExecutor.y;
-                if ( t.hereIsUpSlope() ) {
+                if (t.hereIsUpSlope()) {
                     behaviourExecutor.setOnSlope(true);
                 }
                 abilityActive = false;
@@ -153,7 +130,7 @@ public class Climbing extends Action
             }
             case RABBIT_CLIMBING_RIGHT_BANG_HEAD:
             case RABBIT_CLIMBING_LEFT_BANG_HEAD: {
-                behaviourExecutor.setDirection(opposite( behaviourExecutor.getDirection()));
+                behaviourExecutor.setDirection(opposite(behaviourExecutor.getDirection()));
                 actionHandler.setBehaviour(actionHandler.getFallingBehaviour()); // start to fall
                 break;
             }
@@ -166,27 +143,21 @@ public class Climbing extends Action
     }
 
     @Override
-    public void saveState( Map<String, String> saveState )
-    {
+    public void saveState(Map<String, String> saveState) {
         BehaviourState.addToStateIfTrue(
-            saveState, "Climbing.hasAbility", hasAbility
-        );
+                saveState, "Climbing.hasAbility", hasAbility);
 
         BehaviourState.addToStateIfTrue(
-            saveState, "Climbing.abilityActive", abilityActive
-        );
+                saveState, "Climbing.abilityActive", abilityActive);
     }
 
     @Override
-    public void restoreFromState( Map<String, String> saveState )
-    {
+    public void restoreFromState(Map<String, String> saveState) {
         hasAbility = BehaviourState.restoreFromState(
-            saveState, "Climbing.hasAbility", hasAbility
-        );
+                saveState, "Climbing.hasAbility", hasAbility);
 
         abilityActive = BehaviourState.restoreFromState(
-            saveState, "Climbing.abilityActive", abilityActive
-        );
+                saveState, "Climbing.abilityActive", abilityActive);
     }
 
     @Override

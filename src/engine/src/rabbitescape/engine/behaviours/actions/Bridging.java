@@ -10,10 +10,8 @@ import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.Behaviour;
 
-public class Bridging extends Action
-{
-    enum BridgeType
-    {
+public class Bridging extends Action {
+    enum BridgeType {
         ALONG,
         UP,
         DOWN_UP
@@ -23,177 +21,138 @@ public class Bridging extends Action
     private int bigSteps;
     private BridgeType bridgeType = BridgeType.ALONG;
 
-    public Bridging(ActionHandler actionHandler) { super(actionHandler); }
+    public Bridging(ActionHandler actionHandler) {
+        super(actionHandler);
+    }
 
     @Override
-    public State newState( BehaviourTools t)
-    {
+    public State newState(BehaviourTools t) {
         nextStep();
 
-        State ret = bridgingState( t, bigSteps, smallSteps, bridgeType );
-        if ( ret == null ) {
+        State ret = bridgingState(t, bigSteps, smallSteps, bridgeType);
+        if (ret == null) {
             bigSteps = 0;
         }
 
-        if ( bigSteps <= 0 ) {
+        if (bigSteps <= 0) {
             smallSteps = 0;
             actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
-            return actionHandler.newState(t);   // Finished bridging
+            return actionHandler.newState(t); // Finished bridging
         } else {
             return ret;
         }
     }
 
     private State bridgingState(
-        BehaviourTools t,
-        int bs,
-        int ss,
-        BridgeType bt
-    )
-    {
+            BehaviourTools t,
+            int bs,
+            int ss,
+            BridgeType bt) {
         Block hereBlock = t.blockHere();
 
         BehaviourExecutor behaviourExecutor = t.behaviourExecutor;
         World world = t.world;
 
-        if ( startingIntoToWall( world, behaviourExecutor, bs ) )
-        {
-            return stateIntoWall( t, behaviourExecutor, world, ss );
+        if (startingIntoToWall(world, behaviourExecutor, bs)) {
+            return stateIntoWall(t, behaviourExecutor, world, ss);
         }
 
-        boolean slopeUp = isSlopeUp( behaviourExecutor, hereBlock );
-        int nx = nextX( behaviourExecutor );
-        int ny = nextY( behaviourExecutor, slopeUp );
+        boolean slopeUp = isSlopeUp(behaviourExecutor, hereBlock);
+        int nx = nextX(behaviourExecutor);
+        int ny = nextY(behaviourExecutor, slopeUp);
 
-        Block nextBlock = world.getBlockAt( nx, ny );
+        Block nextBlock = world.getBlockAt(nx, ny);
 
-        Block belowNextBlock = world.getBlockAt( nx, behaviourExecutor.y );
-        Block twoAboveHereBlock = world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y - 2 );
-        Block aboveNextBlock = world.getBlockAt( nx, ny - 1 );
+        Block belowNextBlock = world.getBlockAt(nx, behaviourExecutor.y);
+        Block twoAboveHereBlock = world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y - 2);
+        Block aboveNextBlock = world.getBlockAt(nx, ny - 1);
 
-        if (
-            (
-                   // Something in the way
-                   nextBlock != null
-                && nextBlock.riseDir() != behaviourExecutor.getDirection()
-            ) || (
-                   Blocking.blockerAt( t.world, nx, ny )
-            ) || (
-                   // Clip land
-                   belowNextBlock != null
-                && belowNextBlock.riseDir() != behaviourExecutor.getDirection()
-            ) || (
-                    // Bang head next
-                    aboveNextBlock != null
-                 && BehaviourTools.isSolid( aboveNextBlock )
-            ) || (
-                    // Bang head here, mid-build
-                    bs < 3
-                 && BehaviourTools.s_isFlat( twoAboveHereBlock )
-            )
-        )
-        {
+        if ((
+        // Something in the way
+        nextBlock != null
+                && nextBlock.riseDir() != behaviourExecutor.getDirection()) || (Blocking.blockerAt(t.world, nx, ny))
+                || (
+                // Clip land
+                belowNextBlock != null
+                        && belowNextBlock.riseDir() != behaviourExecutor.getDirection())
+                || (
+                // Bang head next
+                aboveNextBlock != null
+                        && BehaviourTools.isSolid(aboveNextBlock))
+                || (
+                // Bang head here, mid-build
+                bs < 3
+                        && BehaviourTools.s_isFlat(twoAboveHereBlock))) {
             actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
             return actionHandler.newState(t); // Stop bridging
         }
 
-        boolean slopeDown = (
-               ( hereBlock != null )
-            && ( hereBlock.riseDir() == Direction.opposite( behaviourExecutor.getDirection() ) )
-        );
+        boolean slopeDown = ((hereBlock != null)
+                && (hereBlock.riseDir() == Direction.opposite(behaviourExecutor.getDirection())));
 
-        switch( ss )
-        {
-            case 3:
-            {
-                if ( slopeUp )
-                {
+        switch (ss) {
+            case 3: {
+                if (slopeUp) {
                     return t.rl(
-                        RABBIT_BRIDGING_UP_RIGHT_1,
-                        RABBIT_BRIDGING_UP_LEFT_1
-                    );
-                }
-                else if ( slopeDown )
-                {
+                            RABBIT_BRIDGING_UP_RIGHT_1,
+                            RABBIT_BRIDGING_UP_LEFT_1);
+                } else if (slopeDown) {
                     return t.rl(
-                        RABBIT_BRIDGING_DOWN_UP_RIGHT_1,
-                        RABBIT_BRIDGING_DOWN_UP_LEFT_1
-                    );
-                }
-                else
-                {
+                            RABBIT_BRIDGING_DOWN_UP_RIGHT_1,
+                            RABBIT_BRIDGING_DOWN_UP_LEFT_1);
+                } else {
                     return t.rl(
-                        RABBIT_BRIDGING_RIGHT_1,
-                        RABBIT_BRIDGING_LEFT_1
-                    );
+                            RABBIT_BRIDGING_RIGHT_1,
+                            RABBIT_BRIDGING_LEFT_1);
                 }
             }
-            case 2:
-            {
-                switch( bt )
-                {
-                    case ALONG:
-                    {
+            case 2: {
+                switch (bt) {
+                    case ALONG: {
                         return t.rl(
-                            RABBIT_BRIDGING_RIGHT_2,
-                            RABBIT_BRIDGING_LEFT_2
-                        );
+                                RABBIT_BRIDGING_RIGHT_2,
+                                RABBIT_BRIDGING_LEFT_2);
                     }
-                    case UP:
-                    {
+                    case UP: {
                         return t.rl(
-                            RABBIT_BRIDGING_UP_RIGHT_2,
-                            RABBIT_BRIDGING_UP_LEFT_2
-                        );
+                                RABBIT_BRIDGING_UP_RIGHT_2,
+                                RABBIT_BRIDGING_UP_LEFT_2);
                     }
-                    case DOWN_UP:
-                    {
+                    case DOWN_UP: {
                         return t.rl(
-                            RABBIT_BRIDGING_DOWN_UP_RIGHT_2,
-                            RABBIT_BRIDGING_DOWN_UP_LEFT_2
-                        );
+                                RABBIT_BRIDGING_DOWN_UP_RIGHT_2,
+                                RABBIT_BRIDGING_DOWN_UP_LEFT_2);
                     }
-                    default:
-                    {
+                    default: {
                         throw new AssertionError(
-                            "Unexpected bridge type: " + bt );
+                                "Unexpected bridge type: " + bt);
                     }
                 }
             }
-            case 1:
-            {
-                switch( bt )
-                {
-                    case ALONG:
-                    {
+            case 1: {
+                switch (bt) {
+                    case ALONG: {
                         return t.rl(
-                            RABBIT_BRIDGING_RIGHT_3,
-                            RABBIT_BRIDGING_LEFT_3
-                        );
+                                RABBIT_BRIDGING_RIGHT_3,
+                                RABBIT_BRIDGING_LEFT_3);
                     }
-                    case UP:
-                    {
+                    case UP: {
                         return t.rl(
-                            RABBIT_BRIDGING_UP_RIGHT_3,
-                            RABBIT_BRIDGING_UP_LEFT_3
-                        );
+                                RABBIT_BRIDGING_UP_RIGHT_3,
+                                RABBIT_BRIDGING_UP_LEFT_3);
                     }
-                    case DOWN_UP:
-                    {
+                    case DOWN_UP: {
                         return t.rl(
-                            RABBIT_BRIDGING_DOWN_UP_RIGHT_3,
-                            RABBIT_BRIDGING_DOWN_UP_LEFT_3
-                        );
+                                RABBIT_BRIDGING_DOWN_UP_RIGHT_3,
+                                RABBIT_BRIDGING_DOWN_UP_LEFT_3);
                     }
-                    default:
-                    {
+                    default: {
                         throw new AssertionError(
-                            "Unexpected bridge type: " + bt );
+                                "Unexpected bridge type: " + bt);
                     }
                 }
             }
-            default:
-            {
+            default: {
                 actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
                 return actionHandler.newState(t); // Stop bridging
             }
@@ -201,91 +160,67 @@ public class Bridging extends Action
     }
 
     private State stateIntoWall(
-        BehaviourTools t, BehaviourExecutor behaviourExecutor, World world, int ss )
-    {
-        // We are facing a wall.  This makes us a bit keener to
+            BehaviourTools t, BehaviourExecutor behaviourExecutor, World world, int ss) {
+        // We are facing a wall. This makes us a bit keener to
         // bridge.
-        Block thisBlock = world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y );
+        Block thisBlock = world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y);
 
-        boolean slopeUp = isSlopeUp( behaviourExecutor, thisBlock );
-        int bx = behindX( behaviourExecutor );
-        int ny = nextY( behaviourExecutor, slopeUp );
+        boolean slopeUp = isSlopeUp(behaviourExecutor, thisBlock);
+        int bx = behindX(behaviourExecutor);
+        int ny = nextY(behaviourExecutor, slopeUp);
 
         // Don't bridge if there is no block behind us (we're not in a hole)
-        if ( isSlope( thisBlock ) && world.getBlockAt( bx, ny ) == null )
-        {
+        if (isSlope(thisBlock) && world.getBlockAt(bx, ny) == null) {
             actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
             return actionHandler.newState(t);
         }
 
-        switch( ss )
-        {
-            case 3:
-            {
-                if ( isSlope( thisBlock ) )
-                {
+        switch (ss) {
+            case 3: {
+                if (isSlope(thisBlock)) {
                     // Special behaviour where we bridge higher up because we
                     // are already on top of a slope.
 
-                    Block twoAbove = world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y - 2 );
+                    Block twoAbove = world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y - 2);
 
-                    if ( twoAbove == null || twoAbove.isBridge() ) {
+                    if (twoAbove == null || twoAbove.isBridge()) {
                         return t.rl(
-                            RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_1,
-                            RABBIT_BRIDGING_IN_CORNER_UP_LEFT_1
-                        );
-                    }
-                    else
-                    {
+                                RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_1,
+                                RABBIT_BRIDGING_IN_CORNER_UP_LEFT_1);
+                    } else {
                         // We would hit our head, so don't bridge.
                         actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
                         return actionHandler.newState(t);
                     }
-                }
-                else
-                {
+                } else {
                     return t.rl(
-                        RABBIT_BRIDGING_IN_CORNER_RIGHT_1,
-                        RABBIT_BRIDGING_IN_CORNER_LEFT_1
-                    );
+                            RABBIT_BRIDGING_IN_CORNER_RIGHT_1,
+                            RABBIT_BRIDGING_IN_CORNER_LEFT_1);
                 }
             }
-            case 2:
-            {
-                if ( isSlope( thisBlock ) )
-                {
+            case 2: {
+                if (isSlope(thisBlock)) {
                     return t.rl(
-                        RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_2,
-                        RABBIT_BRIDGING_IN_CORNER_UP_LEFT_2
-                    );
-                }
-                else
-                {
+                            RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_2,
+                            RABBIT_BRIDGING_IN_CORNER_UP_LEFT_2);
+                } else {
                     return t.rl(
-                        RABBIT_BRIDGING_IN_CORNER_RIGHT_2,
-                        RABBIT_BRIDGING_IN_CORNER_LEFT_2
-                    );
+                            RABBIT_BRIDGING_IN_CORNER_RIGHT_2,
+                            RABBIT_BRIDGING_IN_CORNER_LEFT_2);
                 }
             }
-            case 1:
-            {
-                if ( isSlope( thisBlock ) )
-                {
+            case 1: {
+                if (isSlope(thisBlock)) {
                     return t.rl(
-                        RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_3,
-                        RABBIT_BRIDGING_IN_CORNER_UP_LEFT_3
-                    );
-                }
-                else
-                {
+                            RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_3,
+                            RABBIT_BRIDGING_IN_CORNER_UP_LEFT_3);
+                } else {
                     return t.rl(
-                        RABBIT_BRIDGING_IN_CORNER_RIGHT_3,
-                        RABBIT_BRIDGING_IN_CORNER_LEFT_3
-                    );
+                            RABBIT_BRIDGING_IN_CORNER_RIGHT_3,
+                            RABBIT_BRIDGING_IN_CORNER_LEFT_3);
                 }
             }
-            default:
-            {
+            default: {
                 actionHandler.setBehaviour(actionHandler.getWalkingBehaviour());
                 return actionHandler.newState(t);
             }
@@ -293,82 +228,65 @@ public class Bridging extends Action
     }
 
     private static boolean startingIntoToWall(
-        World world,
-        BehaviourExecutor behaviourExecutor,
-        int bs
-    )
-    {
-        Block hereBlock = world.getBlockAt( behaviourExecutor.x, behaviourExecutor.y );
+            World world,
+            BehaviourExecutor behaviourExecutor,
+            int bs) {
+        Block hereBlock = world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y);
 
-        boolean slopeUp = isSlopeUp( behaviourExecutor, hereBlock );
-        int nx = nextX( behaviourExecutor );
-        int ny = nextY( behaviourExecutor, slopeUp );
+        boolean slopeUp = isSlopeUp(behaviourExecutor, hereBlock);
+        int nx = nextX(behaviourExecutor);
+        int ny = nextY(behaviourExecutor, slopeUp);
 
-        Block nextBlock = world.getBlockAt( nx, ny );
+        Block nextBlock = world.getBlockAt(nx, ny);
 
-        return (
-           bs == 3
-        )
-        &&
-        (
-               nextBlock != null
-            &&
-            (
-                   nextBlock.riseDir() != behaviourExecutor.getDirection()
-                || nextBlock.shape == FLAT
-            )
-         );
+        return (bs == 3)
+                &&
+                (nextBlock != null
+                        &&
+                        (nextBlock.riseDir() != behaviourExecutor.getDirection()
+                                || nextBlock.shape == FLAT));
     }
 
-    private static boolean isSlopeUp( BehaviourExecutor behaviourExecutor, Block hereBlock )
-    {
-        return ( hereBlock != null )
-          && ( hereBlock.riseDir() == behaviourExecutor.getDirection() );
+    private static boolean isSlopeUp(BehaviourExecutor behaviourExecutor, Block hereBlock) {
+        return (hereBlock != null)
+                && (hereBlock.riseDir() == behaviourExecutor.getDirection());
     }
 
-    private static int nextY( BehaviourExecutor behaviourExecutor, boolean slopeUp )
-    {
+    private static int nextY(BehaviourExecutor behaviourExecutor, boolean slopeUp) {
         int ret = behaviourExecutor.y;
         ret += slopeUp ? -1 : 0;
         return ret;
     }
 
-    private static int nextX( BehaviourExecutor behaviourExecutor )
-    {
+    private static int nextX(BehaviourExecutor behaviourExecutor) {
         int ret = behaviourExecutor.x;
         ret += behaviourExecutor.getDirection() == Direction.RIGHT ? 1 : -1;
         return ret;
     }
 
-    private static int behindX( BehaviourExecutor behaviourExecutor )
-    {
+    private static int behindX(BehaviourExecutor behaviourExecutor) {
         int ret = behaviourExecutor.x;
         ret += behaviourExecutor.getDirection() == Direction.RIGHT ? -1 : 1;
         return ret;
     }
 
-    private void nextStep()
-    {
+    private void nextStep() {
         --smallSteps;
-        if ( smallSteps <= 0 )
-        {
+        if (smallSteps <= 0) {
             --bigSteps;
             smallSteps = 3;
         }
     }
 
-    private static boolean isSlope( Block thisBlock )
-    {
-        return ( thisBlock != null && thisBlock.shape != FLAT );
+    private static boolean isSlope(Block thisBlock) {
+        return (thisBlock != null && thisBlock.shape != FLAT);
     }
 
     @Override
-    public boolean behave( World world, BehaviourExecutor behaviourExecutor, State state )
-    {
-        boolean handled = moveRabbit( world, behaviourExecutor, state );
+    public boolean behave(World world, BehaviourExecutor behaviourExecutor, State state) {
+        boolean handled = moveRabbit(world, behaviourExecutor, state);
 
-        if ( handled )
-        {
+        if (handled) {
             // If we're bridging, we're on a slope
             behaviourExecutor.setOnSlope(true);
         }
@@ -376,31 +294,26 @@ public class Bridging extends Action
         return false;
     }
 
-    private boolean moveRabbit( World world, BehaviourExecutor behaviourExecutor, State state )
-    {
-        switch ( state )
-        {
+    private boolean moveRabbit(World world, BehaviourExecutor behaviourExecutor, State state) {
+        switch (state) {
             case RABBIT_BRIDGING_RIGHT_1:
             case RABBIT_BRIDGING_RIGHT_2:
             case RABBIT_BRIDGING_LEFT_1:
-            case RABBIT_BRIDGING_LEFT_2:
-            {
+            case RABBIT_BRIDGING_LEFT_2: {
                 bridgeType = BridgeType.ALONG;
                 return true;
             }
             case RABBIT_BRIDGING_UP_RIGHT_1:
             case RABBIT_BRIDGING_UP_RIGHT_2:
             case RABBIT_BRIDGING_UP_LEFT_1:
-            case RABBIT_BRIDGING_UP_LEFT_2:
-            {
+            case RABBIT_BRIDGING_UP_LEFT_2: {
                 bridgeType = BridgeType.UP;
                 return true;
             }
             case RABBIT_BRIDGING_DOWN_UP_RIGHT_1:
             case RABBIT_BRIDGING_DOWN_UP_RIGHT_2:
             case RABBIT_BRIDGING_DOWN_UP_LEFT_1:
-            case RABBIT_BRIDGING_DOWN_UP_LEFT_2:
-            {
+            case RABBIT_BRIDGING_DOWN_UP_LEFT_2: {
                 bridgeType = BridgeType.DOWN_UP;
                 return true;
             }
@@ -411,178 +324,142 @@ public class Bridging extends Action
             case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_1:
             case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_1:
             case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_2:
-            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_2:
-            {
+            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_2: {
                 bridgeType = BridgeType.ALONG;
                 return true;
             }
             case RABBIT_BRIDGING_RIGHT_3:
-            case RABBIT_BRIDGING_DOWN_UP_RIGHT_3:
-            {
+            case RABBIT_BRIDGING_DOWN_UP_RIGHT_3: {
                 behaviourExecutor.x++;
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_RIGHT,
+                                0));
 
                 return true;
             }
             case RABBIT_BRIDGING_LEFT_3:
-            case RABBIT_BRIDGING_DOWN_UP_LEFT_3:
-            {
+            case RABBIT_BRIDGING_DOWN_UP_LEFT_3: {
                 behaviourExecutor.x--;
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_LEFT,
+                                0));
 
                 return true;
             }
-            case RABBIT_BRIDGING_UP_RIGHT_3:
-            {
+            case RABBIT_BRIDGING_UP_RIGHT_3: {
                 behaviourExecutor.x++;
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_RIGHT,
+                                0));
 
                 return true;
             }
-            case RABBIT_BRIDGING_UP_LEFT_3:
-            {
+            case RABBIT_BRIDGING_UP_LEFT_3: {
                 behaviourExecutor.x--;
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_LEFT,
+                                0));
 
                 return true;
             }
-            case RABBIT_BRIDGING_IN_CORNER_RIGHT_3:
-            {
+            case RABBIT_BRIDGING_IN_CORNER_RIGHT_3: {
                 behaviourExecutor.setOnSlope(true);
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_RIGHT,
+                                0));
                 return true;
             }
-            case RABBIT_BRIDGING_IN_CORNER_LEFT_3:
-            {
+            case RABBIT_BRIDGING_IN_CORNER_LEFT_3: {
                 behaviourExecutor.setOnSlope(true);
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_LEFT,
+                                0));
                 return true;
             }
-            case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_3:
-            {
+            case RABBIT_BRIDGING_IN_CORNER_UP_RIGHT_3: {
                 behaviourExecutor.setOnSlope(true);
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_RIGHT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_RIGHT,
+                                0));
                 return true;
             }
-            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_3:
-            {
+            case RABBIT_BRIDGING_IN_CORNER_UP_LEFT_3: {
                 behaviourExecutor.setOnSlope(true);
                 behaviourExecutor.y--;
                 world.changes.addBlock(
-                    new Block(
-                        behaviourExecutor.x,
-                        behaviourExecutor.y,
-                        EARTH,
-                        BRIDGE_UP_LEFT,
-                        0
-                    )
-                );
+                        new Block(
+                                behaviourExecutor.x,
+                                behaviourExecutor.y,
+                                EARTH,
+                                BRIDGE_UP_LEFT,
+                                0));
                 return true;
             }
-            default:
-            {
+            default: {
                 return false;
             }
         }
     }
 
     @Override
-    public void saveState( Map<String, String> saveState )
-    {
+    public void saveState(Map<String, String> saveState) {
         BehaviourState.addToStateIfNotDefault(
-            saveState,
-            "Bridging.bridgeType",
-            bridgeType.toString(),
-            BridgeType.ALONG.toString()
-        );
+                saveState,
+                "Bridging.bridgeType",
+                bridgeType.toString(),
+                BridgeType.ALONG.toString());
 
         BehaviourState.addToStateIfGtZero(
-            saveState, "Bridging.bigSteps", bigSteps
-        );
+                saveState, "Bridging.bigSteps", bigSteps);
 
         BehaviourState.addToStateIfGtZero(
-            saveState, "Bridging.smallSteps", smallSteps
-        );
+                saveState, "Bridging.smallSteps", smallSteps);
     }
 
     @Override
-    public void restoreFromState( Map<String, String> saveState )
-    {
+    public void restoreFromState(Map<String, String> saveState) {
         bridgeType = BridgeType.valueOf(
-            BehaviourState.restoreFromState(
-                saveState, "Bridging.bridgeType", bridgeType.toString()
-            )
-        );
+                BehaviourState.restoreFromState(
+                        saveState, "Bridging.bridgeType", bridgeType.toString()));
 
         bigSteps = BehaviourState.restoreFromState(
-            saveState, "Bridging.bigSteps", bigSteps
-        );
+                saveState, "Bridging.bigSteps", bigSteps);
 
         smallSteps = BehaviourState.restoreFromState(
-            saveState, "Bridging.smallSteps", smallSteps
-        );
+                saveState, "Bridging.smallSteps", smallSteps);
 
-        if ( smallSteps > 0 )
-        {
+        if (smallSteps > 0) {
             ++smallSteps;
         }
     }

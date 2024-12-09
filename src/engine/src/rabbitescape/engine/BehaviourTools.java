@@ -3,6 +3,8 @@ package rabbitescape.engine;
 import static rabbitescape.engine.Block.Shape.*;
 import static rabbitescape.engine.Direction.RIGHT;
 import static rabbitescape.engine.Direction.opposite;
+
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.util.Position;
 
 public class BehaviourTools

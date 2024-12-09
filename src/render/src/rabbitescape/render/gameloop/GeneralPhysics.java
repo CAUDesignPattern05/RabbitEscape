@@ -12,7 +12,7 @@ import rabbitescape.engine.solution.SolutionTimeStep;
 import rabbitescape.engine.solution.TimeStepAction;
 import rabbitescape.engine.solution.UiPlayback;
 import rabbitescape.engine.LevelWinListener;
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World;
 import rabbitescape.engine.World.CompletionState;
 

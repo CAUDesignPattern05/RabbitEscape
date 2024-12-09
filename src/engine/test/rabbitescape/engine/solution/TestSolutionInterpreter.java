@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.World.CompletionState;
 
 public class TestSolutionInterpreter

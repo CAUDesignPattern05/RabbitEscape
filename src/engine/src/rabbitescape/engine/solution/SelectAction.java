@@ -1,6 +1,6 @@
 package rabbitescape.engine.solution;
 
-import rabbitescape.engine.Token;
+import rabbitescape.engine.token.Token;
 
 public class SelectAction implements CommandAction, TimeStepAction
 {

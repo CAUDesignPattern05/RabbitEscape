@@ -11,72 +11,61 @@ import java.util.Map;
 
 import rabbitescape.engine.err.RabbitEscapeException;
 import rabbitescape.engine.textworld.Comment;
+import rabbitescape.engine.token.Token;
 import rabbitescape.engine.util.Dimension;
 import rabbitescape.engine.util.LookupTable2D;
 import rabbitescape.engine.util.Position;
 
-public class World implements RabbitObserver
-{
-    public static class DontStepAfterFinish extends RabbitEscapeException
-    {
+public class World implements RabbitObserver {
+    public static class DontStepAfterFinish extends RabbitEscapeException {
         private static final long serialVersionUID = 1L;
 
         public final String worldName;
 
-        public DontStepAfterFinish( String worldName )
-        {
+        public DontStepAfterFinish(String worldName) {
             this.worldName = worldName;
         }
     }
 
-    public static class NoBlockFound extends RabbitEscapeException
-    {
+    public static class NoBlockFound extends RabbitEscapeException {
         private static final long serialVersionUID = 1L;
 
         public final int x;
         public final int y;
 
-        public NoBlockFound( int x, int y )
-        {
+        public NoBlockFound(int x, int y) {
             this.x = x;
             this.y = y;
         }
     }
 
-    public static class UnableToAddToken extends RabbitEscapeException
-    {
+    public static class UnableToAddToken extends RabbitEscapeException {
         private static final long serialVersionUID = 1L;
 
         public final Token.Type ability;
 
-        public UnableToAddToken( Token.Type ability )
-        {
+        public UnableToAddToken(Token.Type ability) {
             this.ability = ability;
         }
     }
 
-    public static class NoSuchAbilityInThisWorld extends UnableToAddToken
-    {
+    public static class NoSuchAbilityInThisWorld extends UnableToAddToken {
         private static final long serialVersionUID = 1L;
 
-        public NoSuchAbilityInThisWorld( Token.Type ability )
-        {
-            super( ability );
+        public NoSuchAbilityInThisWorld(Token.Type ability) {
+            super(ability);
         }
     }
 
-    public static class NoneOfThisAbilityLeft extends UnableToAddToken
-    {
+    public static class NoneOfThisAbilityLeft extends UnableToAddToken {
         private static final long serialVersionUID = 1L;
 
-        public NoneOfThisAbilityLeft( Token.Type ability )
-        {
-            super( ability );
+        public NoneOfThisAbilityLeft(Token.Type ability) {
+            super(ability);
         }
     }
 
-    public static class CantAddTokenOutsideWorld extends UnableToAddToken
-    {
+    public static class CantAddTokenOutsideWorld extends UnableToAddToken {
         private static final long serialVersionUID = 1L;
 
         public final int x;
@@ -84,17 +73,15 @@ public class World implements RabbitObserver
         public final Dimension worldSize;
 
         public CantAddTokenOutsideWorld(
-            Token.Type ability, int x, int y, Dimension worldSize )
-        {
-            super( ability );
+                Token.Type ability, int x, int y, Dimension worldSize) {
+            super(ability);
             this.x = x;
             this.y = y;
             this.worldSize = worldSize;
         }
     }
 
-    public enum CompletionState
-    {
+    public enum CompletionState {
         RUNNING,
         PAUSED,
         WON,
@@ -134,32 +121,30 @@ public class World implements RabbitObserver
     public final VoidMarkerStyle.Style voidStyle;
 
     public World(
-        Dimension size,
-        List<Block> blocks,
-        List<BehaviourExecutor> behaviourExecutors,
-        List<Thing> things,
-        Map<Position, Integer> waterAmounts,
-        Map<Token.Type, Integer> abilities,
-        String name,
-        String description,
-        String author_name,
-        String author_url,
-        String[] hints,
-        String[] solutions,
-        int num_rabbits,
-        int num_to_save,
-        int[] rabbit_delay,
-        String music,
-        int num_saved,
-        int num_killed,
-        int num_waiting,
-        int rabbit_index_count,
-        boolean paused,
-        Comment[] comments,
-        WorldStatsListener statsListener,
-        VoidMarkerStyle.Style voidStyle
-    )
-    {
+            Dimension size,
+            List<Block> blocks,
+            List<BehaviourExecutor> behaviourExecutors,
+            List<Thing> things,
+            Map<Position, Integer> waterAmounts,
+            Map<Token.Type, Integer> abilities,
+            String name,
+            String description,
+            String author_name,
+            String author_url,
+            String[] hints,
+            String[] solutions,
+            int num_rabbits,
+            int num_to_save,
+            int[] rabbit_delay,
+            String music,
+            int num_saved,
+            int num_killed,
+            int num_waiting,
+            int rabbit_index_count,
+            boolean paused,
+            Comment[] comments,
+            WorldStatsListener statsListener,
+            VoidMarkerStyle.Style voidStyle) {
         this.size = size;
         this.behaviourExecutors = behaviourExecutors;
         this.things = things;
@@ -182,53 +167,47 @@ public class World implements RabbitObserver
         this.comments = comments;
         this.voidStyle = voidStyle;
 
-        if ( -1 == size.width )
-        {
+        if (-1 == size.width) {
             // make allowance for tests with no world
             this.blockTable = null;
-            this.waterTable = new LookupTable2D<WaterRegion>( size );
-        }
-        else
-        {
-            this.blockTable = new LookupTable2D<Block>( blocks, size );
+            this.waterTable = new LookupTable2D<WaterRegion>(size);
+        } else {
+            this.blockTable = new LookupTable2D<Block>(blocks, size);
             this.waterTable = WaterRegionFactory.generateWaterTable(
-                blockTable,
-                waterAmounts
-            );
+                    blockTable,
+                    waterAmounts);
         }
 
-        this.changes = new WorldChanges( this, statsListener );
+        this.changes = new WorldChanges(this, statsListener);
 
         init();
     }
 
     public World(
-        Dimension size,
-        LookupTable2D<Block> blockTable,
-        List<BehaviourExecutor> behaviourExecutors,
-        List<Thing> things,
-        LookupTable2D<WaterRegion> waterTable,
-        Map<rabbitescape.engine.Token.Type, Integer> abilities,
-        String name,
-        String description,
-        String author_name,
-        String author_url,
-        String[] hints,
-        String[] solutions,
-        int num_rabbits,
-        int num_to_save,
-        int[] rabbit_delay,
-        String music,
-        int num_saved,
-        int num_killed,
-        int num_waiting,
-        int rabbit_index_count,
-        boolean paused,
-        Comment[] comments,
-        IgnoreWorldStatsListener statsListener,
-        VoidMarkerStyle.Style voidStyle
-    )
-    {
+            Dimension size,
+            LookupTable2D<Block> blockTable,
+            List<BehaviourExecutor> behaviourExecutors,
+            List<Thing> things,
+            LookupTable2D<WaterRegion> waterTable,
+            Map<Token.Type, Integer> abilities,
+            String name,
+            String description,
+            String author_name,
+            String author_url,
+            String[] hints,
+            String[] solutions,
+            int num_rabbits,
+            int num_to_save,
+            int[] rabbit_delay,
+            String music,
+            int num_saved,
+            int num_killed,
+            int num_waiting,
+            int rabbit_index_count,
+            boolean paused,
+            Comment[] comments,
+            IgnoreWorldStatsListener statsListener,
+            VoidMarkerStyle.Style voidStyle) {
         this.size = size;
         this.blockTable = blockTable;
         this.behaviourExecutors = behaviourExecutors;
@@ -253,38 +232,33 @@ public class World implements RabbitObserver
         this.comments = comments;
         this.voidStyle = voidStyle;
 
-        this.changes = new WorldChanges( this, statsListener );
+        this.changes = new WorldChanges(this, statsListener);
 
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         // Number the rabbits if necessary
-        for ( BehaviourExecutor r : behaviourExecutors )
-        {
-            rabbitIndex( r );
+        for (BehaviourExecutor r : behaviourExecutors) {
+            rabbitIndex(r);
         }
 
         // Rearrange them, this may be necessary if they have been
         // restored from state.
-        Collections.sort( behaviourExecutors );
+        Collections.sort(behaviourExecutors);
 
-        for ( Thing thing : allThings() )
-        {
-            thing.calcNewState( this );
+        for (Thing thing : allThings()) {
+            thing.calcNewState(this);
         }
     }
 
-    public void rabbitIndex( BehaviourExecutor r )
-    {
-        int newIndex = ( r.getIndex() == 0 ) ? ++rabbit_index_count
-            : r.getIndex();
-        r.setIndex( newIndex );
+    public void rabbitIndex(BehaviourExecutor r) {
+        int newIndex = (r.getIndex() == 0) ? ++rabbit_index_count
+                : r.getIndex();
+        r.setIndex(newIndex);
     }
 
-    public int getRabbitIndexCount()
-    {
+    public int getRabbitIndexCount() {
         return rabbit_index_count;
     }
 
@@ -292,37 +266,29 @@ public class World implements RabbitObserver
      * For levels with some rabbits in to start with. Then entering rabbits are
      * indexed correctly.
      */
-    public void countRabbitsForIndex()
-    {
-        rabbit_index_count = rabbit_index_count == 0 ?
-            behaviourExecutors.size() : rabbit_index_count;
-        for ( BehaviourExecutor r : behaviourExecutors )
-        {
-            rabbit_index_count = rabbit_index_count > r.getIndex() ?
-                rabbit_index_count : r.getIndex();
+    public void countRabbitsForIndex() {
+        rabbit_index_count = rabbit_index_count == 0 ? behaviourExecutors.size() : rabbit_index_count;
+        for (BehaviourExecutor r : behaviourExecutors) {
+            rabbit_index_count = rabbit_index_count > r.getIndex() ? rabbit_index_count : r.getIndex();
         }
     }
 
-    public void step()
-    {
+    public void step() {
 
-        if ( completionState() != CompletionState.RUNNING )
-        {
-            throw new DontStepAfterFinish( name );
+        if (completionState() != CompletionState.RUNNING) {
+            throw new DontStepAfterFinish(name);
         }
 
-        for ( Thing thing : allThings() )
-        {
-            thing.step( this );
+        for (Thing thing : allThings()) {
+            thing.step(this);
         }
 
         changes.rememberWhatWillHappen();
 
         changes.apply();
 
-        for ( Thing thing : allThings() )
-        {
-            thing.calcNewState( this );
+        for (Thing thing : allThings()) {
+            thing.calcNewState(this);
         }
 
         changes.blocksJustRemoved.clear();
@@ -330,102 +296,76 @@ public class World implements RabbitObserver
         changes.apply();
     }
 
-    public ChangeDescription describeChanges()
-    {
+    public ChangeDescription describeChanges() {
         ChangeDescription ret = new ChangeDescription();
 
-        for ( Thing thing : allThings() )
-        {
-            ret.add( thing.x, thing.y, thing.state );
+        for (Thing thing : allThings()) {
+            ret.add(thing.x, thing.y, thing.state);
         }
 
         return ret;
     }
 
-    private Iterable<Thing> allThings()
-    {
-        return chain( waterTable.getItems(), behaviourExecutors, things );
+    private Iterable<Thing> allThings() {
+        return chain(waterTable.getItems(), behaviourExecutors, things);
     }
 
-    public Block getBlockAt( int x, int y )
-    {
-        if ( x < 0 || y < 0 ||
-            x >= size.width || y >= size.height )
-        {
+    public Block getBlockAt(int x, int y) {
+        if (x < 0 || y < 0 ||
+                x >= size.width || y >= size.height) {
             return null;
         }
-        return blockTable.getItemAt( x, y );
+        return blockTable.getItemAt(x, y);
     }
 
-    public CompletionState completionState()
-    {
-        if ( paused )
-        {
+    public CompletionState completionState() {
+        if (paused) {
             return CompletionState.PAUSED;
-        }
-        else if ( numRabbitsOut() == 0 && this.num_waiting <= 0 )
-        {
-            if ( num_saved >= num_to_save )
-            {
+        } else if (numRabbitsOut() == 0 && this.num_waiting <= 0) {
+            if (num_saved >= num_to_save) {
                 return CompletionState.WON;
-            }
-            else
-            {
+            } else {
                 return CompletionState.LOST;
             }
-        }
-        else
-        {
+        } else {
             return CompletionState.RUNNING;
         }
     }
 
-    public Token getTokenAt( int x, int y )
-    {
+    public Token getTokenAt(int x, int y) {
         // Note it is not worth using LookupTable2D for things.
         // Handling their movement would complicate the code.
         // There are not as many instances of Thing as Block.
         // Iterating to check through is not too time
         // consuming.
-        for ( Thing thing : things )
-        {
-            if ( thing.x == x && thing.y == y && thing instanceof Token )
-            {
-                if ( !changes.tokensToRemove.contains( thing ) )
-                {
-                    return ( Token )thing;
+        for (Thing thing : things) {
+            if (thing.x == x && thing.y == y && thing instanceof Token) {
+                if (!changes.tokensToRemove.contains(thing)) {
+                    return (Token) thing;
                 }
             }
         }
         return null;
     }
 
-    public List<Thing> getThingsAt( int x, int y )
-    {
+    public List<Thing> getThingsAt(int x, int y) {
         ArrayList<Thing> ret = new ArrayList<Thing>();
-        for ( Thing thing : things )
-        {
-            if ( thing.x == x && thing.y == y )
-            {
-                if ( !changes.tokensToRemove.contains( thing ) &&
-                    !changes.fireToRemove.contains( thing ) )
-                {
-                    ret.add( thing );
+        for (Thing thing : things) {
+            if (thing.x == x && thing.y == y) {
+                if (!changes.tokensToRemove.contains(thing) &&
+                        !changes.fireToRemove.contains(thing)) {
+                    ret.add(thing);
                 }
             }
         }
         return ret;
     }
 
-    public boolean fireAt( int x, int y )
-    {
+    public boolean fireAt(int x, int y) {
         // See note for getTokenAt() about Thing storage.
-        for ( Thing thing : things )
-        {
-            if ( thing.x == x && thing.y == y && thing instanceof Fire )
-            {
-                if ( !changes.fireToRemove.contains( thing ) )
-                {
+        for (Thing thing : things) {
+            if (thing.x == x && thing.y == y && thing instanceof Fire) {
+                if (!changes.fireToRemove.contains(thing)) {
                     return true;
                 }
             }
@@ -433,96 +373,77 @@ public class World implements RabbitObserver
         return false;
     }
 
-    public BehaviourExecutor[] getRabbitsAt( int x, int y )
-    {
+    public BehaviourExecutor[] getRabbitsAt(int x, int y) {
         List<BehaviourExecutor> ret = new ArrayList<BehaviourExecutor>();
 
-        for ( BehaviourExecutor behaviourExecutor : behaviourExecutors )
-        {
-            if ( behaviourExecutor.x == x && behaviourExecutor.y == y )
-            {
-                ret.add( behaviourExecutor );
+        for (BehaviourExecutor behaviourExecutor : behaviourExecutors) {
+            if (behaviourExecutor.x == x && behaviourExecutor.y == y) {
+                ret.add(behaviourExecutor);
             }
         }
 
-        return ret.toArray( new BehaviourExecutor[ ret.size() ] );
+        return ret.toArray(new BehaviourExecutor[ret.size()]);
     }
 
-    public int numRabbitsOut()
-    {
+    public int numRabbitsOut() {
         int count = 0;
-        for ( BehaviourExecutor r : behaviourExecutors )
-        {
-            if ( r instanceof Rabbit )
-            {
+        for (BehaviourExecutor r : behaviourExecutors) {
+            if (r instanceof Rabbit) {
                 ++count;
             }
         }
         return count;
     }
 
-    public void setPaused( boolean paused )
-    {
+    public void setPaused(boolean paused) {
         this.paused = paused;
     }
 
-    public void recalculateWaterRegions( Position point )
-    {
+    public void recalculateWaterRegions(Position point) {
         int contents = 0;
-        for ( WaterRegion waterRegion :
-            waterTable.getItemsAt( point.x, point.y ) )
-        {
+        for (WaterRegion waterRegion : waterTable.getItemsAt(point.x, point.y)) {
             contents += waterRegion.getContents();
         }
-        waterTable.removeItemsAt( point.x, point.y );
+        waterTable.removeItemsAt(point.x, point.y);
         WaterRegionFactory.createWaterRegionsAtPoint(
-            blockTable,
-            waterTable,
-            point.x,
-            point.y,
-            contents
-        );
+                blockTable,
+                waterTable,
+                point.x,
+                point.y,
+                contents);
     }
 
-    public Map<Position, Integer> getWaterContents()
-    {
+    public Map<Position, Integer> getWaterContents() {
         Map<Position, Integer> waterAmounts = new HashMap<>();
-        for ( WaterRegion waterRegion : waterTable )
-        {
-            if ( waterAmounts.containsKey( waterRegion.getPosition() ) )
-            {
+        for (WaterRegion waterRegion : waterTable) {
+            if (waterAmounts.containsKey(waterRegion.getPosition())) {
                 throw new IllegalStateException(
-                    "There is currently no support for multiple WaterRegions "
-                        + "within a single cell." );
+                        "There is currently no support for multiple WaterRegions "
+                                + "within a single cell.");
             }
             int contents = waterRegion.getContents();
-            if ( contents != 0 )
-            {
+            if (contents != 0) {
                 waterAmounts.put(
-                    waterRegion.getPosition(),
-                    contents
-                );
+                        waterRegion.getPosition(),
+                        contents);
             }
         }
         return waterAmounts;
     }
 
     @Override
-    public void updateBirth( BehaviourExecutor behaviourExecutor )
-    {
-        changes.enterRabbit( behaviourExecutor );
-        rabbitIndex( behaviourExecutor );
+    public void updateBirth(BehaviourExecutor behaviourExecutor) {
+        changes.enterRabbit(behaviourExecutor);
+        rabbitIndex(behaviourExecutor);
     }
 
     @Override
-    public void updateDeath( BehaviourExecutor behaviourExecutor )
-    {
-        changes.killRabbit( behaviourExecutor );
+    public void updateDeath(BehaviourExecutor behaviourExecutor) {
+        changes.killRabbit(behaviourExecutor);
     }
 
     @Override
-    public void updateExiting( BehaviourExecutor behaviourExecutor )
-    {
-        changes.saveRabbit( behaviourExecutor );
+    public void updateExiting(BehaviourExecutor behaviourExecutor) {
+        changes.saveRabbit(behaviourExecutor);
     }
 }

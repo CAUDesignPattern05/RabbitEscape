@@ -9,6 +9,8 @@ import rabbitescape.engine.World.NoBlockFound;
 import rabbitescape.engine.World.NoSuchAbilityInThisWorld;
 import rabbitescape.engine.World.NoneOfThisAbilityLeft;
 import rabbitescape.engine.World.UnableToAddToken;
+import rabbitescape.engine.token.Token;
+import rabbitescape.engine.token.TokenFactory;
 import rabbitescape.engine.util.Position;
 
 public class WorldChanges
@@ -189,7 +191,7 @@ public class WorldChanges
             return;
         }
 
-        tokensToAdd.add( new Token( x, y, type, world ) );
+        tokensToAdd.add( TokenFactory.createToken( x, y, type, world ) );
         world.abilities.put( type, numLeft - 1 );
     }
 
