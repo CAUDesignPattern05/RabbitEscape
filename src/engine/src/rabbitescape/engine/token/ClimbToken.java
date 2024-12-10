@@ -4,6 +4,7 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.actions.Action;
 import rabbitescape.engine.behaviours.actions.ActionHandler;
+import rabbitescape.engine.behaviours.actions.Climbing;
 
 public class ClimbToken extends Token
 {
@@ -48,5 +49,5 @@ public class ClimbToken extends Token
     }
 
     @Override
-    public Action createAction( ActionHandler actionHandler ) { return null; }
+    public Action createAction( ActionHandler actionHandler ) { return new Climbing( actionHandler ); }
 }

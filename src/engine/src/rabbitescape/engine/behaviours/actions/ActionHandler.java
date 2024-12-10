@@ -3,6 +3,8 @@ package rabbitescape.engine.behaviours.actions;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.behaviours.*;
+import rabbitescape.engine.token.BrollyToken;
+import rabbitescape.engine.token.ClimbToken;
 import rabbitescape.engine.token.Token;
 
 import java.util.Map;
@@ -83,12 +85,12 @@ public class ActionHandler extends BehaviourHandler {
         {
             return;
         }
-        else if (item.getType() == Token.Type.brolly)
+        else if ( item instanceof BrollyToken )
         {
             brollychutingAbility = true;
             setBehaviour( getWalkingBehaviour() );
         }
-        else if (item.getType() == Token.Type.climb)
+        else if ( item instanceof ClimbToken )
         {
             climbingAbility = true;
             setBehaviour( getWalkingBehaviour() );

@@ -131,7 +131,5 @@ public abstract class Token extends Thing
         return n.substring( 0, 1 ).toUpperCase() + n.substring( 1 );
     }
 
-    public Type getType() { return type; }
-
     public abstract Action createAction( ActionHandler actionHandler );
 }
