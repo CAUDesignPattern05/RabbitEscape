@@ -6,6 +6,7 @@ import java.util.List;
 import rabbitescape.engine.*;
 import rabbitescape.engine.block.Block;
 import rabbitescape.engine.block.DecayBlock;
+import rabbitescape.engine.block.SpringBoardBlock;
 import rabbitescape.engine.block.blockshape.BlockShape;
 import rabbitescape.engine.block.blockmaterial.BlockMaterial;
 import rabbitescape.engine.block.blockmaterial.EarthMaterial;
@@ -22,6 +23,14 @@ public class SpriteAnimator {
             "block",
             "block"
     };
+
+    private static final String[] spring_board_block = new String[] {
+        "springboardblock",
+        "springboardblock",
+        "springboardblock",
+        "springboardblock"
+    };
+
 
     private static final String[] metal_block = new String[] {
             "metal_block_1",
@@ -167,7 +176,10 @@ public class SpriteAnimator {
         if (block instanceof DecayBlock) {
             return decay_block[block.getVariant()];
         }
-        if (material instanceof EarthMaterial) {
+        else if (block instanceof SpringBoardBlock ) {
+            return spring_board_block[block.getVariant()];
+        }
+        else if (material instanceof EarthMaterial) {
             switch (block.getShape()) {
                 case FLAT:
                     return land_block[block.getVariant()];
