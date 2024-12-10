@@ -6,6 +6,8 @@ import static rabbitescape.engine.Direction.*;
 import rabbitescape.engine.block.Block;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.block.DecayBlock;
+import rabbitescape.engine.block.SpringBoardBlock;
 
 public class Walking extends Action
 {
@@ -94,12 +96,15 @@ public class Walking extends Action
         {
             case RABBIT_WALKING_LEFT:
             {
+                world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ).onStepped(world, behaviourExecutor, 1);
                 --behaviourExecutor.x;
                 behaviourExecutor.setOnSlope(false);
                 break;
             }
             case RABBIT_WALKING_RIGHT:
             {
+
+                world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ).onStepped(world, behaviourExecutor, 1);
                 ++behaviourExecutor.x;
                 behaviourExecutor.setOnSlope(false);
                 break;
@@ -198,7 +203,7 @@ public class Walking extends Action
             {
                 throw new AssertionError(
                     "Should have handled all states in Walking or before,"
-                    + " but we are in state " + state.name()
+                        + " but we are in state " + state.name()
                 );
             }
         }

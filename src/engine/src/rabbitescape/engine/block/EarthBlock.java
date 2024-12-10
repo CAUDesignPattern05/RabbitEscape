@@ -1,5 +1,7 @@
 package rabbitescape.engine.block;
 
+import rabbitescape.engine.BehaviourExecutor;
+import rabbitescape.engine.World;
 import rabbitescape.engine.block.blockmaterial.EarthMaterial;
 import rabbitescape.engine.block.blockshape.BlockShape;
 import rabbitescape.engine.block.blockshape.FlatShape;
@@ -13,6 +15,6 @@ public class EarthBlock extends Block {
     }
 
     @Override
-    public void onStepped() {
+    public void onStepped( World world, BehaviourExecutor behaviourExecutor,Integer dir) {
     }
 }

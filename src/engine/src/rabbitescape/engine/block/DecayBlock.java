@@ -1,5 +1,7 @@
 package rabbitescape.engine.block;
 
+import rabbitescape.engine.BehaviourExecutor;
+import rabbitescape.engine.World;
 import rabbitescape.engine.block.blockmaterial.EarthMaterial;
 import rabbitescape.engine.block.blockshape.FlatShape;
 
@@ -12,11 +14,7 @@ public class DecayBlock extends Block {
     }
 
     @Override
-    public void onStepped() {
-        durability--;
-        if (durability <= 0) {
-            System.out.println("Decay block at (" + this.getX() + ", " + this.getY() + ") is destroyed!");
-            // Add destruction logic here
-        }
+    public void onStepped( World world, BehaviourExecutor behaviourExecutor,Integer dir) {
+        world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
     }
 }
