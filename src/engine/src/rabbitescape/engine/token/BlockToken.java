@@ -2,6 +2,11 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
+import rabbitescape.engine.behaviours.actions.Action;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
+import rabbitescape.engine.behaviours.actions.Blocking;
+
+import javax.swing.text.html.HTMLDocument;
 
 public class BlockToken extends Token
 {
@@ -44,4 +49,7 @@ public class BlockToken extends Token
     {
         return "block";
     }
+
+    @Override
+    public Action createAction( ActionHandler actionHandler ) { return new Blocking( actionHandler ); }
 }

@@ -86,7 +86,7 @@ public class WorldChanges {
     private void doExplodeAll() {
         world.num_waiting = 0;
         for (BehaviourExecutor behaviourExecutor : world.behaviourExecutors) {
-            behaviourExecutor.actionHandler.setExplodingBehaviour();
+            behaviourExecutor.actionHandler.setBehaviour(TokenFactory.createToken(behaviourExecutor.x, behaviourExecutor.y, Token.Type.explode));
         }
     }
 

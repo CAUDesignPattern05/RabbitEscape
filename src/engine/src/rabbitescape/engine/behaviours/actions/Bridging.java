@@ -24,6 +24,8 @@ public class Bridging extends Action {
     public Bridging(ActionHandler actionHandler) {
         super(actionHandler);
         this.bridgeFactory = new BridgeFactory();
+        smallSteps = 3;
+        bigSteps = 3;
     }
 
     @Override
@@ -455,11 +457,5 @@ public class Bridging extends Action {
         if (smallSteps > 0) {
             ++smallSteps;
         }
-    }
-
-    @Override
-    public void clearMemberVariables() {
-        smallSteps = 3;
-        bigSteps = 3;
     }
 }

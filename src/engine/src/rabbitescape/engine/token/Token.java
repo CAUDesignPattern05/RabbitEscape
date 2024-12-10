@@ -2,6 +2,8 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
+import rabbitescape.engine.behaviours.actions.Action;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
 import rabbitescape.engine.block.Block;
 
 import java.util.HashMap;
@@ -130,4 +132,6 @@ public abstract class Token extends Thing
     }
 
     public Type getType() { return type; }
+
+    public abstract Action createAction( ActionHandler actionHandler );
 }
