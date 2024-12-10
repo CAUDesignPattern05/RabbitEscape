@@ -1,6 +1,8 @@
 package rabbitescape.engine.block;
 
+import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.Direction;
+import rabbitescape.engine.World;
 import rabbitescape.engine.block.blockmaterial.BlockMaterial;
 import rabbitescape.engine.block.blockshape.BlockShape;
 import rabbitescape.engine.util.LookupItem2D;
@@ -23,7 +25,7 @@ public abstract class Block implements LookupItem2D
     }
 
     // 고유 행동 정의
-    public abstract void onStepped();
+    public abstract void onStepped( World world, BehaviourExecutor behaviourExecutor, Integer dir);
 
     public int getX() { return x; }
     public int getY() { return y; }

@@ -96,23 +96,15 @@ public class Walking extends Action
         {
             case RABBIT_WALKING_LEFT:
             {
-                //world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ).onStepped();
-                if (world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ) instanceof DecayBlock ){
-                    world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
-                } else if (world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ) instanceof SpringBoardBlock ){
-                    behaviourExecutor.y -=2;
-                }
+                world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ).onStepped(world, behaviourExecutor, 1);
                 --behaviourExecutor.x;
                 behaviourExecutor.setOnSlope(false);
                 break;
             }
             case RABBIT_WALKING_RIGHT:
             {
-                if (world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ) instanceof DecayBlock ){
-                    world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
-                } else if (world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ) instanceof SpringBoardBlock ){
-                    behaviourExecutor.y -=2;
-                }
+
+                world.getBlockAt(behaviourExecutor.x, behaviourExecutor.y + 1 ).onStepped(world, behaviourExecutor, 1);
                 ++behaviourExecutor.x;
                 behaviourExecutor.setOnSlope(false);
                 break;

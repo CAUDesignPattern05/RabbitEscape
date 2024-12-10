@@ -1,5 +1,7 @@
 package rabbitescape.engine.block;
 
+import rabbitescape.engine.BehaviourExecutor;
+import rabbitescape.engine.World;
 import rabbitescape.engine.block.blockmaterial.EarthMaterial;
 import rabbitescape.engine.block.blockmaterial.MetalMaterial;
 import rabbitescape.engine.block.blockshape.BlockShape;
@@ -13,6 +15,6 @@ public class MetalBlock extends Block
 
 
     @Override
-    public void onStepped() {
+    public void onStepped( World world, BehaviourExecutor behaviourExecutor,Integer dir) {
     }
 }
