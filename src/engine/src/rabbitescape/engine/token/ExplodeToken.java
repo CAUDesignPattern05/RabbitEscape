@@ -2,6 +2,9 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
+import rabbitescape.engine.behaviours.actions.Action;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
+import rabbitescape.engine.behaviours.actions.Exploding;
 
 public class ExplodeToken extends Token
 {
@@ -44,4 +47,7 @@ public class ExplodeToken extends Token
     {
         return "explode";
     }
+
+    @Override
+    public Action createAction( ActionHandler actionHandler ) { return new Exploding( actionHandler ); }
 }

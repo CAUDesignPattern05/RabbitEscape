@@ -2,6 +2,8 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
+import rabbitescape.engine.behaviours.actions.Action;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
 
 public class ClimbToken extends Token
 {
@@ -44,4 +46,7 @@ public class ClimbToken extends Token
     {
         return "climb";
     }
+
+    @Override
+    public Action createAction( ActionHandler actionHandler ) { return null; }
 }

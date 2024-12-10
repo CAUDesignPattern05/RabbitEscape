@@ -2,6 +2,9 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
+import rabbitescape.engine.behaviours.actions.Action;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
+import rabbitescape.engine.behaviours.actions.Bridging;
 
 public class BridgeToken extends Token
 {
@@ -44,4 +47,7 @@ public class BridgeToken extends Token
     {
         return "bridge";
     }
+
+    @Override
+    public Action createAction( ActionHandler actionHandler ) { return new Bridging( actionHandler ); }
 }

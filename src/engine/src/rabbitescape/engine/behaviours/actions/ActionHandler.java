@@ -8,13 +8,8 @@ import rabbitescape.engine.token.Token;
 import java.util.Map;
 
 public class ActionHandler extends BehaviourHandler {
-    private final Behaviour bashing;
-    private final Behaviour blocking;
-    private final Behaviour bridging;
     private final Behaviour brollychuting;
     private final Behaviour climbing;
-    private final Behaviour digging;
-    private final Behaviour exploding;
     private final Behaviour walking;
     private final Behaviour falling;
 
@@ -24,13 +19,8 @@ public class ActionHandler extends BehaviourHandler {
 
     public ActionHandler()
     {
-        bashing = new Bashing( this );
-        blocking = new Blocking( this );
-        bridging = new Bridging( this );
         brollychuting = new Brollychuting( this );
         climbing = new Climbing( this );
-        digging = new Digging( this );
-        exploding = new Exploding( this );
         walking = new Walking( this );
         falling = new Falling( this );
 
@@ -93,44 +83,25 @@ public class ActionHandler extends BehaviourHandler {
         {
             return;
         }
-
-        switch ( item.getType() )
+        else if (item.getType() == Token.Type.brolly)
         {
-            case bash:
-                action = bashing;
-                break;
-            case block:
-                action = blocking;
-                break;
-            case bridge:
-                action = bridging;
-                break;
-            case brolly:
-                brollychutingAbility = true;
-                break;
-            case climb:
-                climbingAbility = true;
-                break;
-            case dig:
-                action = digging;
-                break;
-            case explode:
-                action = exploding;
-                break;
-            default:
-                break;
+            brollychutingAbility = true;
+            setBehaviour( getWalkingBehaviour() );
         }
-        action.clearMemberVariables();
+        else if (item.getType() == Token.Type.climb)
+        {
+            climbingAbility = true;
+            setBehaviour( getWalkingBehaviour() );
+        }
+        else
+        {
+            action = item.createAction(this);
+        }
     }
 
     protected void setBehaviour( Behaviour behaviour )
     {
         this.action = behaviour;
-        this.action.clearMemberVariables();
-    }
-
-    public void setExplodingBehaviour() {
-        this.action = exploding;
         this.action.clearMemberVariables();
     }
 
@@ -152,5 +123,5 @@ public class ActionHandler extends BehaviourHandler {
         return brollychutingAbility;
     }
 
-    public boolean isExploding() { return action == exploding; }
+    public boolean isExploding() { return action instanceof Exploding; }
 }

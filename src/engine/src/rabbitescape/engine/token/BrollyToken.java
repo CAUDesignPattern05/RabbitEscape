@@ -2,6 +2,8 @@ package rabbitescape.engine.token;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
+import rabbitescape.engine.behaviours.actions.Action;
+import rabbitescape.engine.behaviours.actions.ActionHandler;
 
 public class BrollyToken extends Token
 {
@@ -44,4 +46,7 @@ public class BrollyToken extends Token
     {
         return "brolly";
     }
+
+    @Override
+    public Action createAction( ActionHandler actionHandler ) { return null; }
 }
