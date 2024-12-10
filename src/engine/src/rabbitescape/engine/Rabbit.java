@@ -1,6 +1,6 @@
 package rabbitescape.engine;
 
-import rabbitescape.engine.behaviours.basicBehaviours.BasicHandler;
+import rabbitescape.engine.behaviours.commonBehaviours.CommonHandler;
 import rabbitescape.engine.behaviours.rabbitBehaviours.RabbitHandler;
 
 public class Rabbit extends BehaviourExecutor {
@@ -9,10 +9,10 @@ public class Rabbit extends BehaviourExecutor {
         fatalHeight = 4;
 
         setAffectedByRabbot(true);
-        BasicHandler deathHandler = new BasicHandler();
+        CommonHandler commonHandler = new CommonHandler();
         RabbitHandler rabbitHandler = new RabbitHandler();
 
-        deathHandler.setNextHandler(rabbitHandler);
-        actionHandler.setNextHandler(deathHandler);
+        actionHandler.setNextHandler(commonHandler);
+        commonHandler.setNextHandler(rabbitHandler);
     }
 }

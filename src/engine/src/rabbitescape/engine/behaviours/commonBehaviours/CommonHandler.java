@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours.basicBehaviours;
+package rabbitescape.engine.behaviours.commonBehaviours;
 
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
@@ -10,20 +10,20 @@ import rabbitescape.engine.behaviours.BehaviourHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicHandler extends BehaviourHandler
+public class CommonHandler extends BehaviourHandler
 {
     private final List<Behaviour> behaviours;
 
-    public BasicHandler() {
+    public CommonHandler() {
         behaviours = new ArrayList<>();
         createBehaviours();
     }
 
     private void createBehaviours() {
-        Behaviour exiting = new Exiting(this);
+        Behaviour burning = new Burning(this);
         Behaviour outOfBounding = new OutOfBounding(this);
 
-        behaviours.add( exiting );
+        behaviours.add( burning );
         behaviours.add( outOfBounding );
     }
 

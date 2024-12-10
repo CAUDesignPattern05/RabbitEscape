@@ -1,12 +1,12 @@
-package rabbitescape.engine.behaviours.basicBehaviours;
+package rabbitescape.engine.behaviours.rabbitBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 import rabbitescape.engine.*;
 import rabbitescape.engine.ChangeDescription.State;
 
-public class Exiting extends BasicBehaviour
+public class Exiting extends RabbitBehaviour
 {
-    public Exiting( BasicHandler basicHandler) { super(basicHandler); }
+    public Exiting( RabbitHandler rabbitHandler) { super(rabbitHandler); }
 
     @Override
     public boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world )

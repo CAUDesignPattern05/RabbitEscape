@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours.rabbitBehaviours;
+package rabbitescape.engine.behaviours.commonBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
@@ -7,9 +7,11 @@ import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 
-public class Burning extends RabbitBehaviour
+public class Burning extends CommonBehaviour
 {
-    public Burning( RabbitHandler rabbitHandler) { super(rabbitHandler); }
+    public Burning( CommonHandler commonHandler) {
+        super(commonHandler);
+    }
 
     @Override
     public boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world )

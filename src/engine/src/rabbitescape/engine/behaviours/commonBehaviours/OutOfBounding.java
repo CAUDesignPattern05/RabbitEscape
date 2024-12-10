@@ -1,17 +1,17 @@
-package rabbitescape.engine.behaviours.basicBehaviours;
+package rabbitescape.engine.behaviours.commonBehaviours;
 
 import static rabbitescape.engine.ChangeDescription.State.*;
 
-import rabbitescape.engine.behaviours.Behaviour;
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.config.TapTimer;
 
-public class OutOfBounding extends BasicBehaviour {
-    public OutOfBounding(BasicHandler basicHandler) {
-        super(basicHandler);
+public class OutOfBounding extends CommonBehaviour
+{
+    public OutOfBounding( CommonHandler commonHandler) {
+        super(commonHandler);
     }
 
     @Override

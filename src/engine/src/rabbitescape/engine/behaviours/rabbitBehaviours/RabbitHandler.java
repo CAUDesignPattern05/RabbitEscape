@@ -6,8 +6,6 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 import rabbitescape.engine.behaviours.BehaviourHandler;
-import rabbitescape.engine.behaviours.basicBehaviours.Exiting;
-import rabbitescape.engine.behaviours.basicBehaviours.OutOfBounding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +20,10 @@ public class RabbitHandler extends BehaviourHandler
     }
 
     private void createBehaviours() {
-        Behaviour burning = new Burning(this);
+        Behaviour exiting = new Exiting(this);
         Behaviour drowning = new Drowning(this);
 
-        behaviours.add( burning );
+        behaviours.add( exiting );
         behaviours.add( drowning );
     }
 

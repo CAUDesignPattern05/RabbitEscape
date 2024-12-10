@@ -6,8 +6,6 @@ import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.World;
 import rabbitescape.engine.behaviours.Behaviour;
 import rabbitescape.engine.behaviours.BehaviourHandler;
-import rabbitescape.engine.behaviours.rabbitBehaviours.Burning;
-import rabbitescape.engine.behaviours.rabbitBehaviours.Drowning;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package rabbitescape.engine.behaviours.basicBehaviours;
+package rabbitescape.engine.behaviours.commonBehaviours;
 
 import rabbitescape.engine.BehaviourExecutor;
 import rabbitescape.engine.BehaviourTools;
@@ -8,12 +8,12 @@ import rabbitescape.engine.behaviours.Behaviour;
 
 import java.util.Map;
 
-public abstract class BasicBehaviour extends Behaviour
+public abstract class CommonBehaviour extends Behaviour
 {
-    BasicHandler basicHandler;
+    CommonHandler commonHandler;
 
-    public BasicBehaviour( BasicHandler basicHandler) {
-        this.basicHandler = basicHandler;
+    public CommonBehaviour( CommonHandler commonHandler) {
+        this.commonHandler = commonHandler;
     }
 
     public abstract boolean checkTriggered( BehaviourExecutor behaviourExecutor, World world );
