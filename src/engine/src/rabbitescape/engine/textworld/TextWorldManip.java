@@ -142,6 +142,58 @@ public class TextWorldManip {
         return world;
     }
 
+    public static World createWorldCanBehaviour(WorldStatsListener statsListener) {
+        String nameIfNoneSupplied = "defname";
+        List<Block> blocks = new ArrayList<>();
+        List<BehaviourExecutor> behaviourExecutors = new ArrayList<>();
+        List<Thing> things = new ArrayList<>();
+        Map<Position, Integer> waterAmounts = new HashMap<>();
+        Map<Token.Type, Integer> abilities = new HashMap<>();
+        String[] lines = {
+            "     ",
+            "     ",
+            "     ",
+            "     ",
+            "     ",
+            "     "
+        };
+        abilities.put( Token.Type.bash, 10 );
+        abilities.put( Token.Type.block, 10 );
+        abilities.put( Token.Type.bridge, 10);
+        abilities.put( Token.Type.brolly, 10 );
+        abilities.put( Token.Type.climb, 10 );
+        abilities.put( Token.Type.dig, 10 );
+        abilities.put( Token.Type.explode, 10 );
+
+        int variantSeed = 0; // TODO: world property for the seed?
+
+        LineProcessor processor = new LineProcessor(
+            blocks,
+            behaviourExecutors,
+            things,
+            waterAmounts,
+            abilities,
+            lines,
+            new VariantGenerator(variantSeed));
+
+        int num_rabs = processor.metaInt(num_rabbits, 10);
+
+        World world = createWorldFromLineProcessor(
+            nameIfNoneSupplied,
+            statsListener,
+            blocks,
+            behaviourExecutors,
+            things,
+            waterAmounts,
+            abilities,
+            processor,
+            num_rabs);
+
+        world.countRabbitsForIndex();
+
+        return world;
+    }
+
     private static World createWorldFromLineProcessor(
             String nameIfNoneSupplied,
             WorldStatsListener statsListener,
