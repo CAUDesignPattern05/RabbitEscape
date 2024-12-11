@@ -44,9 +44,16 @@ public class TokenTest {
 
     @Test
     public void construct_withWorld_blockOnSlope() {
-        Block onBlock = mock(Block.class);
+        final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(onBlock)).thenReturn( true );
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( onBlock );
+            }
+        } ).thenReturn( true );
 
         token = new BashToken( 1, 1, world );
 
@@ -58,9 +65,16 @@ public class TokenTest {
 
     @Test
     public void construct_withWorld_blockNotOnSlope() {
-        Block onBlock = mock(Block.class);
+        final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(onBlock)).thenReturn(false);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( onBlock );
+            }
+        } ).thenReturn(false);
 
         token = new BashToken(1, 1, world);
 
@@ -72,13 +86,34 @@ public class TokenTest {
 
     @Test
     public void calcNewState_belowBlockFlat_onBlockFlat() {
-        Block onBlock = mock(Block.class);
+        final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(onBlock)).thenReturn(false);
-        Block belowBlock = mock(Block.class);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( onBlock );
+            }
+        } ).thenReturn(false);
+        final Block belowBlock = mock(Block.class);
         when(world.getBlockAt(1, 2)).thenReturn(belowBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.s_isFlat(belowBlock)).thenReturn(true);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(belowBlock)).thenReturn(false);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.s_isFlat( belowBlock );
+            }
+        } ).thenReturn(true);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( belowBlock );
+            }
+        } ).thenReturn(false);
 
         token = new BashToken(1, 1);
         token.calcNewState(world);
@@ -88,13 +123,34 @@ public class TokenTest {
 
     @Test
     public void calcNewState_belowBlockFlat_onBlockSlope() {
-        Block onBlock = mock(Block.class);
+        final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(onBlock)).thenReturn(true);
-        Block belowBlock = mock(Block.class);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( onBlock );
+            }
+        } ).thenReturn(true);
+        final Block belowBlock = mock(Block.class);
         when(world.getBlockAt(1, 2)).thenReturn(belowBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.s_isFlat(belowBlock)).thenReturn(true);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(belowBlock)).thenReturn(false);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.s_isFlat( belowBlock );
+            }
+        } ).thenReturn(true);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( belowBlock );
+            }
+        } ).thenReturn(false);
 
         token = new BashToken(1, 1);
         token.calcNewState(world);
@@ -104,13 +160,34 @@ public class TokenTest {
 
     @Test
     public void calcNewState_belowBlockSlope_onBlockFlat() {
-        Block onBlock = mock(Block.class);
+        final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(onBlock)).thenReturn(false);
-        Block belowBlock = mock(Block.class);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( onBlock );
+            }
+        } ).thenReturn(false);
+        final Block belowBlock = mock(Block.class);
         when(world.getBlockAt(1, 2)).thenReturn(belowBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.s_isFlat(belowBlock)).thenReturn(false);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(belowBlock)).thenReturn(true);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.s_isFlat( belowBlock );
+            }
+        } ).thenReturn(false);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( belowBlock );
+            }
+        } ).thenReturn(true);
 
         token = new BashToken(1, 1);
         token.calcNewState(world);
@@ -120,13 +197,34 @@ public class TokenTest {
 
     @Test
     public void calcNewState_belowBlockSlope_onBlockSlope() {
-        Block onBlock = mock(Block.class);
+        final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(onBlock)).thenReturn(true);
-        Block belowBlock = mock(Block.class);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( onBlock );
+            }
+        } ).thenReturn(true);
+        final Block belowBlock = mock(Block.class);
         when(world.getBlockAt(1, 2)).thenReturn(belowBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.s_isFlat(belowBlock)).thenReturn(false);
-        behaviourToolsMock.when(() -> BehaviourTools.isSlope(belowBlock)).thenReturn(true);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.s_isFlat( belowBlock );
+            }
+        } ).thenReturn(false);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.isSlope( belowBlock );
+            }
+        } ).thenReturn(true);
 
         token = new BashToken(1, 1);
         token.calcNewState(world);
@@ -136,10 +234,24 @@ public class TokenTest {
 
     @Test
     public void calcNewState_belowBlockSlope_onBlockNotExisting_someoneBridging() {
-        Block belowBlock = mock(Block.class);
+        final Block belowBlock = mock(Block.class);
         when(world.getBlockAt(1, 2)).thenReturn(belowBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.s_isFlat(belowBlock)).thenReturn(false);
-        bridgeToolsMock.when(() -> BridgeTools.someoneIsBridgingAt(world, 1, 1)).thenReturn(true);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.s_isFlat( belowBlock );
+            }
+        } ).thenReturn(false);
+        bridgeToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BridgeTools.someoneIsBridgingAt( world, 1, 1 );
+            }
+        } ).thenReturn(true);
 
         token = new BashToken(1, 1);
         token.calcNewState(world);
@@ -149,10 +261,24 @@ public class TokenTest {
 
     @Test
     public void calcNewState_belowBlockSlope_onBlockNotExisting_someoneNotBridging() {
-        Block belowBlock = mock(Block.class);
+        final Block belowBlock = mock(Block.class);
         when(world.getBlockAt(1, 2)).thenReturn(belowBlock);
-        behaviourToolsMock.when(() -> BehaviourTools.s_isFlat(belowBlock)).thenReturn(false);
-        bridgeToolsMock.when(() -> BridgeTools.someoneIsBridgingAt(world, 1, 1)).thenReturn(false);
+        behaviourToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BehaviourTools.s_isFlat( belowBlock );
+            }
+        } ).thenReturn(false);
+        bridgeToolsMock.when( new MockedStatic.Verification()
+        {
+            @Override
+            public void apply() throws Throwable
+            {
+                BridgeTools.someoneIsBridgingAt( world, 1, 1 );
+            }
+        } ).thenReturn(false);
 
         token = new BashToken(1, 1);
         token.calcNewState(world);
@@ -163,7 +289,7 @@ public class TokenTest {
     @Test
     public void step_fallingState_yOutOfBounds() {
         when(world.getSize()).thenReturn(new Dimension(2, 2));
-        WorldChanges changes = mock(WorldChanges.class);
+        final WorldChanges changes = mock(WorldChanges.class);
         when(world.getChanges()).thenReturn(changes);
         token = new BashToken(1, 1);
         token.state = State.TOKEN_BASH_FALLING;
