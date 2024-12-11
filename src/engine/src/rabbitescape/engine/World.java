@@ -432,6 +432,14 @@ public class World implements RabbitObserver {
         return waterAmounts;
     }
 
+    public Dimension getSize() {
+        return size;
+    }
+
+    public WorldChanges getChanges() {
+        return changes;
+    }
+
     @Override
     public void updateBirth(BehaviourExecutor behaviourExecutor) {
         changes.enterRabbit(behaviourExecutor);
