@@ -96,9 +96,9 @@ public abstract class Token extends Thing
         {
             ++y;
 
-            if ( y >= world.size.height )
+            if ( y >= world.getSize().height )
             {
-                world.changes.removeToken( this );
+                world.getChanges().removeToken( this );
             }
         }
     }

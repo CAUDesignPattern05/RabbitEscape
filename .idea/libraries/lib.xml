@@ -3,6 +3,11 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/junit.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/org.hamcrest.core_1.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/objenesis-3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mockito-core-3.12.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/byte-buddy-agent-1.11.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/byte-buddy-1.11.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mockito-inline-3.12.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
