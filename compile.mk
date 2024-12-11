@@ -7,7 +7,7 @@ JAVA_RENDER := $(call J,src/render)
 JAVA_UI_TEXT := $(call J,src/ui-text)
 JAVA_UI_SWING := $(call J,src/ui-swing)
 
-TEST_CLASSPATH := lib/org.hamcrest.core_1.3.0.jar:lib/junit.jar
+TEST_CLASSPATH := lib/org.hamcrest.core_1.3.0.jar:lib/junit.jar:lib/mockito-core-3.12.4.jar:lib/byte-buddy-1.11.13.jar:lib/byte-buddy-agent-1.11.13.jar:lib/objenesis-3.2.jar:lib/mockito-inline-3.12.4.jar
 
 compile.mk-compile: \
 		checks \
