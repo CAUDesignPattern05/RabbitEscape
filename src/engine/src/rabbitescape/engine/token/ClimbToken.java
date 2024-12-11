@@ -19,31 +19,31 @@ public class ClimbToken extends Token
     }
 
     @Override
-    public State getFallingState()
+    protected State getFallingState()
     {
         return State.TOKEN_CLIMB_FALLING;
     }
 
     @Override
-    public State getStillState()
+    protected State getStillState()
     {
         return State.TOKEN_CLIMB_STILL;
     }
 
     @Override
-    public State getFallToSlopeState()
+    protected State getFallToSlopeState()
     {
         return State.TOKEN_BASH_FALL_TO_SLOPE;
     }
 
     @Override
-    public State getOnSlopeState()
+    protected State getOnSlopeState()
     {
         return State.TOKEN_CLIMB_ON_SLOPE;
     }
 
     @Override
-    public String getTokenName()
+    protected String getTokenName()
     {
         return "climb";
     }
