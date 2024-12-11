@@ -15,6 +15,7 @@ public class DecayBlock extends Block {
 
     @Override
     public void onStepped( World world, BehaviourExecutor behaviourExecutor,Integer dir) {
-        world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
+        if (--this.durability <= 0)
+            world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
     }
 }
