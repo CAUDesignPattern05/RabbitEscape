@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestBehaviourStrategyPattern
 {
     @Test
-    public void RabbitCreationTest()
+    public void BehaviourStrategyPatternTest()
     {
         World testWorld = TextWorldManip.createWorldCanBehaviour( new IgnoreWorldStatsListener() );
         BlockFactory blockFactory = new BlockFactory();

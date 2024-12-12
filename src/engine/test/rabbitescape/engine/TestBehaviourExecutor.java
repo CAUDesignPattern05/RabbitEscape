@@ -9,7 +9,7 @@ import org.junit.Test;
 public class TestBehaviourExecutor
 {
     @Test
-    public void Rabbit_reports_state_in_lowercase()
+    public void RabbitCreationTest()
     {
         BehaviourExecutor r = new Rabbit( 1, 1, Direction.LEFT);
         r.state = RABBIT_WALKING_LEFT;
@@ -17,7 +17,7 @@ public class TestBehaviourExecutor
     }
 
     @Test
-    public void Rabbot_reports_state_except_it_says_rabbot()
+    public void RabbotCreationTest()
     {
         BehaviourExecutor r = new Rabbot( 1, 1, Direction.LEFT);
         r.state = RABBIT_WALKING_LEFT;
