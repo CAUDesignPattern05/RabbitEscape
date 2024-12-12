@@ -27,7 +27,7 @@ public class TestBlockFactory {
     @Test
     public void testCreateMetalBlock() {
         VariantGenerator variantGen = new VariantGenerator(4);
-        Block block = factory.create('D', 1, 1, variantGen);
+        Block block = factory.create('M', 1, 1, variantGen);
 
         assertNotNull( block.toString(), "Block should not be null");
         assertTrue(
