@@ -33,7 +33,7 @@ public class ClimbToken extends Token
     @Override
     protected State getFallToSlopeState()
     {
-        return State.TOKEN_BASH_FALL_TO_SLOPE;
+        return State.TOKEN_CLIMB_FALL_TO_SLOPE;
     }
 
     @Override
