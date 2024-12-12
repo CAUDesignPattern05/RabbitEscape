@@ -43,7 +43,7 @@ public class TokenTest {
     }
 
     @Test
-    public void construct_withWorld_blockOnSlope() {
+    public void construct_withWorld_onBlockSlope() {
         final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
         behaviourToolsMock.when( new MockedStatic.Verification()
@@ -64,7 +64,7 @@ public class TokenTest {
     }
 
     @Test
-    public void construct_withWorld_blockNotOnSlope() {
+    public void construct_withWorld_onBlockFlat() {
         final Block onBlock = mock(Block.class);
         when(world.getBlockAt(1, 1)).thenReturn(onBlock);
         behaviourToolsMock.when( new MockedStatic.Verification()
