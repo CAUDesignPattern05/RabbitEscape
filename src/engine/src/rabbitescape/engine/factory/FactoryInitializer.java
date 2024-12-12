@@ -14,5 +14,7 @@ public class FactoryInitializer {
 
         // Register Thing factories (Entrances, Exits, etc.)
         factoryManager.registerFactory("Thing", new ThingFactory());
+
+        factoryManager.registerFactory("Token", new ThingFactory());
     }
 }

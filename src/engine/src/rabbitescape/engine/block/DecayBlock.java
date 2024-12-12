@@ -19,3 +19,4 @@ public class DecayBlock extends Block {
             world.changes.removeBlockAt( behaviourExecutor.x, behaviourExecutor.y + 1 );
     }
 }
+
